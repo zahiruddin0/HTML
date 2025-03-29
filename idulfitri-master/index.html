@@ -23,7 +23,6 @@
 	
 	    .lead {
         font-size: 70px; /* Ubah saiz font mengikut keperluan */
-        font-weight: bold; /* Menjadikan teks lebih tebal */
         color: #03045E; /* Ubah warna teks jika perlu */
     }
 
@@ -34,13 +33,40 @@
 	
         .typewrite {
         font-size: 28px; /* Ubah saiz font mengikut keperluan */
-        font-weight: bold; /* Menjadikan teks lebih tebal */
         color: #1D4E89 !important; /* Ubah warna teks dengan !important */
     }
 	
         .quote {
         font-size: 30px; /* Ubah saiz font mengikut keperluan */
         color: #0096C7; /* Ubah warna teks jika perlu */
+    }
+	
+    /* Media Query untuk Mod Potret */
+    @media (orientation: portrait) {
+        .intro, .typewrite {
+            font-size: 20px; /* Ubah saiz font untuk mod potret */
+            text-align: align; /* Pusatkan teks */
+        }
+		
+        #jam {
+             font-size: 1em; /* Ukuran teks jam lebih besar di mode potret */
+        }
+		
+        .lead {
+             font-size: 1.5em; /* Ukuran teks lead lebih besar di mode potret */
+        }
+
+        .intro {
+             font-size: 1.5em; /* Ukuran teks intro lebih besar di mode potret */
+        }
+		
+        .typewrite {
+             font-size: 2em; /* Ukuran teks typewrite lebih besar di mode potret */
+        }
+		
+        .quote {
+             font-size: 1em; /* Ukuran teks quote lebih besar di mode potret */
+        }
     }
 	
 
