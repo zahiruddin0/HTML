@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  
+      <!-- SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+	
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <title>Selamat Hari Raya Aidilfitri</title>
+    <style>
+        #jam {
+        font-size: 50px; /* Ubah saiz font mengikut keperluan */
+        color: #000000; /* Ubah warna teks jika perlu */
+    }
+	
+	    .lead {
+        font-size: 70px; /* Ubah saiz font mengikut keperluan */
+        color: #03045E; /* Ubah warna teks jika perlu */
+    }
+
+        .intro {
+        font-size: 50px; /* Ubah saiz font mengikut keperluan */
+        color: #023E84; /* Ubah warna teks jika perlu */
+    }
+	
+        .typewrite {
+        font-size: 28px; /* Ubah saiz font mengikut keperluan */
+        color: #1D4E89 !important; /* Ubah warna teks dengan !important */
+    }
+	
+        .quote {
+        font-size: 30px; /* Ubah saiz font mengikut keperluan */
+        color: #0096C7; /* Ubah warna teks jika perlu */
+    }
+	
+    /* Media Query untuk Mod Potret */
+    @media (orientation: portrait) {
+        .intro, .typewrite {
+            font-size: 20px; /* Ubah saiz font untuk mod potret */
+            text-align: align; /* Pusatkan teks */
+        }
+		
+        #jam {
+             font-size: 1em; /* Ukuran teks jam lebih besar di mode potret */
+        }
+		
+        .lead {
+             font-size: 1em; /* Ukuran teks lead lebih besar di mode potret */
+        }
+
+        .intro {
+             font-size: 1.1em; /* Ukuran teks intro lebih besar di mode potret */
+        }
+		
+        .typewrite {
+             font-size: 1.5em; /* Ukuran teks typewrite lebih besar di mode potret */
+        }
+		
+        .quote {
+             font-size: 1em; /* Ukuran teks quote lebih besar di mode potret */
+        }
+    }
+	
+
+    </style>	
+  </head>
+  <body>
+    <audio id="music" src="raya.mp3"></audio>
+    <link href='https://fonts.googleapis.com/css?family=Raleway:500,400,300,200,100' rel='stylesheet' type='text/css'>
+    <canvas class="container" id="container" role="main"></canvas>
+      <div class="content">
+        <h1>
+		<blockquote class="blockquote mt-3" id="quoteBlock" style="display: none;">
+            <div id="jam"></div>
+            <p class="lead mt-2">
+                بسم الله الرحمن الرحيم
+            </p>
+            <div class="intro">Selamat Hari Raya Idul Fitri 01 Syawal 1446 Hijri, 2025 Miladi</div>
+            <a class="typewrite" data-period="2000" data-type='[ "Saya Raihan Mengucapkan", "SELAMAT HARI RAYA", "Mohon Maaf Zahir dan Batin", "Kosong Kosong Ye..."]'>
+              <span class="wrap"></span>
+            </a>
+                <p class="quote mb-0 small">Hari ini kurendahkan diriku, kulupakan kesombonganku, kutundukkan kepalaku, lalu kududuk terpaku di depan jendela hatimu, menanti pintu maafmu, terbuka untukku. Selamat Hari Raya Aidilfitri, Mohon maaf Zahir dan batin.</p>
+                <footer class="blockquote-footer">Raihan</footer>
+              </blockquote>
+        </h1>
+      </div>
+    </div>
+    <div class="blur blurTop"><canvas class="canvas"id="blurCanvasTop"></canvas></div>
+    <div class="blur blurBottom"><canvas width="1000px" height="1000px" class="canvas" id="blurCanvasBottom"></canvas></div>
+
+      
+
+
+    
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+	
+	
+  <!-- SweetAlert2 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- Custom Script -->
+  <script src="script.js"></script>
+
+  <script>
+    // Memanggil SweetAlert2
+    Swal.fire({
+      title: 'مينتا  سراتوس  نانتي اکو ݢانتي',
+      text: "",
+      icon: 'success',
+      confirmButtonText: 'OK'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Memutar musik
+        document.getElementById('music').play();
+      }
+    });
+  </script>
+
+  
+	 <!-- SweetAlert JS -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <script>
+        // Memanggil SweetAlert2
+        Swal.fire({
+            title: 'مينتا  سراتوس  نانتي اکو ݢانتي',
+            text: "",
+            icon: 'success',
+            confirmButtonText: 'OK'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Menampilkan block quote setelah menekan OK
+                document.getElementById('quoteBlock').style.display = 'block';
+				                // Memutar musik
+                document.getElementById('music').play();
+            }
+        });
+    </script>
+  
+</body>
+</html>
