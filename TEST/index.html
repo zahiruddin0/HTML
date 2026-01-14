@@ -22,6 +22,9 @@
       --favorite: #ffffff;
       --accent: #ffffff;
       --shadow: rgba(255, 255, 255, 0.1);
+      --search-bg: #0a0a0a;
+      --gradient-primary: linear-gradient(135deg, #000000, #1a1a1a);
+      --gradient-secondary: linear-gradient(135deg, #111111, #222222);
     }
     
     * {
@@ -37,6 +40,9 @@
       color: var(--text);
       padding: 20px;
       transition: all 0.3s ease;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 20%);
     }
     
     .container {
@@ -44,7 +50,9 @@
       margin: 0 auto;
       background: var(--dark);
       border-radius: 15px;
-      box-shadow: 0 10px 30px var(--shadow);
+      box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.7),
+        0 0 0 1px rgba(255, 255, 255, 0.05);
       overflow: hidden;
       transition: all 0.3s ease;
       border: 1px solid var(--card-border);
@@ -57,6 +65,17 @@
       text-align: center;
       position: relative;
       border-bottom: 1px solid var(--card-border);
+      overflow: hidden;
+    }
+    
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
     }
     
     .header h1 {
@@ -64,18 +83,43 @@
       font-weight: 700;
       margin-bottom: 5px;
       color: var(--primary);
+      text-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+      position: relative;
+      display: inline-block;
+    }
+    
+    .header h1::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 25%;
+      width: 50%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
     }
     
     .header p {
       font-size: 1rem;
       opacity: 0.8;
       color: var(--secondary);
+      margin-top: 10px;
     }
     
     .player-section {
       padding: 20px;
       background: var(--light);
       border-bottom: 1px solid var(--card-border);
+      position: relative;
+    }
+    
+    .player-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--card-border), transparent);
     }
     
     .player-controls {
@@ -136,11 +180,29 @@
       align-items: center;
       gap: 8px;
       border: 2px solid transparent;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+    }
+    
+    .play-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+    
+    .play-btn:hover::before {
+      left: 100%;
     }
     
     .play-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+      box-shadow: 0 5px 20px rgba(255, 255, 255, 0.2);
       border-color: var(--primary);
     }
     
@@ -157,17 +219,39 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .current-station::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+      transition: left 0.5s;
+    }
+    
+    .current-station.playing::before {
+      left: 100%;
     }
     
     .current-station.playing {
       border-color: var(--primary);
       color: var(--primary);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
     }
     
     .volume-control {
       display: flex;
       align-items: center;
       gap: 8px;
+      background: var(--card-bg);
+      padding: 8px 15px;
+      border-radius: 50px;
+      border: 2px solid var(--card-border);
     }
     
     .volume-slider {
@@ -177,6 +261,7 @@
       border-radius: 5px;
       outline: none;
       -webkit-appearance: none;
+      cursor: pointer;
     }
     
     .volume-slider::-webkit-slider-thumb {
@@ -187,6 +272,12 @@
       border-radius: 50%;
       cursor: pointer;
       border: 2px solid var(--bg);
+      transition: all 0.2s;
+    }
+    
+    .volume-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
     }
     
     .sleep-timer-container {
@@ -203,13 +294,20 @@
       padding: 15px;
       width: 250px;
       z-index: 100;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
       display: none;
       margin-top: 5px;
+      backdrop-filter: blur(10px);
     }
     
     .sleep-timer-dropdown.active {
       display: block;
+      animation: fadeIn 0.2s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     
     .timer-options {
@@ -234,6 +332,7 @@
       background: var(--primary);
       color: var(--dark);
       border-color: var(--primary);
+      transform: translateX(5px);
     }
     
     .timer-option.active {
@@ -256,23 +355,36 @@
     
     .timer-display.active {
       display: block;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
     }
     
     .search-section {
       padding: 20px;
       background: var(--dark);
+      position: relative;
+    }
+    
+    .search-container {
+      position: relative;
+      width: 100%;
     }
     
     .search-input {
       width: 100%;
-      padding: 12px 15px;
+      padding: 12px 15px 12px 45px;
       border: 2px solid var(--card-border);
       border-radius: 10px;
       font-size: 1rem;
       outline: none;
-      transition: border-color 0.2s;
-      background: var(--card-bg);
+      transition: all 0.3s;
+      background: var(--search-bg);
       color: var(--text);
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
     }
     
     .search-input::placeholder {
@@ -281,6 +393,23 @@
     
     .search-input:focus {
       border-color: var(--primary);
+      box-shadow: 
+        0 0 0 3px rgba(255, 255, 255, 0.1),
+        inset 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+    
+    .search-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--secondary);
+      font-size: 1.2rem;
+      transition: color 0.3s;
+    }
+    
+    .search-input:focus + .search-icon {
+      color: var(--primary);
     }
     
     .tabs {
@@ -289,6 +418,17 @@
       gap: 10px;
       margin: 0 20px;
       border-bottom: 1px solid var(--card-border);
+      position: relative;
+    }
+    
+    .tabs::before {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--card-border), transparent);
     }
     
     .tab {
@@ -300,11 +440,31 @@
       cursor: pointer;
       transition: all 0.2s;
       border-bottom: 3px solid transparent;
+      position: relative;
+    }
+    
+    .tab::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 50%;
+      width: 0;
+      height: 3px;
+      background: var(--primary);
+      transition: all 0.3s;
+      transform: translateX(-50%);
+    }
+    
+    .tab:hover::after {
+      width: 80%;
     }
     
     .tab.active {
       color: var(--primary);
-      border-bottom: 3px solid var(--primary);
+    }
+    
+    .tab.active::after {
+      width: 100%;
     }
     
     .stations-grid {
@@ -313,6 +473,7 @@
       gap: 12px;
       padding: 20px;
       background: var(--dark);
+      min-height: 300px;
     }
     
     .station-card {
@@ -322,10 +483,26 @@
       padding: 15px;
       text-align: center;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.3s;
       font-weight: 500;
       color: var(--text);
       position: relative;
+      overflow: hidden;
+    }
+    
+    .station-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+      transition: left 0.5s;
+    }
+    
+    .station-card:hover::before {
+      left: 100%;
     }
     
     .station-card:hover {
@@ -338,6 +515,11 @@
       background: var(--primary);
       color: var(--dark);
       border-color: var(--primary);
+      box-shadow: 0 5px 20px rgba(255, 255, 255, 0.2);
+    }
+    
+    .station-card.active::before {
+      background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent);
     }
     
     .favorite-btn {
@@ -351,11 +533,18 @@
       cursor: pointer;
       transition: all 0.2s;
       z-index: 10;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
     }
     
     .favorite-btn:hover {
       color: var(--primary);
       transform: scale(1.2);
+      background: rgba(255, 255, 255, 0.1);
     }
     
     .favorite-btn.active {
@@ -374,15 +563,16 @@
       background: var(--dark);
       padding: 15px 25px;
       border-radius: 10px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+      box-shadow: 0 5px 30px rgba(0,0,0,0.8);
       z-index: 1000;
       display: none;
       color: var(--text);
       border: 1px solid var(--card-border);
+      backdrop-filter: blur(5px);
     }
     
     .error-message {
-      background: #330000;
+      background: rgba(51, 0, 0, 0.8);
       color: #ff6666;
       padding: 12px;
       border-radius: 8px;
@@ -390,6 +580,7 @@
       display: none;
       font-size: 0.9rem;
       border: 1px solid #660000;
+      backdrop-filter: blur(5px);
     }
     
     .visualizer {
@@ -420,6 +611,17 @@
       50% { transform: scaleY(1); }
     }
     
+    /* Animasi untuk stesen yang dipilih */
+    @keyframes stationSelect {
+      0% { transform: scale(1); }
+      50% { transform: scale(0.95); }
+      100% { transform: scale(1); }
+    }
+    
+    .station-card:active {
+      animation: stationSelect 0.2s ease;
+    }
+    
     /* Media Query untuk Tablet dan Mobile */
     @media (max-width: 768px) {
       .header h1 { font-size: 1.8rem; }
@@ -448,6 +650,8 @@
       .player-section, .search-section { padding: 15px; }
       .tabs { margin: 0 15px; }
       .tab { padding: 8px 15px; font-size: 0.9rem; }
+      .search-input { padding: 10px 15px 10px 40px; }
+      .search-icon { left: 12px; font-size: 1rem; }
     }
     
     /* Media Query untuk Tablet (769px - 1024px) */
@@ -488,6 +692,38 @@
       .play-btn:hover, .station-card:hover, .control-btn:hover {
         transform: none;
       }
+      
+      .play-btn::before, .current-station::before, .station-card::before {
+        display: none;
+      }
+    }
+    
+    /* Notifikasi */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--dark);
+      color: var(--text);
+      padding: 15px 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.8);
+      z-index: 1000;
+      animation: slideIn 0.3s ease;
+      max-width: 300px;
+      border: 1px solid var(--card-border);
+      font-family: 'Poppins', sans-serif;
+      backdrop-filter: blur(10px);
+    }
+    
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes slideOut {
+      from { transform: translateX(0); opacity: 1; }
+      to { transform: translateX(100%); opacity: 0; }
     }
   </style>
 </head>
@@ -556,7 +792,12 @@
     </div>
 
     <div class="search-section">
-      <input type="text" class="search-input" id="searchInput" placeholder="Cari stesen radio...">
+      <div class="search-container">
+        <input type="text" class="search-input" id="searchInput" placeholder="Cari stesen radio...">
+        <div class="search-icon">
+          <i class="fas fa-search"></i>
+        </div>
+      </div>
     </div>
 
     <div class="stations-grid" id="stationsGrid">
@@ -716,6 +957,19 @@
       
       // Favorites button listener
       favoritesBtn.addEventListener('click', toggleFavoritesView);
+      
+      // Focus search input when clicking search icon
+      document.querySelector('.search-icon').addEventListener('click', () => {
+        searchInput.focus();
+      });
+      
+      // Clear search when clicking Escape
+      searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          searchInput.value = '';
+          handleSearch(e);
+        }
+      });
     }
 
     // Load favorites from localStorage
@@ -774,6 +1028,7 @@
           const stationName = btn.dataset.name;
           toggleFavorite(stationName);
           btn.classList.toggle('active');
+          showNotification(favorites.has(stationName) ? 'Ditambah ke kegemaran' : 'Dialih keluar dari kegemaran');
         });
       });
     }
@@ -837,6 +1092,7 @@
             .then(() => {
               loading.style.display = 'none';
               updatePlayState(true);
+              showNotification(`Memainkan: ${station.name}`);
             })
             .catch(handleError);
         });
@@ -850,6 +1106,7 @@
           .then(() => {
             loading.style.display = 'none';
             updatePlayState(true);
+            showNotification(`Memainkan: ${station.name}`);
           })
           .catch(handleError);
       }
@@ -859,13 +1116,17 @@
     function togglePlay() {
       if (audioPlayer.paused) {
         if (currentStationData) {
-          audioPlayer.play().then(() => updatePlayState(true)).catch(handleError);
+          audioPlayer.play().then(() => {
+            updatePlayState(true);
+            showNotification('Radio dimainkan');
+          }).catch(handleError);
         } else {
           showError('Sila pilih stesen radio terlebih dahulu.');
         }
       } else {
         audioPlayer.pause();
         updatePlayState(false);
+        showNotification('Radio dijeda');
       }
     }
 
@@ -920,6 +1181,7 @@
       sleepTimerText.textContent = 'Pemasa Tidur';
       sleepTimerBtn.classList.remove('active');
       timerDisplay.classList.remove('active');
+      showNotification('Pemasa tidur dibatalkan');
     }
 
     function updateTimerDisplay() {
@@ -951,23 +1213,12 @@
     }
 
     function showNotification(message) {
+      // Remove existing notifications
+      document.querySelectorAll('.notification').forEach(el => el.remove());
+      
       // Create notification element
       const notification = document.createElement('div');
-      notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: #111111;
-        color: white;
-        padding: 15px 20px;
-        border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-        z-index: 1000;
-        animation: slideIn 0.3s ease;
-        max-width: 300px;
-        border: 1px solid #333333;
-        font-family: 'Poppins', sans-serif;
-      `;
+      notification.className = 'notification';
       notification.textContent = message;
       
       document.body.appendChild(notification);
@@ -976,26 +1227,11 @@
       setTimeout(() => {
         notification.style.animation = 'slideOut 0.3s ease';
         setTimeout(() => {
-          document.body.removeChild(notification);
+          if (notification.parentNode) {
+            document.body.removeChild(notification);
+          }
         }, 300);
       }, 3000);
-      
-      // Add keyframes for animation
-      if (!document.querySelector('#notification-styles')) {
-        const style = document.createElement('style');
-        style.id = 'notification-styles';
-        style.textContent = `
-          @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-          }
-          @keyframes slideOut {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(100%); opacity: 0; }
-          }
-        `;
-        document.head.appendChild(style);
-      }
     }
 
     // Jalankan aplikasi
