@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Radio Malaysia - Strim Langsung</title>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6c5ce7;
+      --secondary: #a29bfe;
+      --dark: #2d3436;
+      --light: #f5f6fa;
+      --bg: white;
+      --text: #2d3436;
+      --card-bg: white;
+      --card-border: #e0e0e0;
+      --header-text: white;
+    }
+    
+    .dark-mode {
+      --primary: #a29bfe;
+      --secondary: #6c5ce7;
+      --dark: #f5f6fa;
+      --light: #2d3436;
+      --bg: #1a1a1a;
+      --text: #f5f6fa;
+      --card-bg: #2d2d2d;
+      --card-border: #444;
+      --header-text: white;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      min-height: 100vh;
+      color: var(--text);
+      padding: 20px;
+      transition: all 0.3s ease;
+    }
+    
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: var(--bg);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--header-text);
+      padding: 30px;
+      text-align: center;
+      position: relative;
+    }
+    
+    .header h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+    
+    .player-section {
+      padding: 20px;
+      background: var(--light);
+      border-bottom: 1px solid var(--card-border);
+    }
+    
+    .player-controls {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .play-btn {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .play-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+    }
+    
+    .current-station {
+      background: var(--card-bg);
+      border: 2px solid var(--card-border);
+      padding: 12px 20px;
+      border-radius: 50px;
+      font-weight: 600;
+      color: var(--text);
+      min-width: 200px;
+      text-align: center;
+    }
+    
+    .current-station.playing {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    
+    .volume-control {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .volume-slider {
+      width: 100px;
+      height: 5px;
+      background: var(--card-border);
+      border-radius: 5px;
+      outline: none;
+      -webkit-appearance: none;
+    }
+    
+    .volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      background: var(--primary);
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid var(--bg);
+    }
+    
+    .search-section {
+      padding: 20px;
+      background: var(--bg);
+    }
+    
+    .search-input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid var(--card-border);
+      border-radius: 10px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+      background: var(--card-bg);
+      color: var(--text);
+    }
+    
+    .search-input:focus {
+      border-color: var(--primary);
+    }
+    
+    .stations-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 12px;
+      padding: 20px;
+    }
+    
+    .station-card {
+      background: var(--card-bg);
+      border: 2px solid var(--card-border);
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 500;
+      color: var(--text);
+    }
+    
+    .station-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      border-color: var(--primary);
+    }
+    
+    .station-card.active {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border-color: var(--primary);
+    }
+    
+    .loading {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--card-bg);
+      padding: 15px 25px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      z-index: 1000;
+      display: none;
+      color: var(--text);
+    }
+    
+    .error-message {
+      background: #ffebee;
+      color: #c62828;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 15px;
+      display: none;
+      font-size: 0.9rem;
+    }
+    
+    .visualizer {
+      display: none;
+      align-items: center;
+      gap: 3px;
+      margin-left: 8px;
+    }
+    
+    .visualizer.active {
+      display: inline-flex;
+    }
+    
+    .bar {
+      width: 3px;
+      height: 15px;
+      background: var(--primary);
+      border-radius: 2px;
+      animation: wave 1s infinite ease-in-out;
+    }
+    
+    .bar:nth-child(2) { animation-delay: 0.2s; }
+    .bar:nth-child(3) { animation-delay: 0.4s; }
+    .bar:nth-child(4) { animation-delay: 0.6s; }
+    
+    @keyframes wave {
+      0%, 100% { transform: scaleY(0.3); }
+      50% { transform: scaleY(1); }
+    }
+    
+    .theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--header-text);
+      transition: transform 0.3s;
+    }
+    
+    .theme-toggle:hover {
+      transform: scale(1.1);
+    }
+    
+    /* Media Query untuk Tablet dan Mobile */
+    @media (max-width: 768px) {
+      .header h1 { font-size: 1.8rem; }
+      .stations-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+      .player-controls { flex-direction: column; }
+      .current-station { width: 100%; min-width: auto; }
+      .theme-toggle {
+        position: relative;
+        top: auto;
+        right: auto;
+        display: block;
+        margin: 10px auto 0;
+      }
+    }
+    
+    /* Media Query untuk Mobile kecil (di bawah 480px) */
+    @media (max-width: 480px) {
+      .header h1 { font-size: 1.5rem; }
+      .header p { font-size: 0.9rem; }
+      .stations-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+      .station-card { padding: 12px; font-size: 0.9rem; }
+      .player-controls { gap: 10px; }
+      .play-btn { padding: 10px 20px; font-size: 0.9rem; }
+      body { padding: 10px; }
+      .container { border-radius: 10px; }
+      .header { padding: 20px; }
+      .player-section, .search-section { padding: 15px; }
+    }
+    
+    /* Media Query untuk Tablet (769px - 1024px) */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .container { max-width: 90%; }
+      .stations-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+      .header { padding: 25px; }
+    }
+    
+    /* Media Query untuk orientasi landscape di mobile */
+    @media (max-height: 500px) and (orientation: landscape) {
+      .player-section { padding: 15px; }
+      .stations-grid { 
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        max-height: 200px;
+        overflow-y: auto;
+      }
+      .container { max-height: 90vh; overflow-y: auto; }
+      .header { padding: 20px; }
+      .header h1 { font-size: 1.6rem; }
+    }
+    
+    /* Media Query untuk layar besar (di atas 1200px) */
+    @media (min-width: 1200px) {
+      .container { max-width: 1100px; }
+      .stations-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+      .header h1 { font-size: 2.5rem; }
+    }
+    
+    /* Media Query untuk pengurangan motion (aksesibilitas) */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      
+      .play-btn:hover, .station-card:hover {
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <button class="theme-toggle" id="themeToggle">🌙</button>
+      <h1>📻 Radio Malaysia</h1>
+      <p>Strim Langsung - Pilihan Terbaik Radio Malaysia</p>
+    </div>
+
+    <div class="player-section">
+      <div class="player-controls">
+        <button class="play-btn" id="playBtn">
+          <span id="playIcon">▶️</span>
+          <span id="btnText">Main</span>
+        </button>
+        
+        <div class="current-station" id="currentStation">
+          Pilih Stesen Radio
+          <div class="visualizer" id="visualizer">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+          </div>
+        </div>
+        
+        <div class="volume-control">
+          <span>🔊</span>
+          <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.1" value="0.7">
+        </div>
+      </div>
+      
+      <div class="error-message" id="errorMessage"></div>
+    </div>
+
+    <div class="search-section">
+      <input type="text" class="search-input" id="searchInput" placeholder="🔍 Cari stesen radio...">
+    </div>
+
+    <div class="stations-grid" id="stationsGrid">
+      <!-- Stations akan diisi oleh JavaScript -->
+    </div>
+  </div>
+
+  <div class="loading" id="loading">⏳ Memuatkan...</div>
+  <audio id="audioPlayer" style="display: none;"></audio>
+
+  <script>
+    const stations = [
+      { name: 'Johor FM', url: 'https://22273.live.streamtheworld.com:443/JOHOR_FMAAC_SC', type: 'aac' },
+      { name: 'Era', url: 'https://n13.rcs.revma.com/crec9cmbv4uvv/13_b3tkiac680b302/playlist.m3u8', type: 'm3u8' },
+      { name: 'Era FM Sarawak', url: 'https://stream-eu-a.rcs.revma.com/bkqfqkrbv4uvv/68_p7vhxushjqmj02/playlist.m3u8', type: 'm3u8' },
+      { name: 'Era FM Sabah', url: 'https://stream-eu-a.rcs.revma.com/4p3nqmmbv4uvv/18_1oxzafird6r4w02/playlist.m3u8', type: 'm3u8' },
+      { name: 'Hot FM', url: 'https://n09.rcs.revma.com/drakdf8mtd3vv/9_15wt5oojtyqo002/playlist.m3u8', type: 'm3u8' },
+      { name: 'Sinar', url: 'https://n01.rcs.revma.com/azatk0tbv4uvv/1_11a5yc3kn9ion02/playlist.m3u8', type: 'm3u8' },
+      { name: 'Gegar', url: 'https://n04.rcs.revma.com/cn0zcqsbv4uvv/4_1l8b0uuius0ad02/playlist.m3u8', type: 'm3u8' },
+      { name: 'Suria FM', url: 'https://28163.live.streamtheworld.com:443/SURIA_FM.mp3', type: 'mp3' },
+      { name: 'Asyik FM', url: 'https://22273.live.streamtheworld.com:443/ASYIK_FMAAC_SC', type: 'aac' },
+      { name: 'Zayan', url: 'https://n40a-eu.rcs.revma.com/7ww2a4tbv4uvv/64_2yvaj6nnb69x02/playlist.m3u8', type: 'm3u8' },
+      { name: 'Ikim FM', url: 'https://ais-sa8.cdnstream1.com/5035', type: 'mp3' },
+      { name: 'Hitz FM', url: 'https://n14.rcs.revma.com/488kt4sbv4uvv/14_u3tcp2wu9q1l02/playlist.m3u8', type: 'm3u8' },
+      { name: 'Fly FM', url: 'https://n16.rcs.revma.com/q17aka9mtd3vv/16_bsg38prd9vlj02/playlist.m3u8', type: 'm3u8' },
+      { name: 'Mix FM', url: 'https://n06.rcs.revma.com/v5pq3htbv4uvv/6_18aiu7hejxpf402/playlist.m3u8', type: 'm3u8' },
+      { name: 'Lite FM', url: 'https://stream.rcs.revma.com/2483gbtbv4uvv/hls.m3u8', type: 'm3u8' },
+      { name: 'My FM', url: 'https://n08.rcs.revma.com/hc3unrtbv4uvv/8_1xcfbljp5h4kh02/playlist.m3u8', type: 'm3u8' },
+      { name: 'Eight FM', url: 'https://n08.rcs.revma.com/qp0xrd9mtd3vv/8_18nbo6343bsv702/playlist.m3u8', type: 'm3u8' },
+      { name: '988 FM', url: 'https://22243.live.streamtheworld.com:443/988_FM.mp3', type: 'mp3' },
+      { name: 'Ai FM', url: 'https://22283.live.streamtheworld.com:443/AI_FMAAC_SC', type: 'aac' },
+      { name: 'Melody FM', url: 'https://n05.rcs.revma.com/2u1n6dtbv4uvv/5_bl5fx9vxqa7002/playlist.m3u8', type: 'm3u8' },
+      { name: 'Raaga FM', url: 'https://n06.rcs.revma.com/1ut6qwtbv4uvv/6_1grktyf0p5qpr02/playlist.m3u8', type: 'm3u8' },
+      { name: 'Minnal FM', url: 'https://22283.live.streamtheworld.com:443/MINNAL_FMAAC_SC', type: 'aac' },
+      { name: 'Best FM', url: 'https://n16.rcs.revma.com/h34x4kgg9hhvv/16_uf5os5tk9j3302/playlist.m3u8', type: 'm3u8' },
+      { name: 'Kool 101', url: 'https://n08.rcs.revma.com/3930238mtd3vv/8_2whawsg3fhmw02/playlist.m3u8', type: 'm3u8' },
+      { name: 'Traxx FM', url: 'https://28103.live.streamtheworld.com:443/TRAXX_FMAAC_SC', type: 'aac' },
+      { name: 'Manis FM', url: 'https://n04.rcs.revma.com/nzgauqq1v7zuv?rj-ttl=5&rj-tok=AAABk0iQHXoAHiTOyor8YOoWlA', type: 'mp3' },
+      { name: 'Molek FM', url: 'https://n09.rcs.revma.com/z56xa78mtd3vv/9_13apqo12zyyxc02/playlist.m3u8', type: 'm3u8' },
+      { name: 'Klasik FM', url: 'https://28163.live.streamtheworld.com:443/RADIO_KLASIKAAC.aac', type: 'aac' },
+      { name: 'Nasional FM', url: 'https://22253.live.streamtheworld.com:443/NASIONAL_FMAAC_SC', type: 'aac' },
+      { name: 'Kelantan FM', url: 'https://22253.live.streamtheworld.com/KELANTAN_FMAAC.aac', type: 'aac' },
+      { name: 'Terengganu FM', url: 'https://22243.live.streamtheworld.com:443/TERENGGANU_FMAAC_SC', type: 'aac' },
+      { name: 'Pahang FM', url: 'https://22253.live.streamtheworld.com:443/PAHANG_FMAAC.aac', type: 'aac' },
+      { name: 'Kedah FM', url: 'https://22283.live.streamtheworld.com:443/KEDAH_FMAAC_SC', type: 'aac' },
+      { name: 'Perak FM', url: 'https://22253.live.streamtheworld.com:443/PERAK_FMAAC.aac', type: 'aac' },
+      { name: 'KL FM', url: 'https://22273.live.streamtheworld.com:443/KL_FMAAC_SC', type: 'aac' },
+      { name: 'Selangor FM', url: 'https://22273.live.streamtheworld.com:443/SELANGOR_FMAAC_SC', type: 'aac' },
+      { name: 'Negeri FM', url: 'https://28103.live.streamtheworld.com:443/NEGERI_FMAAC_SC', type: 'aac' },
+      { name: 'Melaka FM', url: 'https://28163.live.streamtheworld.com:443/MELAKA_FMAAC_SC', type: 'aac' },
+      { name: 'Sabah FM', url: 'https://22253.live.streamtheworld.com:443/SABAH_FMAAC.aac', type: 'aac' },
+      { name: 'Sabav FM', url: 'https://live.mana2.my/SabahvFm/index.m3u8?auth_key=1751709243-dbcc404ffb8f47d09ac2e63e4f50b57a-0-974d5941d84f8b15e1141c53c1b11aff', type: 'm3u8' },
+      { name: 'Sarawak FM', url: 'https://22273.live.streamtheworld.com:443/SARAWAK_FMAAC.aac', type: 'aac' },
+      { name: 'BFM', url: 'https://22273.live.streamtheworld.com:443/BFMAAC.aac', type: 'aac' },
+      { name: 'Awani FM', url: 'https://d2idp3hzkhjpih.cloudfront.net/out/v1/4b85d9c2bf97413eb0c9fd875599b837/index_3.m3u8', type: 'm3u8' },
+      { name: 'Wai FM Iban', url: 'https://28093.live.streamtheworld.com:443/WAI_FM_IBANAAC.aac', type: 'aac' },
+      { name: 'GoXuan', url: 'https://n07a-eu.rcs.revma.com/xt9nhzsbv4uvv/7_1kpxic2j08fx102/playlist.m3u8?rj-ttl=5&rj-tok=AAABk0ivpMMAofdsXSo_Xm0zMQ', type: 'm3u8' },
+      { name: 'Sinar FM Rock Kapak', url: 'https://n26a-eu.rcs.revma.com/rz43weh811uvv/38_lwj92qdqradk02/main/173487890.aac', type: 'aac' },
+      { name: 'Cats FM', url: 'https://s4.yesstreaming.net:7019/stream/1/', type: 'mp3' },
+      { name: 'Bapakku FM', url: 'https://servidor30-2.brlogic.com:7048/live', type: 'mp3' },
+      { name: 'Mutiara FM', url: 'https://22243.live.streamtheworld.com/MUTIARA_FMAAC_SC', type: 'aac' },
+      { name: 'Bernama Radio', url: 'https://live.mana2.my/BernamaRadio/index.m3u8?auth_key=1751701131-4651f03a95c347a98d018eeb31d1a8c3-0-d6865f5c9af42ffbfbc04475ecb3266d', type: 'm3u8' },
+      { name: 'Radio Sandakan', url: 'https://28163.live.streamtheworld.com/SANDAKAN_FMAAC_SC', type: 'aac' },
+      { name: 'Perlis FM', url: 'https://22243.live.streamtheworld.com/PERLIS_FMAAC_SC', type: 'aac' },
+      { name: 'Kupi Kupi FM', url: 'https://n05.rcs.revma.com/axht8yawe1bwv?rj-ttl=5&rj-tok=AAABl9iJ47QAYuY0lBhb6a0OXw', type: 'mp3' },
+      { name: 'Jei FM', url: 'https://usa3.fastcast4u.com/proxy/jeifm?mp=/stream/1/', type: 'mp3' },
+      { name: 'Radio Amboi FM', url: 'https://stream-173.zeno.fm/555kr7upam0uv', type: 'mp3' },
+      { name: 'Labuan FM', url: 'https://28153.live.streamtheworld.com/LABUAN_FMAAC_SC', type: 'aac' },
+      { name: 'Rakita FM', url: 'https://live.mana2.my/RakitaFm/index.m3u8?auth_key=1751702967-86d3d46da8ac471da4766fefcca8ff47-0-ef6f32e1a7cedb41178f2db21d0c705c', type: 'm3u8' },
+      { name: 'Osai FM', url: 'https://stream-eu-a.rcs.revma.com/60s783vbv4uvv/22_vi0k2u9iyuoj02/playlist.m3u8', type: 'm3u8' },
+      { name: 'Oli 96.8', url: 'https://22393.live.streamtheworld.com/OLI968FMAAC.aac', type: 'aac' },
+      { name: 'Tawau FM', url: 'https://22253.live.streamtheworld.com/TAWAU_FMAAC.aac', type: 'aac' },
+      { name: 'Kristal FM', url: 'https://play.thestreamtech.com:7038/index.html', type: 'mp3' },
+      { name: 'Buletin FM', url: 'https://stream.rcs.revma.com/3930238mtd3vv/hls.m3u8', type: 'm3u8' },
+      { name: 'Love 972', url: 'https://28453.live.streamtheworld.com/LOVE972FM_PREM.aac', type: 'aac' },
+      { name: 'India Beat FM', url: 'https://stream-eu-a.rcs.revma.com/hrcdg9ubv4uvv/32_l87jk9e4xju502/playlist.m3u8', type: 'm3u8' },
+      { name: 'Classic Rock FM', url: 'https://stream-eu-a.rcs.revma.com/fk3507vbv4uvv/21_123cdbkwmeooj02/playlist.m3u8', type: 'm3u8' },
+      { name: '987 FM', url: 'https://28443.live.streamtheworld.com/987FM_PREM.aac', type: 'aac' },
+      { name: 'YES 933', url: 'https://28313.live.streamtheworld.com/YES933_PREM.aac', type: 'aac' },
+      { name: 'Red FM', url: 'https://28163.live.streamtheworld.com/RED_FMAAC.aac', type: 'aac' },
+      { name: '883 FM', url: 'https://22283.live.streamtheworld.com/883JIA.mp3', type: 'mp3' },
+      { name: 'Gold FM', url: 'https://stream-eu-a.rcs.revma.com/fxq2n9tbv4uvv/32_t9ako5786llk02/playlist.m3u8', type: 'm3u8' },
+      { name: 'UFM', url: 'https://22283.live.streamtheworld.com/UFM_1003AAC.aac', type: 'aac' },
+      { name: 'Kenyalang FM', url: 'https://stream-eu-a.rcs.revma.com/qyg9zmvbv4uvv/52_15nleuhxrs9mr02/playlist.m3u8', type: 'm3u8' },
+      { name: 'Langkawi FM', url: 'https://28103.live.streamtheworld.com/LANGKAWI_FMAAC.aac', type: 'aac' },
+      { name: 'Bayu FM', url: 'https://stream-eu-a.rcs.revma.com/ywpe7mqb54uvv/6_glpo8niyqr7e02/playlist.m3u8', type: 'm3u8' },
+      { name: 'MyFriends FM', url: 'https://cast3.asurahosting.com/proxy/myfriend/stream', type: 'mp3' },
+      { name: 'RADIOROSAK', url: 'https://radiorosak.radioca.st/stream', type: 'mp3' },
+      { name: 'Jazz FM', url: 'https://stream-eu-a.rcs.revma.com/c718dfvbv4uvv/54_7d1x7i1isy7w02/playlist.m3u8', type: 'm3u8' },
+      { name: 'Jazz Lounge FM', url: 'https://eu8.fastcast4u.com/proxy/lch?mp=/1', type: 'mp3' },
+      { name: 'Opus FM', url: 'https://stream-eu-a.rcs.revma.com/aqvp4yvbv4uvv/51_xbchzd3wxcmv02/playlist.m3u8', type: 'm3u8' },
+      { name: 'Pilihan FM', url: 'https://d2kziuzkf9oizb.cloudfront.net/rd003/playlist.m3u8', type: 'm3u8' },
+      { name: 'MyKampus FM', url: 'https://usa10.fastcast4u.com/voicespl', type: 'mp3' }
+    ];
+
+    // Inisialisasi elemen
+    const audioPlayer = document.getElementById('audioPlayer');
+    const playBtn = document.getElementById('playBtn');
+    const playIcon = document.getElementById('playIcon');
+    const btnText = document.getElementById('btnText');
+    const currentStation = document.getElementById('currentStation');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const searchInput = document.getElementById('searchInput');
+    const stationsGrid = document.getElementById('stationsGrid');
+    const loading = document.getElementById('loading');
+    const errorMessage = document.getElementById('errorMessage');
+    const visualizer = document.getElementById('visualizer');
+    const themeToggle = document.getElementById('themeToggle');
+
+    let currentStationData = null;
+    let hls = null;
+    let isDarkMode = false;
+
+    // Fungsi utama
+    function init() {
+      renderStations(stations);
+      audioPlayer.volume = volumeSlider.value;
+      
+      // Cek preferensi mode gelap dari localStorage
+      if (localStorage.getItem('darkMode') === 'true') {
+        toggleDarkMode();
+      }
+      
+      // Event listeners
+      playBtn.addEventListener('click', togglePlay);
+      volumeSlider.addEventListener('input', () => audioPlayer.volume = volumeSlider.value);
+      searchInput.addEventListener('input', handleSearch);
+      audioPlayer.addEventListener('ended', () => updatePlayState(false));
+      audioPlayer.addEventListener('error', handleError);
+      themeToggle.addEventListener('click', toggleDarkMode);
+    }
+
+    // Toggle mode gelap/terang
+    function toggleDarkMode() {
+      isDarkMode = !isDarkMode;
+      document.body.classList.toggle('dark-mode', isDarkMode);
+      themeToggle.textContent = isDarkMode ? '☀️' : '🌙';
+      
+      // Simpan preferensi ke localStorage
+      localStorage.setItem('darkMode', isDarkMode);
+    }
+
+    // Render daftar stasiun
+    function renderStations(stationList) {
+      stationsGrid.innerHTML = stationList.map(station => `
+        <div class="station-card" data-name="${station.name}">${station.name}</div>
+      `).join('');
+      
+      document.querySelectorAll('.station-card').forEach(card => {
+        card.addEventListener('click', () => playStation(stations.find(s => s.name === card.dataset.name)));
+      });
+    }
+
+    // Memutar stasiun radio
+    function playStation(station) {
+      document.querySelectorAll('.station-card').forEach(card => card.classList.remove('active'));
+      document.querySelector(`.station-card[data-name="${station.name}"]`).classList.add('active');
+      
+      currentStationData = station;
+      currentStation.innerHTML = `${station.name} <div class="visualizer"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>`;
+      currentStation.classList.add('playing');
+      
+      loading.style.display = 'block';
+      errorMessage.style.display = 'none';
+      
+      // Hentikan pemutaran saat ini
+      audioPlayer.pause();
+      if (hls) hls.destroy();
+      
+      // Putar stasiun baru
+      if (station.type === 'm3u8' && Hls.isSupported()) {
+        hls = new Hls();
+        hls.loadSource(station.url);
+        hls.attachMedia(audioPlayer);
+        
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          audioPlayer.play()
+            .then(() => {
+              loading.style.display = 'none';
+              updatePlayState(true);
+            })
+            .catch(handleError);
+        });
+        
+        hls.on(Hls.Events.ERROR, (_, data) => {
+          showError(`Gagal memuat ${station.name}: ${data.details || 'Ralat tidak diketahui'}`);
+        });
+      } else {
+        audioPlayer.src = station.url;
+        audioPlayer.play()
+          .then(() => {
+            loading.style.display = 'none';
+            updatePlayState(true);
+          })
+          .catch(handleError);
+      }
+    }
+
+    // Toggle play/pause
+    function togglePlay() {
+      if (audioPlayer.paused) {
+        if (currentStationData) {
+          audioPlayer.play().then(() => updatePlayState(true)).catch(handleError);
+        } else {
+          showError('Sila pilih stesen radio terlebih dahulu.');
+        }
+      } else {
+        audioPlayer.pause();
+        updatePlayState(false);
+      }
+    }
+
+    // Update UI pemutaran
+    function updatePlayState(isPlaying) {
+      if (isPlaying) {
+        playIcon.textContent = '⏸️';
+        btnText.textContent = 'Jeda';
+        visualizer.classList.add('active');
+      } else {
+        playIcon.textContent = '▶️';
+        btnText.textContent = 'Main';
+        visualizer.classList.remove('active');
+      }
+      loading.style.display = 'none';
+    }
+
+    // Pencarian
+    function handleSearch(e) {
+      const term = e.target.value.toLowerCase();
+      renderStations(stations.filter(s => s.name.toLowerCase().includes(term)));
+    }
+
+    // Penanganan error
+    function handleError(error) {
+      console.error('Error:', error);
+      showError('Ralat main balik. Sila cuba stesen lain atau muat semula halaman.');
+      updatePlayState(false);
+    }
+
+    function showError(message) {
+      errorMessage.textContent = message;
+      errorMessage.style.display = 'block';
+      loading.style.display = 'none';
+    }
+
+    // Jalankan aplikasi
+    init();
+  </script>
+</body>
+</html>
