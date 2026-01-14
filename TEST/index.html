@@ -8,30 +8,20 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    /* TEMA DARK MODE EKSKLUSIF - HITAM & PUTIH */
     :root {
-      --primary: #6c5ce7;
-      --secondary: #a29bfe;
-      --dark: #2d3436;
-      --light: #f5f6fa;
-      --bg: white;
-      --text: #2d3436;
-      --card-bg: white;
-      --card-border: #e0e0e0;
-      --header-text: white;
-      --favorite: #ff7675;
-    }
-    
-    .dark-mode {
-      --primary: #a29bfe;
-      --secondary: #6c5ce7;
-      --dark: #f5f6fa;
-      --light: #2d3436;
-      --bg: #1a1a1a;
-      --text: #f5f6fa;
-      --card-bg: #2d2d2d;
-      --card-border: #444;
-      --header-text: white;
-      --favorite: #ff7675;
+      --primary: #ffffff;
+      --secondary: #cccccc;
+      --dark: #000000;
+      --light: #1a1a1a;
+      --bg: #000000;
+      --text: #ffffff;
+      --card-bg: #111111;
+      --card-border: #333333;
+      --header-text: #ffffff;
+      --favorite: #ffffff;
+      --accent: #ffffff;
+      --shadow: rgba(255, 255, 255, 0.1);
     }
     
     * {
@@ -42,7 +32,7 @@
     
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      background: var(--bg);
       min-height: 100vh;
       color: var(--text);
       padding: 20px;
@@ -52,30 +42,34 @@
     .container {
       max-width: 1000px;
       margin: 0 auto;
-      background: var(--bg);
+      background: var(--dark);
       border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      box-shadow: 0 10px 30px var(--shadow);
       overflow: hidden;
       transition: all 0.3s ease;
+      border: 1px solid var(--card-border);
     }
     
     .header {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      background: linear-gradient(135deg, #111111, #222222);
       color: var(--header-text);
       padding: 30px;
       text-align: center;
       position: relative;
+      border-bottom: 1px solid var(--card-border);
     }
     
     .header h1 {
       font-size: 2.2rem;
       font-weight: 700;
       margin-bottom: 5px;
+      color: var(--primary);
     }
     
     .header p {
       font-size: 1rem;
-      opacity: 0.9;
+      opacity: 0.8;
+      color: var(--secondary);
     }
     
     .player-section {
@@ -119,17 +113,18 @@
     .control-btn:hover {
       border-color: var(--primary);
       transform: translateY(-2px);
+      box-shadow: 0 5px 15px var(--shadow);
     }
     
     .control-btn.active {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: white;
+      background: var(--primary);
+      color: var(--dark);
       border-color: var(--primary);
     }
     
     .play-btn {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: white;
+      background: var(--primary);
+      color: var(--dark);
       border: none;
       padding: 12px 25px;
       border-radius: 50px;
@@ -140,11 +135,13 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      border: 2px solid transparent;
     }
     
     .play-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+      border-color: var(--primary);
     }
     
     .current-station {
@@ -200,13 +197,13 @@
       position: absolute;
       top: 100%;
       left: 0;
-      background: var(--card-bg);
+      background: var(--dark);
       border: 2px solid var(--card-border);
       border-radius: 10px;
       padding: 15px;
       width: 250px;
       z-index: 100;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.5);
       display: none;
       margin-top: 5px;
     }
@@ -223,23 +220,25 @@
     }
     
     .timer-option {
-      background: var(--bg);
+      background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 8px;
       padding: 10px;
       cursor: pointer;
       transition: all 0.2s;
       text-align: center;
+      color: var(--text);
     }
     
     .timer-option:hover {
       background: var(--primary);
-      color: white;
+      color: var(--dark);
+      border-color: var(--primary);
     }
     
     .timer-option.active {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: white;
+      background: var(--primary);
+      color: var(--dark);
       border-color: var(--primary);
     }
     
@@ -247,11 +246,12 @@
       font-size: 0.9rem;
       margin-top: 10px;
       padding: 8px;
-      background: var(--bg);
+      background: var(--card-bg);
       border-radius: 8px;
       text-align: center;
       border: 1px dashed var(--primary);
       display: none;
+      color: var(--text);
     }
     
     .timer-display.active {
@@ -260,7 +260,7 @@
     
     .search-section {
       padding: 20px;
-      background: var(--bg);
+      background: var(--dark);
     }
     
     .search-input {
@@ -275,8 +275,36 @@
       color: var(--text);
     }
     
+    .search-input::placeholder {
+      color: #666666;
+    }
+    
     .search-input:focus {
       border-color: var(--primary);
+    }
+    
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 0 20px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    
+    .tab {
+      padding: 10px 20px;
+      background: none;
+      border: none;
+      color: var(--secondary);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      border-bottom: 3px solid transparent;
+    }
+    
+    .tab.active {
+      color: var(--primary);
+      border-bottom: 3px solid var(--primary);
     }
     
     .stations-grid {
@@ -284,6 +312,7 @@
       grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
       gap: 12px;
       padding: 20px;
+      background: var(--dark);
     }
     
     .station-card {
@@ -301,13 +330,13 @@
     
     .station-card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 5px 15px var(--shadow);
       border-color: var(--primary);
     }
     
     .station-card.active {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: white;
+      background: var(--primary);
+      color: var(--dark);
       border-color: var(--primary);
     }
     
@@ -317,7 +346,7 @@
       right: 8px;
       background: none;
       border: none;
-      color: var(--card-border);
+      color: #666666;
       font-size: 1.2rem;
       cursor: pointer;
       transition: all 0.2s;
@@ -325,16 +354,16 @@
     }
     
     .favorite-btn:hover {
-      color: var(--favorite);
+      color: var(--primary);
       transform: scale(1.2);
     }
     
     .favorite-btn.active {
-      color: var(--favorite);
+      color: var(--primary);
     }
     
     .favorite-btn.active:hover {
-      color: #ff5252;
+      color: var(--secondary);
     }
     
     .loading {
@@ -342,23 +371,25 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background: var(--card-bg);
+      background: var(--dark);
       padding: 15px 25px;
       border-radius: 10px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.5);
       z-index: 1000;
       display: none;
       color: var(--text);
+      border: 1px solid var(--card-border);
     }
     
     .error-message {
-      background: #ffebee;
-      color: #c62828;
+      background: #330000;
+      color: #ff6666;
       padding: 12px;
       border-radius: 8px;
       margin-top: 15px;
       display: none;
       font-size: 0.9rem;
+      border: 1px solid #660000;
     }
     
     .visualizer {
@@ -389,46 +420,6 @@
       50% { transform: scaleY(1); }
     }
     
-    .theme-toggle {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--header-text);
-      transition: transform 0.3s;
-    }
-    
-    .theme-toggle:hover {
-      transform: scale(1.1);
-    }
-    
-    .tabs {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin: 0 20px;
-      border-bottom: 1px solid var(--card-border);
-    }
-    
-    .tab {
-      padding: 10px 20px;
-      background: none;
-      border: none;
-      color: var(--text);
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s;
-      border-bottom: 3px solid transparent;
-    }
-    
-    .tab.active {
-      color: var(--primary);
-      border-bottom: 3px solid var(--primary);
-    }
-    
     /* Media Query untuk Tablet dan Mobile */
     @media (max-width: 768px) {
       .header h1 { font-size: 1.8rem; }
@@ -437,13 +428,6 @@
       .current-station { width: 100%; min-width: auto; }
       .additional-controls { flex-direction: column; align-items: center; }
       .control-btn { width: 100%; max-width: 200px; justify-content: center; }
-      .theme-toggle {
-        position: relative;
-        top: auto;
-        right: auto;
-        display: block;
-        margin: 10px auto 0;
-      }
       .sleep-timer-dropdown {
         left: 50%;
         transform: translateX(-50%);
@@ -510,15 +494,14 @@
 <body>
   <div class="container">
     <div class="header">
-      <button class="theme-toggle" id="themeToggle">🌙</button>
-      <h1>📻 Radio Malaysia</h1>
+      <h1><i class="fas fa-radio" style="margin-right: 10px;"></i>Radio Malaysia</h1>
       <p>Strim Langsung - Pilihan Terbaik Radio Malaysia</p>
     </div>
 
     <div class="player-section">
       <div class="player-controls">
         <button class="play-btn" id="playBtn">
-          <span id="playIcon">▶️</span>
+          <span id="playIcon"><i class="fas fa-play"></i></span>
           <span id="btnText">Main</span>
         </button>
         
@@ -533,7 +516,7 @@
         </div>
         
         <div class="volume-control">
-          <span>🔊</span>
+          <span><i class="fas fa-volume-up"></i></span>
           <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.1" value="0.7">
         </div>
       </div>
@@ -573,7 +556,7 @@
     </div>
 
     <div class="search-section">
-      <input type="text" class="search-input" id="searchInput" placeholder="🔍 Cari stesen radio...">
+      <input type="text" class="search-input" id="searchInput" placeholder="Cari stesen radio...">
     </div>
 
     <div class="stations-grid" id="stationsGrid">
@@ -581,7 +564,7 @@
     </div>
   </div>
 
-  <div class="loading" id="loading">⏳ Memuatkan...</div>
+  <div class="loading" id="loading"><i class="fas fa-spinner fa-spin" style="margin-right: 10px;"></i>Memuatkan...</div>
   <audio id="audioPlayer" style="display: none;"></audio>
 
   <script>
@@ -682,7 +665,6 @@
     const loading = document.getElementById('loading');
     const errorMessage = document.getElementById('errorMessage');
     const visualizer = document.getElementById('visualizer');
-    const themeToggle = document.getElementById('themeToggle');
     const sleepTimerBtn = document.getElementById('sleepTimerBtn');
     const sleepTimerDropdown = document.getElementById('sleepTimerDropdown');
     const sleepTimerText = document.getElementById('sleepTimerText');
@@ -694,7 +676,6 @@
 
     let currentStationData = null;
     let hls = null;
-    let isDarkMode = false;
     let favorites = new Set();
     let sleepTimer = null;
     let remainingTime = 0;
@@ -706,18 +687,12 @@
       renderStations(stations);
       audioPlayer.volume = volumeSlider.value;
       
-      // Cek preferensi mode gelap dari localStorage
-      if (localStorage.getItem('darkMode') === 'true') {
-        toggleDarkMode();
-      }
-      
       // Event listeners
       playBtn.addEventListener('click', togglePlay);
       volumeSlider.addEventListener('input', () => audioPlayer.volume = volumeSlider.value);
       searchInput.addEventListener('input', handleSearch);
       audioPlayer.addEventListener('ended', () => updatePlayState(false));
       audioPlayer.addEventListener('error', handleError);
-      themeToggle.addEventListener('click', toggleDarkMode);
       
       // Tab listeners
       allStationsTab.addEventListener('click', () => switchTab('all'));
@@ -741,16 +716,6 @@
       
       // Favorites button listener
       favoritesBtn.addEventListener('click', toggleFavoritesView);
-    }
-
-    // Toggle mode gelap/terang
-    function toggleDarkMode() {
-      isDarkMode = !isDarkMode;
-      document.body.classList.toggle('dark-mode', isDarkMode);
-      themeToggle.textContent = isDarkMode ? '☀️' : '🌙';
-      
-      // Simpan preferensi ke localStorage
-      localStorage.setItem('darkMode', isDarkMode);
     }
 
     // Load favorites from localStorage
@@ -907,11 +872,11 @@
     // Update UI pemutaran
     function updatePlayState(isPlaying) {
       if (isPlaying) {
-        playIcon.textContent = '⏸️';
+        playIcon.innerHTML = '<i class="fas fa-pause"></i>';
         btnText.textContent = 'Jeda';
         visualizer.classList.add('active');
       } else {
-        playIcon.textContent = '▶️';
+        playIcon.innerHTML = '<i class="fas fa-play"></i>';
         btnText.textContent = 'Main';
         visualizer.classList.remove('active');
       }
@@ -992,14 +957,16 @@
         position: fixed;
         top: 20px;
         right: 20px;
-        background: var(--primary);
+        background: #111111;
         color: white;
         padding: 15px 20px;
         border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         z-index: 1000;
         animation: slideIn 0.3s ease;
         max-width: 300px;
+        border: 1px solid #333333;
+        font-family: 'Poppins', sans-serif;
       `;
       notification.textContent = message;
       
