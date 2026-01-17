@@ -1,1 +1,375 @@
-text
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kalendar Malaysia 2025 • Dark/Light</title>
+  
+  <style>
+    :root {
+      --bg: #0f0f11;
+      --card: #16161a;
+      --text: #e0e0e5;
+      --text-light: #a0a0b0;
+      --accent: #6c5ce7;
+      --accent-dark: #5649c0;
+      --border: #2a2a35;
+      --nav-bg: #141418e8;
+    }
+
+    [data-theme="light"] {
+      --bg: #f6f6f8;
+      --card: #ffffff;
+      --text: #1c1c1e;
+      --text-light: #6e6e73;
+      --accent: #5e5ce6;
+      --accent-dark: #4a47c0;
+      --border: #d2d2d7;
+      --nav-bg: #ffffffe8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      transition: background 0.4s, color 0.4s;
+    }
+
+    /* Header & Controls */
+    header {
+      position: relative;
+      text-align: center;
+      padding: 40px 15px 30px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5em;
+      color: var(--text);
+    }
+
+    /* Theme Toggle - kini di header, tak bertindih */
+    .theme-toggle {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.25);
+      transition: all 0.3s;
+      z-index: 50;
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.08);
+    }
+
+    /* Navigation */
+    .nav-container {
+      background: var(--nav-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      padding: 14px 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .month-nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px 18px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+
+    .month-btn {
+      background: var(--card);
+      color: var(--accent);
+      border: 1px solid var(--border);
+      padding: 9px 16px;
+      border-radius: 999px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .month-btn:hover {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    /* Main Content */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 40px 15px 80px;
+    }
+
+    .year-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 32px 28px;
+    }
+
+    .month-card {
+      background: var(--card);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.28);
+      cursor: pointer;
+    }
+
+    .month-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 16px 44px rgba(0,0,0,0.42);
+    }
+
+    .month-title {
+      padding: 16px;
+      text-align: center;
+      font-size: 1.35rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, rgba(108,92,231,0.07), rgba(108,92,231,0.02));
+      border-bottom: 1px solid var(--border);
+      color: var(--accent);
+    }
+
+    .month-image {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.94);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal img {
+      max-width: 94vw;
+      max-height: 92vh;
+      border-radius: 12px;
+      box-shadow: 0 0 70px rgba(0,0,0,0.85);
+      transform: scale(0.94);
+      transition: transform 0.35s;
+    }
+
+    .modal.active img {
+      transform: scale(1);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 35px;
+      right: 35px;
+      font-size: 3rem;
+      color: white;
+      cursor: pointer;
+      opacity: 0.75;
+    }
+
+    .close-btn:hover {
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      header { padding-top: 80px; }
+      .theme-toggle { top: 20px; right: 20px; width: 44px; height: 44px; font-size: 1.3rem; }
+      .year-grid { gap: 36px 0; grid-template-columns: 1fr; }
+      h1 { font-size: 2.1rem; }
+    }
+  </style>
+</head>
+<body data-theme="dark">
+
+  <!-- Theme Toggle -->
+  <button class="theme-toggle" id="themeBtn">☀️</button>
+
+  <header>
+    <h1>Kalendar Malaysia 2025</h1>
+  </header>
+
+  <!-- Navigation -->
+  <div class="nav-container">
+    <div class="month-nav">
+      <button class="month-btn" data-month="jan">Jan</button>
+      <button class="month-btn" data-month="feb">Feb</button>
+      <button class="month-btn" data-month="mac">Mac</button>
+      <button class="month-btn" data-month="apr">Apr</button>
+      <button class="month-btn" data-month="mei">Mei</button>
+      <button class="month-btn" data-month="jun">Jun</button>
+      <button class="month-btn" data-month="jul">Jul</button>
+      <button class="month-btn" data-month="ogo">Ogo</button>
+      <button class="month-btn" data-month="sep">Sep</button>
+      <button class="month-btn" data-month="okt">Okt</button>
+      <button class="month-btn" data-month="nov">Nov</button>
+      <button class="month-btn" data-month="dis">Dis</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="year-grid">
+
+      <div class="month-card" id="jan">
+        <div class="month-title">Januari 2025</div>
+        <img src="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALANDER%202025/cnmy0125.jpg" 
+             alt="Januari 2025" class="month-image" data-full="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALANDER%202025/cnmy0125.jpg">
+      </div>
+
+      <div class="month-card" id="feb">
+        <div class="month-title">Februari 2025</div>
+        <img src="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALANDER%202025/cnmy0225.jpg" 
+             alt="Februari 2025" class="month-image" data-full="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALANDER%202025/cnmy0225.jpg">
+      </div>
+
+      <div class="month-card" id="mac">
+        <div class="month-title">Mac 2025</div>
+        <img src="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALANDER%202025/cnmy0325.jpg" 
+             alt="Mac 2025" class="month-image" data-full="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALANDER%202025/cnmy0325.jpg">
+      </div>
+
+      <div class="month-card" id="apr">
+        <div class="month-title">April 2025</div>
+        <img src="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALANDER%202025/cnmy0425.jpg" 
+             alt="April 2025" class="month-image" data-full="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALANDER%202025/cnmy0425.jpg">
+      </div>
+
+      <div class="month-card" id="mei">
+        <div class="month-title">Mei 2025</div>
+        <img src="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALANDER%202025/cnmy0525.jpg" 
+             alt="Mei 2025" class="month-image" data-full="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALANDER%202025/cnmy0525.jpg">
+      </div>
+
+      <div class="month-card" id="jun">
+        <div class="month-title">Jun 2025</div>
+        <img src="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALANDER%202025/cnmy0625.jpg" 
+             alt="Jun 2025" class="month-image" data-full="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALANDER%202025/cnmy0625.jpg">
+      </div>
+
+      <div class="month-card" id="jul">
+        <div class="month-title">Julai 2025</div>
+        <img src="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALANDER%202025/cnmy0725.jpg" 
+             alt="Julai 2025" class="month-image" data-full="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALANDER%202025/cnmy0725.jpg">
+      </div>
+
+      <div class="month-card" id="ogo">
+        <div class="month-title">Ogos 2025</div>
+        <img src="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALANDER%202025/cnmy0825.jpg" 
+             alt="Ogos 2025" class="month-image" data-full="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALANDER%202025/cnmy0825.jpg">
+      </div>
+
+      <div class="month-card" id="sep">
+        <div class="month-title">September 2025</div>
+        <img src="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALANDER%202025/cnmy0925.jpg" 
+             alt="September 2025" class="month-image" data-full="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALANDER%202025/cnmy0925.jpg">
+      </div>
+
+      <div class="month-card" id="okt">
+        <div class="month-title">Oktober 2025</div>
+        <img src="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALANDER%202025/cnmy1025.jpg" 
+             alt="Oktober 2025" class="month-image" data-full="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALANDER%202025/cnmy1025.jpg">
+      </div>
+
+      <div class="month-card" id="nov">
+        <div class="month-title">November 2025</div>
+        <img src="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALANDER%202025/cnmy1125.jpg" 
+             alt="November 2025" class="month-image" data-full="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALANDER%202025/cnmy1125.jpg">
+      </div>
+
+      <div class="month-card" id="dis">
+        <div class="month-title">Disember 2025</div>
+        <img src="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALANDER%202025/cnmy1225.jpg" 
+             alt="Disember 2025" class="month-image" data-full="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALANDER%202025/cnmy1225.jpg">
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal Lightbox -->
+  <div class="modal" id="imageModal">
+    <span class="close-btn" id="closeModal">×</span>
+    <img id="modalImage" src="" alt="Kalendar Bulan">
+  </div>
+
+  <script>
+    // Theme Toggle
+    const themeBtn = document.getElementById('themeBtn');
+    const body = document.body;
+
+    themeBtn.addEventListener('click', () => {
+      if (body.dataset.theme === 'dark') {
+        body.dataset.theme = 'light';
+        themeBtn.textContent = '🌙';
+      } else {
+        body.dataset.theme = 'dark';
+        themeBtn.textContent = '☀️';
+      }
+    });
+
+    // Navigation Scroll
+    document.querySelectorAll('.month-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const monthId = btn.dataset.month;
+        document.getElementById(monthId)?.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'center' 
+        });
+      });
+    });
+
+    // Lightbox
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    const closeBtn = document.getElementById('closeModal');
+
+    document.querySelectorAll('.month-card').forEach(card => {
+      card.addEventListener('click', () => {
+        modalImg.src = card.querySelector('img').dataset.full;
+        modal.classList.add('active');
+      });
+    });
+
+    closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+    modal.addEventListener('click', e => {
+      if (e.target === modal) modal.classList.remove('active');
+    });
+  </script>
+</body>
+</html>
