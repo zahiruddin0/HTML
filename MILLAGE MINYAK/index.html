@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MILLAGE • NEUBRUTALISM</title>
+    <style>
+        /* neubrutalism reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f0f0f0;
+            background-image: repeating-linear-gradient(45deg, #e0e0e0 0px, #e0e0e0 2px, #f5f5f5 2px, #f5f5f5 8px);
+            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1.5rem;
+            color: #1a1a1a;
+        }
+
+        .brutal-container {
+            max-width: 700px;
+            width: 100%;
+            background: #ffffff;
+            border: 4px solid #000000;
+            box-shadow: 12px 12px 0px #000000;
+            padding: 2rem 2rem 2.2rem;
+            transition: 0.1s ease;
+        }
+
+        .brutal-container:hover {
+            box-shadow: 16px 16px 0px #000000;
+            transform: translate(-2px, -2px);
+        }
+
+        .main-head {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            background: #ffff00;
+            border: 3px solid black;
+            padding: 0.2rem 1.5rem 0.2rem 1.5rem;
+            display: inline-block;
+            margin-bottom: 2rem;
+            box-shadow: 6px 6px 0 #000000;
+            color: #000;
+        }
+
+        /* SENARAI MILLAGE — MENGIKUT URUTAN BARU */
+        .millage-tower {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-bottom: 2.5rem;
+            border: 3px solid black;
+            padding: 1.8rem 1.5rem;
+            background: #faffc7;
+            box-shadow: 8px 8px 0 #000;
+        }
+
+        .oil-block {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #ffffff;
+            border: 3px solid black;
+            padding: 0.9rem 1.2rem 0.9rem 2rem;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 6px 6px 0 #000;
+            transition: 0.1s;
+        }
+
+        .oil-block:hover {
+            background: #d0ffd0;
+            box-shadow: 8px 8px 0 #000;
+            transform: translate(-2px, -2px);
+        }
+
+        .oil-name {
+            text-transform: uppercase;
+            color: #000;
+            font-weight: 800;
+        }
+
+        .oil-dist {
+            background: #ffb2ff;
+            border: 3px solid black;
+            padding: 0.4rem 2rem;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #000;
+            box-shadow: 4px 4px 0 #000;
+            clip-path: polygon(0 0, 100% 0, 92% 100%, 0% 100%);
+        }
+
+        /* ZON NOTA */
+        .nota-brutal {
+            border: 4px solid black;
+            background: #c7f0ff;
+            padding: 2rem 1.8rem;
+            box-shadow: 10px 10px 0 #000;
+            margin-top: 0.5rem;
+        }
+
+        .nota-stamp {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: #ff7b00;
+            color: #000;
+            border: 3px solid black;
+            padding: 0.2rem 2rem;
+            display: inline-block;
+            box-shadow: 6px 6px 0 black;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+        }
+
+        .oil-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .oil-note-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: white;
+            border: 3px solid black;
+            padding: 0.7rem 1.5rem 0.7rem 1rem;
+            box-shadow: 6px 6px 0 #000;
+            font-weight: 600;
+        }
+
+        .oil-badge {
+            background: #00ffff;
+            border: 2px solid black;
+            padding: 0.2rem 1.2rem;
+            font-weight: 800;
+            font-size: 1.3rem;
+            box-shadow: 3px 3px 0 black;
+        }
+
+        .oil-desc {
+            font-size: 1rem;
+            color: #1a1a1a;
+        }
+
+        .dual-panel-neo {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+            margin: 1.8rem 0 0 0;
+        }
+
+        .neo-panel {
+            background: #ffffff;
+            border: 4px solid black;
+            padding: 1.2rem 1.2rem 1.4rem 1.2rem;
+            box-shadow: 8px 8px 0 #000;
+        }
+
+        .panel-title-neo {
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: #ff99ff;
+            border: 2px solid black;
+            padding: 0.2rem 1rem;
+            display: inline-block;
+            margin-bottom: 0.8rem;
+            box-shadow: 4px 4px 0 black;
+        }
+
+        .neo-panel p {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+            line-height: 1.4;
+        }
+
+        .neo-highlight {
+            background: #b1ff9d;
+            border: 2px solid black;
+            padding: 0.2rem 1rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-top: 0.4rem;
+            box-shadow: 3px 3px 0 black;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 550px) {
+            .dual-panel-neo { grid-template-columns: 1fr; }
+            .oil-block { flex-direction: column; align-items: start; gap: 0.5rem; }
+            .main-head { font-size: 2rem; }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="brutal-container">
+        <!-- header kuning neubrutal -->
+        <div class="main-head">MILLAGE ⚡ MINYAK</div>
+
+        <!-- LIST MILLAGE MENGIKUT URUTAN BARU YANG DIBERI -->
+        <div class="millage-tower">
+            <!-- 1. 0W-40 (10,000) -->
+            <div class="oil-block"><span class="oil-name">0W-40</span><span class="oil-dist">10,000</span></div>
+            <!-- 2. 5W-40 (10,000) -->
+            <div class="oil-block"><span class="oil-name">5W-40</span><span class="oil-dist">10,000</span></div>
+            <!-- 3. 10W-40 (7,000) -->
+            <div class="oil-block"><span class="oil-name">10W-40</span><span class="oil-dist">7,000</span></div>
+            <!-- 4. 15W-40 (5,000) -->
+            <div class="oil-block"><span class="oil-name">15W-40</span><span class="oil-dist">5,000</span></div>
+            <!-- 5. MINYAK GEAR (30,000) -->
+            <div class="oil-block"><span class="oil-name">MINYAK GEAR</span><span class="oil-dist">30,000</span></div>
+            <!-- 6. AUTO FILTER (60,000) -->
+            <div class="oil-block"><span class="oil-name">AUTO FILTER</span><span class="oil-dist">60,000</span></div>
+            <!-- 7. SPARK PLUG (80,000) -->
+            <div class="oil-block"><span class="oil-name">SPARK PLUG</span><span class="oil-dist">80,000</span></div>
+            <!-- 8. DIESEL FILTER (30,000) -->
+            <div class="oil-block"><span class="oil-name">DIESEL FILTER</span><span class="oil-dist">30,000</span></div>
+        </div>
+
+        <!-- NOTA DENGAN ESTETIKA BLOK KERAS -->
+        <div class="nota-brutal">
+            <div class="nota-stamp">📘 NOTA MINYAK</div>
+
+            <!-- tiga baris neubrutal dengan badge besar (mengikut urutan nota asal) -->
+            <div class="oil-cards">
+                <div class="oil-note-item">
+                    <span class="oil-badge">0W40</span>
+                    <span class="oil-desc">❄️ cuaca sejuk / turbo moden — 10,000 km</span>
+                </div>
+                <div class="oil-note-item">
+                    <span class="oil-badge">5W40</span>
+                    <span class="oil-desc">🌴 paling sesuai Malaysia — 10,000 km</span>
+                </div>
+                <div class="oil-note-item">
+                    <span class="oil-badge">10W40</span>
+                    <span class="oil-desc">🚙 kereta lama >100k km — 7,000 km</span>
+                </div>
+            </div>
+
+            <!-- penerangan dua bahagian dengan panel neubrutal -->
+            <div class="dual-panel-neo">
+                <div class="neo-panel">
+                    <div class="panel-title-neo">⬅️ 5W / 10W / 0W</div>
+                    <p><strong>W</strong> = Winter (musim sejuk).</p>
+                    <p>Nombor kecil = cair masa enjin sejuk, senang start pagi.</p>
+                    <span class="neo-highlight">semakin kecil → semakin cair</span>
+                </div>
+                <div class="neo-panel">
+                    <div class="panel-title-neo">➡️ bahagian kedua (40)</div>
+                    <p>Nombor belakang = kelikatan bila enjin panas.</p>
+                    <p>Makin besar nombor, makin pekat & perlindungan extra.</p>
+                    <span class="neo-highlight">40 = pekat untuk panas / beban</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
