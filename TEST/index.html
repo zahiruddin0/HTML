@@ -1,597 +1,680 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ms">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Source Code Viewer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&family=DM+Sans:wght@400;600;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --black: #0a0a0a;
-            --white: #f5f0e8;
-            --yellow: #FFE600;
-            --red: #FF3B3B;
-            --blue: #0057FF;
-            --green: #00C851;
-            --border: 3px solid var(--black);
-            --shadow: 5px 5px 0px var(--black);
-            --shadow-lg: 8px 8px 0px var(--black);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Radio Malaysia · strim langsung</title>
+  <!-- HLS.js for m3u8 streams -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* ===== PURE DARK MODE – HITAM PUTIH ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    body {
+      background: #000000;
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      color: #ffffff;
+      padding: 20px;
+      background-image: radial-gradient(circle at 10% 20%, rgba(255,255,255,0.03) 0%, transparent 20%),
+                      radial-gradient(circle at 90% 80%, rgba(255,255,255,0.03) 0%, transparent 20%);
+    }
 
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background-color: var(--white);
-            background-image: 
-                radial-gradient(circle, #0a0a0a 1px, transparent 1px);
-            background-size: 28px 28px;
-            min-height: 100vh;
-            padding: 30px 20px;
-            color: var(--black);
-        }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: #000000;
+      border-radius: 15px;
+      border: 1px solid #333333;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.05);
+      overflow: hidden;
+    }
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
+    .header {
+      background: linear-gradient(135deg, #111111, #222222);
+      color: white;
+      padding: 30px;
+      text-align: center;
+      border-bottom: 1px solid #333;
+      position: relative;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #ffffff, transparent);
+    }
+    .header h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .header h1 i { margin-right: 10px; }
+    .header p { color: #cccccc; margin-top: 5px; }
 
-        /* HEADER */
-        .header {
-            background: var(--yellow);
-            border: var(--border);
-            box-shadow: var(--shadow-lg);
-            padding: 30px 40px;
-            margin-bottom: 24px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            overflow: hidden;
-        }
+    .player-section {
+      padding: 20px;
+      background: #1a1a1a;
+      border-bottom: 1px solid #333;
+    }
 
-        .header::before {
-            content: '</>';
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 10rem;
-            color: rgba(0,0,0,0.06);
-            position: absolute;
-            right: -10px;
-            top: -20px;
-            line-height: 1;
-            pointer-events: none;
-        }
+    .player-controls {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
 
-        .header-icon {
-            font-size: 3rem;
-            line-height: 1;
-            flex-shrink: 0;
-        }
+    .additional-controls {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-top: 15px;
+    }
 
-        .header-text h1 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 3.5rem;
-            letter-spacing: 2px;
-            line-height: 1;
-            color: var(--black);
-        }
+    .control-btn {
+      background: #111111;
+      border: 2px solid #333;
+      color: #fff;
+      padding: 8px 15px;
+      border-radius: 50px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: 0.2s;
+    }
+    .control-btn:hover { border-color: #fff; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,255,255,0.1); }
+    .control-btn.active { background: #fff; color: #000; border-color: #fff; }
 
-        .header-text p {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--black);
-            margin-top: 6px;
-            opacity: 0.75;
-        }
+    .play-btn {
+      background: #ffffff;
+      color: #000000;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(255,255,255,0.1);
+      transition: 0.2s;
+    }
+    .play-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(255,255,255,0.2); }
 
-        .header-badge {
-            margin-left: auto;
-            background: var(--black);
-            color: var(--yellow);
-            font-family: 'Space Mono', monospace;
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 6px 14px;
-            border: 2px solid var(--black);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            flex-shrink: 0;
-        }
+    .current-station {
+      background: #111;
+      border: 2px solid #333;
+      padding: 12px 20px;
+      border-radius: 50px;
+      font-weight: 600;
+      min-width: 200px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .current-station.playing { border-color: #fff; color: #fff; box-shadow: 0 0 15px rgba(255,255,255,0.1); }
 
-        /* INPUT SECTION */
-        .input-section {
-            background: var(--white);
-            border: var(--border);
-            box-shadow: var(--shadow);
-            padding: 28px;
-            margin-bottom: 24px;
-        }
+    .visualizer { display: none; align-items: center; gap: 3px; margin-left: 8px; }
+    .visualizer.active { display: inline-flex; }
+    .bar { width: 3px; height: 15px; background: #fff; border-radius: 2px; animation: wave 1s infinite ease-in-out; }
+    .bar:nth-child(2) { animation-delay: 0.2s; }
+    .bar:nth-child(3) { animation-delay: 0.4s; }
+    .bar:nth-child(4) { animation-delay: 0.6s; }
+    @keyframes wave { 0%,100%{transform:scaleY(0.3);} 50%{transform:scaleY(1);} }
 
-        .input-label {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--black);
-            margin-bottom: 12px;
-            display: block;
-        }
+    .volume-control {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #111;
+      padding: 8px 15px;
+      border-radius: 50px;
+      border: 2px solid #333;
+    }
+    .volume-slider { width: 100px; height: 5px; background: #333; border-radius: 5px; -webkit-appearance: none; }
+    .volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 16px; height: 16px; background: #fff; border-radius: 50%;
+      border: 2px solid #000; cursor: pointer;
+    }
 
-        .input-group {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
+    /* sleep timer dropdown */
+    .sleep-timer-container { position: relative; }
+    .sleep-timer-dropdown {
+      position: absolute; top: 100%; left: 0; background: #000; border: 2px solid #333; border-radius: 10px;
+      padding: 15px; width: 280px; z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.8); display: none;
+      margin-top: 5px; backdrop-filter: blur(10px);
+      opacity: 0; transform: scale(0.95) translateY(-10px); transition: 0.3s;
+      pointer-events: none;
+    }
+    .sleep-timer-dropdown.active {
+      display: block; opacity: 1; transform: scale(1) translateY(0); pointer-events: auto;
+    }
+    .timer-options { display: flex; flex-direction: column; gap: 10px; }
+    .timer-option, .custom-timer-input, #cancelTimer {
+      background: #111; border: 1px solid #333; border-radius: 8px; padding: 10px; cursor: pointer;
+      text-align: center; color: #fff; transition: 0.2s;
+    }
+    .timer-option:hover, #cancelTimer:hover { background: #fff; color: #000; border-color: #fff; }
+    .custom-timer-input { cursor: default; }
+    .custom-timer-input h4 { color: #fff; margin-bottom: 8px; }
+    .custom-time-controls { display: flex; gap: 8px; align-items: center; justify-content: center; }
+    .custom-time-input {
+      background: #000; border: 2px solid #333; color: #fff; padding: 8px; border-radius: 8px;
+      width: 70px; text-align: center; font-weight: 600;
+    }
+    .time-btn {
+      background: #111; border: 1px solid #333; color: #fff; width: 35px; height: 35px;
+      border-radius: 50%; cursor: pointer; transition: 0.2s;
+    }
+    .time-btn:hover { background: #fff; color: #000; transform: scale(1.1); }
+    .set-custom-timer {
+      background: #fff; color: #000; border: none; padding: 8px; border-radius: 8px;
+      font-weight: 600; cursor: pointer; margin-top: 8px;
+    }
+    .timer-display {
+      margin-top: 10px; padding: 12px; border-radius: 8px; text-align: center;
+      border: 2px solid #fff; display: none; background: #111; font-weight: 600;
+    }
+    .timer-display.active { display: block; }
 
-        .input-field {
-            flex: 1;
-            min-width: 280px;
-            padding: 14px 18px;
-            border: var(--border);
-            background: var(--white);
-            font-family: 'Space Mono', monospace;
-            font-size: 14px;
-            color: var(--black);
-            outline: none;
-            transition: box-shadow 0.15s ease;
-        }
+    /* tabs & search */
+    .tabs { display: flex; justify-content: center; gap: 10px; margin: 0 20px; border-bottom: 1px solid #333; }
+    .tab {
+      padding: 10px 20px; background: none; border: none; color: #ccc; font-weight: 500;
+      cursor: pointer; border-bottom: 3px solid transparent;
+    }
+    .tab.active { color: #fff; border-bottom-color: #fff; }
 
-        .input-field::placeholder {
-            color: #aaa;
-            font-style: italic;
-        }
+    .search-section { padding: 20px; background: #000; }
+    .search-container { position: relative; width: 100%; }
+    .search-input {
+      width: 100%; padding: 12px 15px 12px 45px; border: 2px solid #333; border-radius: 10px;
+      background: #0a0a0a; color: #fff; font-size: 1rem;
+    }
+    .search-input:focus { border-color: #fff; outline: none; }
+    .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #ccc; }
 
-        .input-field:focus {
-            box-shadow: var(--shadow);
-        }
+    .stations-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px;
+      padding: 20px; background: #000; min-height: 300px;
+    }
+    .station-card {
+      background: #111; border: 2px solid #333; border-radius: 10px; padding: 15px 10px;
+      text-align: center; cursor: pointer; font-weight: 500; color: #fff; position: relative;
+      transition: 0.2s;
+    }
+    .station-card:hover { border-color: #fff; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(255,255,255,0.1); }
+    .station-card.active { background: #fff; color: #000; border-color: #fff; }
 
-        .button-group {
-            display: flex;
-            gap: 10px;
-        }
+    .favorite-btn {
+      position: absolute; top: 5px; right: 8px; background: none; border: none; color: #666;
+      font-size: 1.2rem; cursor: pointer; transition: 0.2s; width: 30px; height: 30px;
+      display: flex; align-items: center; justify-content: center; border-radius: 50%;
+    }
+    .favorite-btn:hover { color: #fff; background: rgba(255,255,255,0.1); }
+    .favorite-btn.active { color: #fff; }
 
-        .generate-btn {
-            padding: 14px 28px;
-            background: var(--blue);
-            color: var(--white);
-            border: var(--border);
-            box-shadow: var(--shadow);
-            font-family: 'DM Sans', sans-serif;
-            font-size: 15px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: transform 0.1s ease, box-shadow 0.1s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+    .loading {
+      position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      background: #000; padding: 15px 25px; border-radius: 10px; border: 1px solid #333;
+      z-index: 1000; display: none; color: #fff;
+    }
+    .error-message {
+      background: #330000; color: #ff6666; padding: 12px; border-radius: 8px; margin-top: 15px;
+      display: none; border: 1px solid #660000;
+    }
+    .notification {
+      position: fixed; top: 20px; right: 20px; background: #000; color: #fff;
+      padding: 15px 20px; border-radius: 10px; border: 1px solid #333; z-index: 1000;
+      animation: slideIn 0.3s; max-width: 300px;
+    }
+    @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
-        .generate-btn:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 7px 7px 0px var(--black);
-        }
-
-        .generate-btn:active {
-            transform: translate(3px, 3px);
-            box-shadow: 2px 2px 0px var(--black);
-        }
-
-        .clear-btn {
-            padding: 14px 22px;
-            background: var(--red);
-            color: var(--white);
-            border: var(--border);
-            box-shadow: var(--shadow);
-            font-family: 'DM Sans', sans-serif;
-            font-size: 15px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: transform 0.1s ease, box-shadow 0.1s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .clear-btn:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 7px 7px 0px var(--black);
-        }
-
-        .clear-btn:active {
-            transform: translate(3px, 3px);
-            box-shadow: 2px 2px 0px var(--black);
-        }
-
-        /* LOADING */
-        .loading {
-            text-align: center;
-            padding: 40px;
-            display: none;
-            border: var(--border);
-            background: var(--yellow);
-            box-shadow: var(--shadow);
-            margin-bottom: 24px;
-        }
-
-        .loading-bar-container {
-            width: 200px;
-            height: 14px;
-            border: 2px solid var(--black);
-            margin: 0 auto 16px;
-            overflow: hidden;
-            background: var(--white);
-        }
-
-        .loading-bar {
-            height: 100%;
-            background: var(--black);
-            animation: loadingAnim 1.2s ease-in-out infinite;
-        }
-
-        @keyframes loadingAnim {
-            0% { width: 0%; margin-left: 0; }
-            50% { width: 60%; margin-left: 20%; }
-            100% { width: 0%; margin-left: 100%; }
-        }
-
-        .loading p {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* ERROR */
-        .error-message {
-            background: var(--red);
-            color: var(--white);
-            padding: 18px 22px;
-            border: var(--border);
-            box-shadow: var(--shadow);
-            margin-bottom: 24px;
-            display: none;
-            font-family: 'Space Mono', monospace;
-            font-size: 0.85rem;
-            font-weight: 700;
-        }
-
-        .error-message strong {
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* RESULT SECTION */
-        .result-section {
-            border: var(--border);
-            box-shadow: var(--shadow-lg);
-            overflow: hidden;
-            display: none;
-        }
-
-        .result-header {
-            background: var(--black);
-            padding: 14px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: var(--border);
-        }
-
-        .result-header-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .traffic-lights {
-            display: flex;
-            gap: 6px;
-        }
-
-        .traffic-lights span {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            border: 2px solid rgba(255,255,255,0.3);
-            display: inline-block;
-        }
-        .traffic-lights span:nth-child(1) { background: var(--red); }
-        .traffic-lights span:nth-child(2) { background: var(--yellow); }
-        .traffic-lights span:nth-child(3) { background: var(--green); }
-
-        .result-title {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--white);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .copy-btn {
-            padding: 8px 18px;
-            background: var(--yellow);
-            color: var(--black);
-            border: 2px solid var(--yellow);
-            font-family: 'DM Sans', sans-serif;
-            font-size: 13px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.1s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .copy-btn:hover {
-            background: var(--white);
-            border-color: var(--white);
-        }
-
-        .copy-btn:active {
-            transform: scale(0.97);
-        }
-
-        .copy-btn.copied {
-            background: var(--green);
-            border-color: var(--green);
-            color: var(--black);
-        }
-
-        /* LINE NUMBERS + CODE */
-        .code-wrapper {
-            display: flex;
-            max-height: 520px;
-            overflow: auto;
-            background: #111;
-        }
-
-        .line-numbers {
-            padding: 20px 12px;
-            background: #1a1a1a;
-            border-right: 2px solid #333;
-            color: #555;
-            font-family: 'Space Mono', monospace;
-            font-size: 13px;
-            line-height: 1.65;
-            text-align: right;
-            user-select: none;
-            min-width: 48px;
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .source-code-display {
-            padding: 20px;
-            flex: 1;
-            color: #cdd6f4;
-            font-family: 'Space Mono', monospace;
-            font-size: 13px;
-            line-height: 1.65;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-
-        .source-code-display .tag { color: #89b4fa; }
-        .source-code-display .attribute { color: #cba6f7; }
-        .source-code-display .string { color: #a6e3a1; }
-        .source-code-display .comment { color: #585b70; font-style: italic; }
-        .source-code-display .doctype { color: #fab387; }
-
-        /* FOOTER */
-        .footer {
-            text-align: center;
-            margin-top: 24px;
-            font-family: 'Space Mono', monospace;
-            font-size: 0.7rem;
-            font-weight: 700;
-            color: rgba(10,10,10,0.4);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* SCROLLBAR */
-        .code-wrapper::-webkit-scrollbar { width: 8px; height: 8px; }
-        .code-wrapper::-webkit-scrollbar-track { background: #1a1a1a; }
-        .code-wrapper::-webkit-scrollbar-thumb { background: #444; border: 2px solid #1a1a1a; }
-        .code-wrapper::-webkit-scrollbar-thumb:hover { background: var(--yellow); }
-
-        @media (max-width: 640px) {
-            .header { padding: 22px; }
-            .header-text h1 { font-size: 2.5rem; }
-            .header-badge { display: none; }
-            .input-group { flex-direction: column; }
-            .button-group { width: 100%; }
-            .generate-btn, .clear-btn { flex: 1; justify-content: center; }
-        }
-    </style>
+    @media (max-width: 768px) {
+      .stations-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+      .player-controls { flex-direction: column; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-
-        <div class="header">
-            <div class="header-icon">🔍</div>
-            <div class="header-text">
-                <h1>Source Code Viewer</h1>
-                <p>Lihat dan salin source code mana-mana website dengan mudah</p>
-            </div>
-            <div class="header-badge">v1.0.0</div>
-        </div>
-
-        <div class="input-section">
-            <span class="input-label">▶ Masukkan URL Website</span>
-            <div class="input-group">
-                <input type="url"
-                       class="input-field"
-                       id="urlInput"
-                       placeholder="https://example.com">
-                <div class="button-group">
-                    <button class="generate-btn" id="generateBtn">
-                        ⚡ Generate
-                    </button>
-                    <button class="clear-btn" id="clearBtn">
-                        ✕ Clear
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <div class="loading" id="loading">
-            <div class="loading-bar-container">
-                <div class="loading-bar"></div>
-            </div>
-            <p>Mendapatkan source code...</p>
-        </div>
-
-        <div class="error-message" id="errorMessage">
-            <strong>⚠ Ralat!</strong> — <span id="errorText">Tidak dapat mendapatkan source code. Sila pastikan URL sah dan cuba lagi.</span>
-        </div>
-
-        <div class="result-section" id="resultSection">
-            <div class="result-header">
-                <div class="result-header-left">
-                    <div class="traffic-lights">
-                        <span></span><span></span><span></span>
-                    </div>
-                    <span class="result-title">📄 Source Code</span>
-                </div>
-                <button class="copy-btn" id="copyBtn">
-                    📋 Copy Code
-                </button>
-            </div>
-            <div class="code-wrapper">
-                <div class="line-numbers" id="lineNumbers"></div>
-                <div class="source-code-display" id="sourceCodeDisplay"></div>
-            </div>
-        </div>
-
-        <div class="footer">Built with Neubrutalism · Source Code Viewer</div>
+  <div class="container">
+    <div class="header">
+      <h1><i class="fas fa-radio"></i>Radio Malaysia</h1>
+      <p>Strim Langsung – Senarai Terkini</p>
     </div>
 
-    <script>
-        function formatHTML(html) {
-            let escaped = html
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;');
+    <div class="player-section">
+      <div class="player-controls">
+        <button class="play-btn" id="playBtn">
+          <span id="playIcon"><i class="fas fa-play"></i></span>
+          <span id="btnText">Main</span>
+        </button>
+        <div class="current-station" id="currentStation">
+          <span id="stationName">Pilih Stesen Radio</span>
+          <div class="visualizer" id="visualizer"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+        </div>
+        <div class="volume-control">
+          <span><i class="fas fa-volume-up"></i></span>
+          <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.1" value="0.7">
+        </div>
+      </div>
 
-            // Doctype
-            escaped = escaped.replace(/(&lt;!DOCTYPE.*?&gt;)/gi,
-                '<span class="doctype">$1</span>');
+      <div class="additional-controls">
+        <div class="sleep-timer-container">
+          <button class="control-btn" id="sleepTimerBtn"><i class="fas fa-bed"></i><span id="sleepTimerText">Pemasa Tidur</span></button>
+          <div class="sleep-timer-dropdown" id="sleepTimerDropdown">
+            <div class="timer-options">
+              <div class="timer-option" data-minutes="15">15 Minit</div>
+              <div class="timer-option" data-minutes="30">30 Minit</div>
+              <div class="timer-option" data-minutes="45">45 Minit</div>
+              <div class="timer-option" data-minutes="60">1 Jam</div>
+              <div class="timer-option" data-minutes="90">1.5 Jam</div>
+              <div class="timer-option" data-minutes="120">2 Jam</div>
+              <div class="custom-timer-input">
+                <h4>Masa Custom</h4>
+                <div class="custom-time-controls">
+                  <button class="time-btn" id="decreaseMinutes"><i class="fas fa-minus"></i></button>
+                  <input type="number" class="custom-time-input" id="customMinutes" min="1" max="300" value="30">
+                  <span class="time-unit">minit</span>
+                  <button class="time-btn" id="increaseMinutes"><i class="fas fa-plus"></i></button>
+                </div>
+                <button class="set-custom-timer" id="setCustomTimer">Set Masa</button>
+              </div>
+              <div class="timer-option" id="cancelTimer">Batal Pemasa</div>
+            </div>
+            <div class="timer-display" id="timerDisplay"></div>
+          </div>
+        </div>
+        <button class="control-btn" id="favoritesBtn"><i class="fas fa-heart"></i><span id="favoritesText">Kegemaran</span></button>
+      </div>
+      <div class="error-message" id="errorMessage"></div>
+    </div>
 
-            // Comments
-            escaped = escaped.replace(/(&lt;!--[\s\S]*?--&gt;)/g,
-                '<span class="comment">$1</span>');
+    <div class="tabs">
+      <button class="tab active" id="allStationsTab">Semua Stesen</button>
+      <button class="tab" id="favoritesTab">Kegemaran</button>
+    </div>
+    <div class="search-section">
+      <div class="search-container">
+        <input type="text" class="search-input" id="searchInput" placeholder="Cari stesen radio...">
+        <div class="search-icon"><i class="fas fa-search"></i></div>
+      </div>
+    </div>
+    <div class="stations-grid" id="stationsGrid"></div>
+  </div>
+  <div class="loading" id="loading"><i class="fas fa-spinner fa-spin"></i> Memuatkan...</div>
+  <audio id="audioPlayer" style="display: none;"></audio>
 
-            // Tags with attributes
-            escaped = escaped.replace(/&lt;(\/?)([\w\-]+)((?:\s+[\s\S]*?)?)\s*(\/?)?&gt;/g,
-                function(match, slash, tag, attrs, selfClose) {
-                    let formatted = '&lt;' + slash + '<span class="tag">' + tag + '</span>';
-                    if (attrs) {
-                        formatted += attrs.replace(/(\s+)([\w\-:]+)(=)(&quot;[^&]*&quot;)/g,
-                            '$1<span class="attribute">$2</span>$3<span class="string">$4</span>');
-                    }
-                    if (selfClose) formatted += selfClose;
-                    formatted += '&gt;';
-                    return formatted;
-                });
+  <script>
+    (function() {
+      // ==================== SENARAI RADIO (DIKEMASKINI) ====================
+      const stations = [
+        { name: 'Johor FM', url: 'https://14943.live.streamtheworld.com:443/JOHOR_FMAAC_SC', type: 'aac' },
+        { name: 'Era', url: 'https://n13.rcs.revma.com/crec9cmbv4uvv/13_b3tkiac680b302/playlist.m3u8', type: 'm3u8' },
+        { name: 'Era FM Sarawak', url: 'https://stream-eu-a.rcs.revma.com/bkqfqkrbv4uvv/68_p7vhxushjqmj02/playlist.m3u8', type: 'm3u8' },
+        { name: 'Era FM Sabah', url: 'https://stream-eu-a.rcs.revma.com/4p3nqmmbv4uvv/18_1oxzafird6r4w02/playlist.m3u8', type: 'm3u8' },
+        { name: 'Hot FM', url: 'https://n09.rcs.revma.com/drakdf8mtd3vv/9_15wt5oojtyqo002/playlist.m3u8', type: 'm3u8' },
+        { name: 'Sinar', url: 'https://n01.rcs.revma.com/azatk0tbv4uvv/1_11a5yc3kn9ion02/playlist.m3u8', type: 'm3u8' },
+        { name: 'Gegar', url: 'https://n04.rcs.revma.com/cn0zcqsbv4uvv/4_1l8b0uuius0ad02/playlist.m3u8', type: 'm3u8' },
+        { name: 'Suria FM', url: 'https://22243.live.streamtheworld.com:443/SURIA_FM.mp3', type: 'mp3' },
+        { name: 'Asyik FM', url: 'https://22273.live.streamtheworld.com:443/ASYIK_FMAAC_SC', type: 'aac' },
+        { name: 'Zayan', url: 'https://n40a-eu.rcs.revma.com/7ww2a4tbv4uvv/64_2yvaj6nnb69x02/playlist.m3u8', type: 'm3u8' },
+        { name: 'Ikim FM', url: 'https://ais-sa8.cdnstream1.com/5035', type: 'mp3' },
+        { name: 'Hitz FM', url: 'https://n14.rcs.revma.com/488kt4sbv4uvv/14_u3tcp2wu9q1l02/playlist.m3u8', type: 'm3u8' },
+        { name: 'Fly FM', url: 'https://n16.rcs.revma.com/q17aka9mtd3vv/16_bsg38prd9vlj02/playlist.m3u8', type: 'm3u8' },
+        { name: 'Mix FM', url: 'https://n06.rcs.revma.com/v5pq3htbv4uvv/6_18aiu7hejxpf402/playlist.m3u8', type: 'm3u8' },
+        { name: 'Lite FM', url: 'https://stream.rcs.revma.com/2483gbtbv4uvv/hls.m3u8', type: 'm3u8' },
+        { name: 'My FM', url: 'https://n08.rcs.revma.com/hc3unrtbv4uvv/8_1xcfbljp5h4kh02/playlist.m3u8', type: 'm3u8' },
+        { name: 'Eight FM', url: 'https://n08.rcs.revma.com/qp0xrd9mtd3vv/8_18nbo6343bsv702/playlist.m3u8', type: 'm3u8' },
+        { name: '988 FM', url: 'https://22243.live.streamtheworld.com:443/988_FM.mp3', type: 'mp3' },
+        { name: 'Ai FM', url: 'https://22283.live.streamtheworld.com:443/AI_FMAAC_SC', type: 'aac' },
+        { name: 'Melody FM', url: 'https://n05.rcs.revma.com/2u1n6dtbv4uvv/5_bl5fx9vxqa7002/playlist.m3u8', type: 'm3u8' },
+        { name: 'Raaga FM', url: 'https://n06.rcs.revma.com/1ut6qwtbv4uvv/6_1grktyf0p5qpr02/playlist.m3u8', type: 'm3u8' },
+        { name: 'Minnal FM', url: 'https://22283.live.streamtheworld.com:443/MINNAL_FMAAC_SC', type: 'aac' },
+        { name: 'Best FM', url: 'https://n16.rcs.revma.com/h34x4kgg9hhvv/16_uf5os5tk9j3302/playlist.m3u8', type: 'm3u8' },
+        { name: 'Kool 101', url: 'https://n08.rcs.revma.com/3930238mtd3vv/8_2whawsg3fhmw02/playlist.m3u8', type: 'm3u8' },
+        { name: 'Traxx FM', url: 'https://22273.live.streamtheworld.com:443/TRAXX_FMAAC_SC', type: 'aac' },
+        { name: 'Manis FM', url: 'https://n04.rcs.revma.com/nzgauqq1v7zuv?rj-ttl=5&rj-tok=AAABk0iQHXoAHiTOyor8YOoWlA', type: 'mp3' },
+        { name: 'Molek FM', url: 'https://n09.rcs.revma.com/z56xa78mtd3vv/9_13apqo12zyyxc02/playlist.m3u8', type: 'm3u8' },
+        { name: 'Klasik FM', url: 'https://22253.live.streamtheworld.com:443/RADIO_KLASIKAAC.aac', type: 'aac' },
+        { name: 'Nasional FM', url: 'https://22253.live.streamtheworld.com:443/NASIONAL_FMAAC_SC', type: 'aac' },
+        { name: 'Kelantan FM', url: 'https://22253.live.streamtheworld.com/KELANTAN_FMAAC.aac', type: 'aac' },
+        { name: 'Terengganu FM', url: 'https://22243.live.streamtheworld.com:443/TERENGGANU_FMAAC_SC', type: 'aac' },
+        { name: 'Pahang FM', url: 'https://22253.live.streamtheworld.com:443/PAHANG_FMAAC.aac', type: 'aac' },
+        { name: 'Kedah FM', url: 'https://22283.live.streamtheworld.com:443/KEDAH_FMAAC_SC', type: 'aac' },
+        { name: 'Perak FM', url: 'https://22253.live.streamtheworld.com:443/PERAK_FMAAC.aac', type: 'aac' },
+        { name: 'KL FM', url: 'https://22273.live.streamtheworld.com:443/KL_FMAAC_SC', type: 'aac' },
+        { name: 'Selangor FM', url: 'https://22273.live.streamtheworld.com:443/SELANGOR_FMAAC_SC', type: 'aac' },
+        { name: 'Negeri FM', url: 'https://22283.live.streamtheworld.com:443/NEGERI_FMAAC_SC', type: 'aac' },
+        { name: 'Melaka FM', url: 'https://22243.live.streamtheworld.com:443/MELAKA_FMAAC_SC', type: 'aac' },
+        { name: 'Sabah FM', url: 'https://22253.live.streamtheworld.com:443/SABAH_FMAAC.aac', type: 'aac' },
+        { name: 'Sabah VFM', url: 'https://22253.live.streamtheworld.com:443/SABAH_VFMAAC.aac', type: 'aac' },
+        { name: 'Sarawak FM', url: 'https://22273.live.streamtheworld.com:443/SARAWAK_FMAAC.aac', type: 'aac' },
+        { name: 'BFM', url: 'https://n15.rcs.revma.com/s91qy9p0zs3vv.acc', type: 'aac' },
+        { name: 'Awani FM', url: 'https://d2idp3hzkhjpih.cloudfront.net/out/v1/4b85d9c2bf97413eb0c9fd875599b837/index_3.m3u8', type: 'm3u8' },
+        { name: 'Wai FM iban', url: 'https://22283.live.streamtheworld.com:443/WAI_FM_IBANAAC.aac', type: 'aac' },
+        { name: 'GoXuan', url: 'https://n07a-eu.rcs.revma.com/xt9nhzsbv4uvv/7_1kpxic2j08fx102/playlist.m3u8?rj-ttl=5&rj-tok=AAABk0ivpMMAofdsXSo_Xm0zMQ', type: 'm3u8' },
+        { name: 'Sinar FM Rock Kapak', url: 'https://n26a-eu.rcs.revma.com/rz43weh811uvv/38_lwj92qdqradk02/main/173487890.aac', type: 'aac' },
+        { name: 'Cats FM', url: 'https://n05.rcs.revma.com/51qe53rv0y3vv.m4a', type: 'm4a' },
+        { name: 'Bapakku FM', url: 'https://servidor30-2.brlogic.com:7048/live', type: 'mp3' },
+        { name: 'Mutiara FM', url: 'https://22243.live.streamtheworld.com/MUTIARA_FMAAC_SC', type: 'aac' },
+        { name: 'Bernama Radio', url: 'https://live.mana2.my/BernamaRadio/index.m3u8?auth_key=1751701131-4651f03a95c347a98d018eeb31d1a8c3-0-d6865f5c9af42ffbfbc04475ecb3266d', type: 'm3u8' },
+        { name: 'Sandakan FM', url: 'https://22273.live.streamtheworld.com/SANDAKAN_FMAAC_SC', type: 'aac' },
+        { name: 'Perlis FM', url: 'https://22243.live.streamtheworld.com/PERLIS_FMAAC_SC', type: 'aac' },
+        { name: 'Kupi Kupi FM', url: 'https://n05.rcs.revma.com/axht8yawe1bwv?rj-ttl=5&rj-tok=AAABl9iJ47QAYuY0lBhb6a0OXw', type: 'mp3' },
+        { name: 'Jei FM', url: 'https://usa3.fastcast4u.com/proxy/jeifm?mp=/stream/1/', type: 'mp3' },
+        { name: 'Radio Amboi FM (Kuala Lumpur)', url: 'http://amboifm.iradio.work:8000/stream', type: 'mp3' },
+        { name: 'Labuan FM', url: 'https://22243.live.streamtheworld.com/LABUAN_FMAAC_SC', type: 'aac' },
+        { name: 'Rakita FM', url: 'https://22243.live.streamtheworld.com:443/RAKITAAAC_SC', type: 'aac' },
+        { name: 'Osai FM', url: 'https://stream-eu-a.rcs.revma.com/60s783vbv4uvv/22_vi0k2u9iyuoj02/playlist.m3u8', type: 'm3u8' },
+        { name: 'Oli 96.8', url: 'https://22393.live.streamtheworld.com/OLI968FMAAC.aac', type: 'aac' },
+        { name: 'Tawau FM', url: 'https://22253.live.streamtheworld.com/TAWAU_FMAAC.aac', type: 'aac' },
+        { name: 'Kristal FM', url: 'https://play.thestreamtech.com:7038/index.html', type: 'mp3' },
+        { name: 'Buletin FM', url: 'https://stream.rcs.revma.com/3930238mtd3vv/hls.m3u8', type: 'm3u8' },
+        { name: 'Love 972', url: 'https://28453.live.streamtheworld.com/LOVE972FM_PREM.aac', type: 'aac' },
+        { name: 'India Beat FM', url: 'https://stream-eu-a.rcs.revma.com/hrcdg9ubv4uvv/32_l87jk9e4xju502/playlist.m3u8', type: 'm3u8' },
+        { name: 'Classic Rock FM', url: 'https://stream-eu-a.rcs.revma.com/fk3507vbv4uvv/21_123cdbkwmeooj02/playlist.m3u8', type: 'm3u8' },
+        { name: '987 FM', url: 'https://28443.live.streamtheworld.com/987FM_PREM.aac', type: 'aac' },
+        { name: 'YES 933', url: 'https://28313.live.streamtheworld.com/YES933_PREM.aac', type: 'aac' },
+        { name: 'Red FM (Kuching)', url: 'https://22273.live.streamtheworld.com/RED_FMAAC.aac', type: 'aac' },
+        { name: '883 FM', url: 'https://22283.live.streamtheworld.com/883JIA.mp3', type: 'mp3' },
+        { name: 'Gold FM', url: 'https://stream-eu-a.rcs.revma.com/fxq2n9tbv4uvv/32_t9ako5786llk02/playlist.m3u8', type: 'm3u8' },
+        { name: 'UFM 100.3', url: 'https://22283.live.streamtheworld.com/UFM_1003AAC.aac', type: 'aac' },
+        { name: 'Kenyalang FM', url: 'https://stream-eu-a.rcs.revma.com/qyg9zmvbv4uvv/52_15nleuhxrs9mr02/playlist.m3u8', type: 'm3u8' },
+        { name: 'Langkawi FM', url: 'https://22273.live.streamtheworld.com/LANGKAWI_FMAAC.aac', type: 'aac' },
+        { name: 'Bayu FM', url: 'https://stream-eu-a.rcs.revma.com/ywpe7mqb54uvv/6_glpo8niyqr7e02/playlist.m3u8', type: 'm3u8' },
+        { name: 'MyFriends FM', url: 'https://cast3.asurahosting.com/proxy/myfriend/stream', type: 'mp3' },
+        { name: 'RADIOROSAK', url: 'https://radiorosak.radioca.st/stream', type: 'mp3' },
+        { name: 'Jazz FM', url: 'https://stream-eu-a.rcs.revma.com/c718dfvbv4uvv/54_7d1x7i1isy7w02/playlist.m3u8', type: 'm3u8' },
+        { name: 'Jazz Lounge FM', url: 'https://eu8.fastcast4u.com/proxy/lch?mp=/1', type: 'mp3' },
+        { name: 'Opus FM', url: 'https://stream-eu-a.rcs.revma.com/aqvp4yvbv4uvv/51_xbchzd3wxcmv02/playlist.m3u8', type: 'm3u8' },
+        { name: 'Pilihan FM', url: 'https://d2kziuzkf9oizb.cloudfront.net/rd003/playlist.m3u8', type: 'm3u8' },
+        { name: 'MyKampus FM', url: 'https://usa10.fastcast4u.com/voicespl', type: 'mp3' }
+      ];
 
-            return escaped;
+      // --- DOM elements ---
+      const audio = document.getElementById('audioPlayer');
+      const playBtn = document.getElementById('playBtn');
+      const playIcon = document.getElementById('playIcon');
+      const btnText = document.getElementById('btnText');
+      const stationNameSpan = document.getElementById('stationName');
+      const currentStationDiv = document.getElementById('currentStation');
+      const visualizer = document.getElementById('visualizer');
+      const volumeSlider = document.getElementById('volumeSlider');
+      const searchInput = document.getElementById('searchInput');
+      const stationsGrid = document.getElementById('stationsGrid');
+      const loading = document.getElementById('loading');
+      const errorMsg = document.getElementById('errorMessage');
+      const allTab = document.getElementById('allStationsTab');
+      const favTab = document.getElementById('favoritesTab');
+      const favoritesBtn = document.getElementById('favoritesBtn');
+      const favoritesText = document.getElementById('favoritesText');
+      const sleepTimerBtn = document.getElementById('sleepTimerBtn');
+      const sleepTimerDropdown = document.getElementById('sleepTimerDropdown');
+      const sleepTimerText = document.getElementById('sleepTimerText');
+      const timerDisplay = document.getElementById('timerDisplay');
+      const cancelTimerOpt = document.getElementById('cancelTimer');
+      const customMinutes = document.getElementById('customMinutes');
+      const increaseBtn = document.getElementById('increaseMinutes');
+      const decreaseBtn = document.getElementById('decreaseMinutes');
+      const setCustomBtn = document.getElementById('setCustomTimer');
+
+      // state
+      let currentStation = null;
+      let hls = null;
+      let favorites = new Set();
+      let isShowingFavorites = false;
+      let sleepInterval = null;
+      let remainingSeconds = 0;
+
+      // load favorites
+      try {
+        const saved = localStorage.getItem('radioFav');
+        if (saved) favorites = new Set(JSON.parse(saved));
+      } catch (e) {}
+
+      function saveFav() {
+        localStorage.setItem('radioFav', JSON.stringify([...favorites]));
+      }
+
+      // Fungsi notifikasi yang konsisten
+      function showNotification(message) {
+        // Buang notifikasi sedia ada
+        document.querySelectorAll('.notification').forEach(el => el.remove());
+        
+        const notif = document.createElement('div');
+        notif.className = 'notification';
+        notif.innerText = message;
+        document.body.appendChild(notif);
+        
+        setTimeout(() => {
+          if (notif.parentNode) notif.remove();
+        }, 2500);
+      }
+
+      // render
+      function renderStations(list) {
+        stationsGrid.innerHTML = list.map(s => {
+          const isFav = favorites.has(s.name);
+          return `<div class="station-card" data-name="${s.name}">
+            <button class="favorite-btn ${isFav ? 'active' : ''}" data-name="${s.name}"><i class="fas fa-heart"></i></button>
+            ${s.name}
+          </div>`;
+        }).join('');
+        document.querySelectorAll('.station-card').forEach(card => {
+          card.addEventListener('click', (e) => {
+            if (e.target.closest('.favorite-btn')) return;
+            const name = card.dataset.name;
+            const station = stations.find(s => s.name === name);
+            if (station) playStation(station);
+          });
+        });
+        document.querySelectorAll('.favorite-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const name = btn.dataset.name;
+            if (favorites.has(name)) favorites.delete(name);
+            else favorites.add(name);
+            saveFav();
+            btn.classList.toggle('active');
+            if (isShowingFavorites) renderStations(getFavList());
+            else renderStations(stations.filter(s => s.name.toLowerCase().includes(searchInput.value.toLowerCase())));
+            showNotification(favorites.has(name) ? 'Ditambah ke kegemaran' : 'Dialih keluar dari kegemaran');
+          });
+        });
+      }
+
+      function getFavList() {
+        return stations.filter(s => favorites.has(s.name));
+      }
+
+      function filterBySearch() {
+        const term = searchInput.value.toLowerCase();
+        const source = isShowingFavorites ? getFavList() : stations;
+        return source.filter(s => s.name.toLowerCase().includes(term));
+      }
+
+      function playStation(station) {
+        if (!station) return;
+        if (hls) { hls.destroy(); hls = null; }
+        audio.pause();
+        currentStation = station;
+        stationNameSpan.innerText = station.name;
+        currentStationDiv.classList.add('playing');
+        document.querySelectorAll('.station-card').forEach(c => c.classList.remove('active'));
+        const activeCard = document.querySelector(`.station-card[data-name="${station.name}"]`);
+        if (activeCard) activeCard.classList.add('active');
+
+        loading.style.display = 'block';
+        errorMsg.style.display = 'none';
+
+        const playStream = () => {
+          audio.play().then(() => {
+            loading.style.display = 'none';
+            updatePlayState(true);
+            showNotification(`Memainkan: ${station.name}`); // Notifikasi stesen dimainkan
+          }).catch(err => {
+            console.warn(err);
+            loading.style.display = 'none';
+            errorMsg.style.display = 'block';
+            errorMsg.innerText = 'Ralat main balik. Sila cuba stesen lain.';
+            updatePlayState(false);
+          });
+        };
+
+        if (station.type === 'm3u8' && Hls.isSupported()) {
+          hls = new Hls();
+          hls.loadSource(station.url);
+          hls.attachMedia(audio);
+          hls.on(Hls.Events.MANIFEST_PARSED, playStream);
+          hls.on(Hls.Events.ERROR, (ev, data) => {
+            console.error('HLS error', data);
+            errorMsg.style.display = 'block';
+            errorMsg.innerText = 'Gagal memuat strim HLS.';
+            loading.style.display = 'none';
+          });
+        } else {
+          audio.src = station.url;
+          playStream();
         }
+      }
 
-        function generateLineNumbers(code) {
-            const lines = code.split('\n').length;
-            let nums = '';
-            for (let i = 1; i <= lines; i++) {
-                nums += '<div>' + i + '</div>';
-            }
-            return nums;
+      function updatePlayState(playing) {
+        if (playing) {
+          playIcon.innerHTML = '<i class="fas fa-pause"></i>';
+          btnText.innerText = 'Jeda';
+          visualizer.classList.add('active');
+        } else {
+          playIcon.innerHTML = '<i class="fas fa-play"></i>';
+          btnText.innerText = 'Main';
+          visualizer.classList.remove('active');
         }
+      }
 
-        async function fetchSourceCode(url) {
-            if (!url.startsWith('http://') && !url.startsWith('https://')) {
-                url = 'https://' + url;
-            }
-            new URL(url);
-
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('resultSection').style.display = 'none';
-            document.getElementById('errorMessage').style.display = 'none';
-
-            try {
-                const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(url);
-                const response = await fetch(proxyUrl);
-                const data = await response.json();
-                if (data.contents) return data.contents;
-                throw new Error('No content received');
-            } finally {
-                document.getElementById('loading').style.display = 'none';
-            }
+      // toggle play
+      playBtn.addEventListener('click', () => {
+        if (!currentStation) { 
+          showNotification('Sila pilih stesen dahulu'); 
+          return; 
         }
+        if (audio.paused) {
+          audio.play().then(() => {
+            updatePlayState(true);
+            showNotification('Radio dimainkan'); // NOTIF DIMAINKAN
+          }).catch(e => showNotification('Ralat main'));
+        } else {
+          audio.pause();
+          updatePlayState(false);
+          showNotification('Radio dijeda'); // NOTIF DIJEDA
+        }
+      });
 
-        document.getElementById('generateBtn').addEventListener('click', async function () {
-            const url = document.getElementById('urlInput').value.trim();
-            if (!url) { alert('Sila masukkan URL website'); return; }
+      volumeSlider.addEventListener('input', () => { audio.volume = volumeSlider.value; });
 
-            try {
-                const sourceCode = await fetchSourceCode(url);
-                document.getElementById('sourceCodeDisplay').innerHTML = formatHTML(sourceCode);
-                document.getElementById('sourceCodeDisplay').setAttribute('data-plain', sourceCode);
-                document.getElementById('lineNumbers').innerHTML = generateLineNumbers(sourceCode);
-                document.getElementById('resultSection').style.display = 'block';
-            } catch (e) {
-                document.getElementById('errorText').textContent = 'Tidak dapat mendapatkan source code. Sila pastikan URL sah dan cuba lagi.';
-                document.getElementById('errorMessage').style.display = 'block';
-                document.getElementById('resultSection').style.display = 'none';
-            }
-        });
+      // search
+      searchInput.addEventListener('input', () => { renderStations(filterBySearch()); });
 
-        document.getElementById('clearBtn').addEventListener('click', function () {
-            document.getElementById('urlInput').value = '';
-            document.getElementById('urlInput').focus();
-            document.getElementById('resultSection').style.display = 'none';
-            document.getElementById('errorMessage').style.display = 'none';
-        });
+      // tabs
+      allTab.addEventListener('click', () => {
+        allTab.classList.add('active');
+        favTab.classList.remove('active');
+        isShowingFavorites = false;
+        favoritesText.innerText = 'Kegemaran';
+        favoritesBtn.classList.remove('active');
+        renderStations(filterBySearch());
+      });
+      favTab.addEventListener('click', () => {
+        favTab.classList.add('active');
+        allTab.classList.remove('active');
+        isShowingFavorites = true;
+        favoritesText.innerText = 'Semua Stesen';
+        favoritesBtn.classList.add('active');
+        renderStations(filterBySearch());
+      });
+      favoritesBtn.addEventListener('click', () => {
+        if (isShowingFavorites) allTab.click();
+        else favTab.click();
+      });
 
-        document.getElementById('copyBtn').addEventListener('click', async function () {
-            const sourceCode = document.getElementById('sourceCodeDisplay').getAttribute('data-plain');
-            if (!sourceCode) return;
-            try {
-                await navigator.clipboard.writeText(sourceCode);
-                const btn = document.getElementById('copyBtn');
-                const orig = btn.innerHTML;
-                btn.innerHTML = '✅ Copied!';
-                btn.classList.add('copied');
-                setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('copied'); }, 2000);
-            } catch (e) {
-                alert('Gagal menyalin code. Sila cuba manually.');
-            }
-        });
+      // sleep timer dropdown
+      sleepTimerBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        sleepTimerDropdown.classList.toggle('active');
+      });
+      document.addEventListener('click', (e) => {
+        if (!sleepTimerBtn.contains(e.target) && !sleepTimerDropdown.contains(e.target)) {
+          sleepTimerDropdown.classList.remove('active');
+        }
+      });
 
-        document.getElementById('urlInput').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') document.getElementById('generateBtn').click();
-        });
+      function setTimer(minutes) {
+        if (sleepInterval) clearInterval(sleepInterval);
+        remainingSeconds = minutes * 60;
+        sleepTimerText.innerText = `${minutes} Minit`;
+        timerDisplay.classList.add('active');
+        updateTimerDisplay();
+        sleepInterval = setInterval(() => {
+          remainingSeconds--;
+          if (remainingSeconds <= 0) {
+            clearInterval(sleepInterval);
+            audio.pause();
+            updatePlayState(false);
+            timerDisplay.classList.remove('active');
+            sleepTimerText.innerText = 'Pemasa Tidur';
+            showNotification('⏰ Pemasa tamat, radio berhenti');
+          } else updateTimerDisplay();
+        }, 1000);
+        sleepTimerDropdown.classList.remove('active');
+        showNotification(`⏰ Pemasa tidur: ${minutes} minit`);
+      }
 
-        document.getElementById('urlInput').addEventListener('keydown', function (e) {
-            if (e.key === 'Escape') {
-                document.getElementById('urlInput').value = '';
-                document.getElementById('urlInput').focus();
-            }
-        });
-    </script>
+      function updateTimerDisplay() {
+        if (remainingSeconds > 0) {
+          const m = Math.floor(remainingSeconds / 60);
+          const s = remainingSeconds % 60;
+          timerDisplay.innerText = `⏰ ${m}:${s.toString().padStart(2,'0')}`;
+        }
+      }
+
+      document.querySelectorAll('.timer-option[data-minutes]').forEach(opt => {
+        opt.addEventListener('click', () => setTimer(parseInt(opt.dataset.minutes)));
+      });
+      cancelTimerOpt.addEventListener('click', () => {
+        if (sleepInterval) clearInterval(sleepInterval);
+        sleepTimerText.innerText = 'Pemasa Tidur';
+        timerDisplay.classList.remove('active');
+        sleepInterval = null;
+        sleepTimerDropdown.classList.remove('active');
+        showNotification('⏰ Pemasa tidur dibatalkan');
+      });
+      increaseBtn.addEventListener('click', () => { customMinutes.value = Math.min(300, parseInt(customMinutes.value)+1); });
+      decreaseBtn.addEventListener('click', () => { customMinutes.value = Math.max(1, parseInt(customMinutes.value)-1); });
+      setCustomBtn.addEventListener('click', () => {
+        let mins = parseInt(customMinutes.value);
+        if (isNaN(mins) || mins<1) mins=1;
+        setTimer(mins);
+      });
+
+      // initial render
+      renderStations(stations);
+      audio.volume = 0.7;
+    })();
+  </script>
 </body>
 </html>
