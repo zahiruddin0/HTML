@@ -1,680 +1,511 @@
 <!DOCTYPE html>
 <html lang="ms">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Radio Malaysia · strim langsung</title>
-  <!-- HLS.js for m3u8 streams -->
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-  <!-- Fonts & Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    /* ===== PURE DARK MODE – HITAM PUTIH ===== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MILLAGE • NEUBRUTALISM</title>
+    <style>
+        /* neubrutalism reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-      background: #000000;
-      font-family: 'Poppins', sans-serif;
-      min-height: 100vh;
-      color: #ffffff;
-      padding: 20px;
-      background-image: radial-gradient(circle at 10% 20%, rgba(255,255,255,0.03) 0%, transparent 20%),
-                      radial-gradient(circle at 90% 80%, rgba(255,255,255,0.03) 0%, transparent 20%);
-    }
+        body {
+            background: #f0f0f0;
+            background-image: repeating-linear-gradient(45deg, #e0e0e0 0px, #e0e0e0 2px, #f5f5f5 2px, #f5f5f5 8px);
+            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1.5rem;
+            color: #1a1a1a;
+        }
 
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      background: #000000;
-      border-radius: 15px;
-      border: 1px solid #333333;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.05);
-      overflow: hidden;
-    }
+        .brutal-container {
+            max-width: 700px;
+            width: 100%;
+            background: #ffffff;
+            border: 4px solid #000000;
+            box-shadow: 12px 12px 0px #000000;
+            padding: 2rem 2rem 2.2rem;
+            transition: 0.1s ease;
+        }
 
-    .header {
-      background: linear-gradient(135deg, #111111, #222222);
-      color: white;
-      padding: 30px;
-      text-align: center;
-      border-bottom: 1px solid #333;
-      position: relative;
-    }
-    .header::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, #ffffff, transparent);
-    }
-    .header h1 {
-      font-size: 2.2rem;
-      font-weight: 700;
-      color: #ffffff;
-    }
-    .header h1 i { margin-right: 10px; }
-    .header p { color: #cccccc; margin-top: 5px; }
+        .brutal-container:hover {
+            box-shadow: 16px 16px 0px #000000;
+            transform: translate(-2px, -2px);
+        }
 
-    .player-section {
-      padding: 20px;
-      background: #1a1a1a;
-      border-bottom: 1px solid #333;
-    }
+        .main-head {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            background: #ffff00;
+            border: 3px solid black;
+            padding: 0.2rem 1.5rem 0.2rem 1.5rem;
+            display: inline-block;
+            margin-bottom: 2rem;
+            box-shadow: 6px 6px 0 #000000;
+            color: #000;
+        }
 
-    .player-controls {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-bottom: 15px;
-    }
+        /* SENARAI MILLAGE — MENGIKUT URUTAN BARU */
+        .millage-tower {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-bottom: 2.5rem;
+            border: 3px solid black;
+            padding: 1.8rem 1.5rem;
+            background: #faffc7;
+            box-shadow: 8px 8px 0 #000;
+        }
 
-    .additional-controls {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      flex-wrap: wrap;
-      margin-top: 15px;
-    }
+        .oil-block {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #ffffff;
+            border: 3px solid black;
+            padding: 0.9rem 1.2rem 0.9rem 2rem;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 6px 6px 0 #000;
+            transition: 0.1s;
+        }
 
-    .control-btn {
-      background: #111111;
-      border: 2px solid #333;
-      color: #fff;
-      padding: 8px 15px;
-      border-radius: 50px;
-      font-weight: 500;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: 0.2s;
-    }
-    .control-btn:hover { border-color: #fff; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,255,255,0.1); }
-    .control-btn.active { background: #fff; color: #000; border-color: #fff; }
+        .oil-block:hover {
+            background: #d0ffd0;
+            box-shadow: 8px 8px 0 #000;
+            transform: translate(-2px, -2px);
+        }
 
-    .play-btn {
-      background: #ffffff;
-      color: #000000;
-      border: none;
-      padding: 12px 25px;
-      border-radius: 50px;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 4px 15px rgba(255,255,255,0.1);
-      transition: 0.2s;
-    }
-    .play-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(255,255,255,0.2); }
+        .oil-name {
+            text-transform: uppercase;
+            color: #000;
+            font-weight: 800;
+        }
 
-    .current-station {
-      background: #111;
-      border: 2px solid #333;
-      padding: 12px 20px;
-      border-radius: 50px;
-      font-weight: 600;
-      min-width: 200px;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-    .current-station.playing { border-color: #fff; color: #fff; box-shadow: 0 0 15px rgba(255,255,255,0.1); }
+        .oil-dist {
+            background: #ffb2ff;
+            border: 3px solid black;
+            padding: 0.4rem 2rem;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #000;
+            box-shadow: 4px 4px 0 #000;
+            clip-path: polygon(0 0, 100% 0, 92% 100%, 0% 100%);
+        }
 
-    .visualizer { display: none; align-items: center; gap: 3px; margin-left: 8px; }
-    .visualizer.active { display: inline-flex; }
-    .bar { width: 3px; height: 15px; background: #fff; border-radius: 2px; animation: wave 1s infinite ease-in-out; }
-    .bar:nth-child(2) { animation-delay: 0.2s; }
-    .bar:nth-child(3) { animation-delay: 0.4s; }
-    .bar:nth-child(4) { animation-delay: 0.6s; }
-    @keyframes wave { 0%,100%{transform:scaleY(0.3);} 50%{transform:scaleY(1);} }
+        /* ZON NOTA */
+        .nota-brutal {
+            border: 4px solid black;
+            background: #c7f0ff;
+            padding: 2rem 1.8rem;
+            box-shadow: 10px 10px 0 #000;
+            margin-top: 0.5rem;
+        }
 
-    .volume-control {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: #111;
-      padding: 8px 15px;
-      border-radius: 50px;
-      border: 2px solid #333;
-    }
-    .volume-slider { width: 100px; height: 5px; background: #333; border-radius: 5px; -webkit-appearance: none; }
-    .volume-slider::-webkit-slider-thumb {
-      -webkit-appearance: none; width: 16px; height: 16px; background: #fff; border-radius: 50%;
-      border: 2px solid #000; cursor: pointer;
-    }
+        .nota-stamp {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: #ff7b00;
+            color: #000;
+            border: 3px solid black;
+            padding: 0.2rem 2rem;
+            display: inline-block;
+            box-shadow: 6px 6px 0 black;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+        }
 
-    /* sleep timer dropdown */
-    .sleep-timer-container { position: relative; }
-    .sleep-timer-dropdown {
-      position: absolute; top: 100%; left: 0; background: #000; border: 2px solid #333; border-radius: 10px;
-      padding: 15px; width: 280px; z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.8); display: none;
-      margin-top: 5px; backdrop-filter: blur(10px);
-      opacity: 0; transform: scale(0.95) translateY(-10px); transition: 0.3s;
-      pointer-events: none;
-    }
-    .sleep-timer-dropdown.active {
-      display: block; opacity: 1; transform: scale(1) translateY(0); pointer-events: auto;
-    }
-    .timer-options { display: flex; flex-direction: column; gap: 10px; }
-    .timer-option, .custom-timer-input, #cancelTimer {
-      background: #111; border: 1px solid #333; border-radius: 8px; padding: 10px; cursor: pointer;
-      text-align: center; color: #fff; transition: 0.2s;
-    }
-    .timer-option:hover, #cancelTimer:hover { background: #fff; color: #000; border-color: #fff; }
-    .custom-timer-input { cursor: default; }
-    .custom-timer-input h4 { color: #fff; margin-bottom: 8px; }
-    .custom-time-controls { display: flex; gap: 8px; align-items: center; justify-content: center; }
-    .custom-time-input {
-      background: #000; border: 2px solid #333; color: #fff; padding: 8px; border-radius: 8px;
-      width: 70px; text-align: center; font-weight: 600;
-    }
-    .time-btn {
-      background: #111; border: 1px solid #333; color: #fff; width: 35px; height: 35px;
-      border-radius: 50%; cursor: pointer; transition: 0.2s;
-    }
-    .time-btn:hover { background: #fff; color: #000; transform: scale(1.1); }
-    .set-custom-timer {
-      background: #fff; color: #000; border: none; padding: 8px; border-radius: 8px;
-      font-weight: 600; cursor: pointer; margin-top: 8px;
-    }
-    .timer-display {
-      margin-top: 10px; padding: 12px; border-radius: 8px; text-align: center;
-      border: 2px solid #fff; display: none; background: #111; font-weight: 600;
-    }
-    .timer-display.active { display: block; }
+        .oil-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+            margin-bottom: 2rem;
+        }
 
-    /* tabs & search */
-    .tabs { display: flex; justify-content: center; gap: 10px; margin: 0 20px; border-bottom: 1px solid #333; }
-    .tab {
-      padding: 10px 20px; background: none; border: none; color: #ccc; font-weight: 500;
-      cursor: pointer; border-bottom: 3px solid transparent;
-    }
-    .tab.active { color: #fff; border-bottom-color: #fff; }
+        .oil-note-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: white;
+            border: 3px solid black;
+            padding: 0.7rem 1.5rem 0.7rem 1rem;
+            box-shadow: 6px 6px 0 #000;
+            font-weight: 600;
+        }
 
-    .search-section { padding: 20px; background: #000; }
-    .search-container { position: relative; width: 100%; }
-    .search-input {
-      width: 100%; padding: 12px 15px 12px 45px; border: 2px solid #333; border-radius: 10px;
-      background: #0a0a0a; color: #fff; font-size: 1rem;
-    }
-    .search-input:focus { border-color: #fff; outline: none; }
-    .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #ccc; }
+        .oil-badge {
+            background: #00ffff;
+            border: 2px solid black;
+            padding: 0.2rem 1.2rem;
+            font-weight: 800;
+            font-size: 1.3rem;
+            box-shadow: 3px 3px 0 black;
+        }
 
-    .stations-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px;
-      padding: 20px; background: #000; min-height: 300px;
-    }
-    .station-card {
-      background: #111; border: 2px solid #333; border-radius: 10px; padding: 15px 10px;
-      text-align: center; cursor: pointer; font-weight: 500; color: #fff; position: relative;
-      transition: 0.2s;
-    }
-    .station-card:hover { border-color: #fff; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(255,255,255,0.1); }
-    .station-card.active { background: #fff; color: #000; border-color: #fff; }
+        .oil-desc {
+            font-size: 1rem;
+            color: #1a1a1a;
+        }
 
-    .favorite-btn {
-      position: absolute; top: 5px; right: 8px; background: none; border: none; color: #666;
-      font-size: 1.2rem; cursor: pointer; transition: 0.2s; width: 30px; height: 30px;
-      display: flex; align-items: center; justify-content: center; border-radius: 50%;
-    }
-    .favorite-btn:hover { color: #fff; background: rgba(255,255,255,0.1); }
-    .favorite-btn.active { color: #fff; }
+        .dual-panel-neo {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+            margin: 1.8rem 0 0 0;
+        }
 
-    .loading {
-      position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
-      background: #000; padding: 15px 25px; border-radius: 10px; border: 1px solid #333;
-      z-index: 1000; display: none; color: #fff;
-    }
-    .error-message {
-      background: #330000; color: #ff6666; padding: 12px; border-radius: 8px; margin-top: 15px;
-      display: none; border: 1px solid #660000;
-    }
-    .notification {
-      position: fixed; top: 20px; right: 20px; background: #000; color: #fff;
-      padding: 15px 20px; border-radius: 10px; border: 1px solid #333; z-index: 1000;
-      animation: slideIn 0.3s; max-width: 300px;
-    }
-    @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .neo-panel {
+            background: #ffffff;
+            border: 4px solid black;
+            padding: 1.2rem 1.2rem 1.4rem 1.2rem;
+            box-shadow: 8px 8px 0 #000;
+        }
 
-    @media (max-width: 768px) {
-      .stations-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
-      .player-controls { flex-direction: column; }
-    }
-  </style>
+        .panel-title-neo {
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: #ff99ff;
+            border: 2px solid black;
+            padding: 0.2rem 1rem;
+            display: inline-block;
+            margin-bottom: 0.8rem;
+            box-shadow: 4px 4px 0 black;
+        }
+
+        .neo-panel p {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+            line-height: 1.4;
+        }
+
+        .neo-highlight {
+            background: #b1ff9d;
+            border: 2px solid black;
+            padding: 0.2rem 1rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-top: 0.4rem;
+            box-shadow: 3px 3px 0 black;
+            font-size: 0.9rem;
+        }
+
+        /* MEDIA QUERY UNTUK SKRIN SEDERHANA (TABLET) */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .brutal-container {
+                padding: 1.5rem;
+                box-shadow: 8px 8px 0px #000000;
+            }
+            
+            .main-head {
+                font-size: 2rem;
+                padding: 0.2rem 1rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .millage-tower {
+                padding: 1.2rem 1rem;
+                gap: 0.6rem;
+            }
+            
+            .oil-block {
+                padding: 0.7rem 1rem;
+                font-size: 1rem;
+            }
+            
+            .oil-dist {
+                padding: 0.3rem 1.2rem;
+                font-size: 1rem;
+                clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
+            }
+            
+            .nota-brutal {
+                padding: 1.5rem 1.2rem;
+                box-shadow: 8px 8px 0 #000;
+            }
+            
+            .nota-stamp {
+                font-size: 1.5rem;
+                padding: 0.2rem 1.5rem;
+                margin-bottom: 1rem;
+            }
+            
+            .oil-note-item {
+                padding: 0.6rem 1rem;
+                gap: 0.8rem;
+            }
+            
+            .oil-badge {
+                font-size: 1.1rem;
+                padding: 0.2rem 1rem;
+            }
+            
+            .dual-panel-neo {
+                gap: 1rem;
+            }
+        }
+
+        /* MEDIA QUERY UNTUK SKRIN KECIL (PHONE) - LEBIH KECIL */
+        @media (max-width: 550px) {
+            .dual-panel-neo { 
+                grid-template-columns: 1fr; 
+            }
+            
+            .oil-block { 
+                flex-direction: column; 
+                align-items: start; 
+                gap: 0.5rem; 
+            }
+            
+            .main-head { 
+                font-size: 1.8rem; 
+                padding: 0.2rem 0.8rem;
+            }
+            
+            body {
+                padding: 0.8rem;
+            }
+            
+            .brutal-container {
+                padding: 1rem;
+                box-shadow: 6px 6px 0px #000000;
+                border-width: 3px;
+            }
+            
+            .brutal-container:hover {
+                box-shadow: 10px 10px 0px #000000;
+            }
+            
+            .millage-tower {
+                padding: 1rem 0.8rem;
+                border-width: 2px;
+                box-shadow: 6px 6px 0 #000;
+                margin-bottom: 1.5rem;
+            }
+            
+            .oil-block {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.95rem;
+                border-width: 2px;
+                box-shadow: 4px 4px 0 #000;
+            }
+            
+            .oil-block:hover {
+                box-shadow: 6px 6px 0 #000;
+            }
+            
+            .oil-name {
+                font-size: 1rem;
+            }
+            
+            .oil-dist {
+                padding: 0.2rem 1rem;
+                font-size: 0.95rem;
+                border-width: 2px;
+                box-shadow: 3px 3px 0 #000;
+                clip-path: polygon(0 0, 100% 0, 92% 100%, 0% 100%);
+                width: auto;
+                align-self: flex-start;
+            }
+            
+            .nota-brutal {
+                padding: 1.2rem 1rem;
+                border-width: 3px;
+                box-shadow: 6px 6px 0 #000;
+            }
+            
+            .nota-stamp {
+                font-size: 1.3rem;
+                padding: 0.2rem 1rem;
+                border-width: 2px;
+                box-shadow: 4px 4px 0 black;
+                margin-bottom: 0.8rem;
+            }
+            
+            .oil-cards {
+                gap: 0.7rem;
+                margin-bottom: 1.2rem;
+            }
+            
+            .oil-note-item {
+                padding: 0.5rem 0.8rem;
+                gap: 0.6rem;
+                border-width: 2px;
+                box-shadow: 4px 4px 0 #000;
+            }
+            
+            .oil-badge {
+                font-size: 1rem;
+                padding: 0.1rem 0.8rem;
+                border-width: 2px;
+                box-shadow: 2px 2px 0 black;
+            }
+            
+            .oil-desc {
+                font-size: 0.9rem;
+            }
+            
+            .neo-panel {
+                padding: 1rem 0.8rem;
+                border-width: 3px;
+                box-shadow: 6px 6px 0 #000;
+            }
+            
+            .panel-title-neo {
+                font-size: 1.1rem;
+                padding: 0.1rem 0.8rem;
+                border-width: 2px;
+                box-shadow: 3px 3px 0 black;
+                margin-bottom: 0.5rem;
+            }
+            
+            .neo-panel p {
+                font-size: 0.9rem;
+                margin-bottom: 0.2rem;
+            }
+            
+            .neo-highlight {
+                font-size: 0.8rem;
+                padding: 0.1rem 0.8rem;
+                border-width: 2px;
+                box-shadow: 2px 2px 0 black;
+            }
+        }
+
+        /* MEDIA QUERY UNTUK SKRIN SANGAT KECIL (< 400px) */
+        @media (max-width: 400px) {
+            body {
+                padding: 0.5rem;
+            }
+            
+            .brutal-container {
+                padding: 0.8rem;
+            }
+            
+            .main-head {
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
+            
+            .millage-tower {
+                padding: 0.8rem 0.5rem;
+                gap: 0.4rem;
+            }
+            
+            .oil-block {
+                padding: 0.5rem 0.6rem;
+            }
+            
+            .oil-dist {
+                padding: 0.15rem 0.8rem;
+                font-size: 0.85rem;
+                clip-path: polygon(0 0, 100% 0, 88% 100%, 0% 100%);
+            }
+            
+            .nota-brutal {
+                padding: 1rem 0.8rem;
+            }
+            
+            .nota-stamp {
+                font-size: 1.1rem;
+                padding: 0.1rem 0.8rem;
+            }
+            
+            .oil-note-item {
+                flex-wrap: wrap;
+                gap: 0.3rem;
+            }
+            
+            .oil-badge {
+                font-size: 0.9rem;
+            }
+            
+            .oil-desc {
+                font-size: 0.8rem;
+                width: 100%;
+            }
+            
+            .dual-panel-neo {
+                gap: 0.8rem;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <h1><i class="fas fa-radio"></i>Radio Malaysia</h1>
-      <p>Strim Langsung – Senarai Terkini</p>
-    </div>
+    <div class="brutal-container">
+        <!-- header kuning neubrutal -->
+        <div class="main-head">MILLAGE ⚡ MINYAK</div>
 
-    <div class="player-section">
-      <div class="player-controls">
-        <button class="play-btn" id="playBtn">
-          <span id="playIcon"><i class="fas fa-play"></i></span>
-          <span id="btnText">Main</span>
-        </button>
-        <div class="current-station" id="currentStation">
-          <span id="stationName">Pilih Stesen Radio</span>
-          <div class="visualizer" id="visualizer"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+        <!-- LIST MILLAGE MENGIKUT URUTAN BARU YANG DIBERI -->
+        <div class="millage-tower">
+            <!-- 1. 0W-40 (10,000) -->
+            <div class="oil-block"><span class="oil-name">0W-40</span><span class="oil-dist">10,000</span></div>
+            <!-- 2. 5W-40 (10,000) -->
+            <div class="oil-block"><span class="oil-name">5W-40</span><span class="oil-dist">10,000</span></div>
+            <!-- 3. 10W-40 (7,000) -->
+            <div class="oil-block"><span class="oil-name">10W-40</span><span class="oil-dist">7,000</span></div>
+            <!-- 4. 15W-40 (5,000) -->
+            <div class="oil-block"><span class="oil-name">15W-40</span><span class="oil-dist">5,000</span></div>
+            <!-- 5. MINYAK GEAR (30,000) -->
+            <div class="oil-block"><span class="oil-name">MINYAK GEAR</span><span class="oil-dist">30,000</span></div>
+            <!-- 6. AUTO FILTER (60,000) -->
+            <div class="oil-block"><span class="oil-name">AUTO FILTER</span><span class="oil-dist">60,000</span></div>
+            <!-- 7. SPARK PLUG (80,000) -->
+            <div class="oil-block"><span class="oil-name">SPARK PLUG</span><span class="oil-dist">80,000</span></div>
+            <!-- 8. DIESEL FILTER (30,000) -->
+            <div class="oil-block"><span class="oil-name">DIESEL FILTER</span><span class="oil-dist">30,000</span></div>
         </div>
-        <div class="volume-control">
-          <span><i class="fas fa-volume-up"></i></span>
-          <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.1" value="0.7">
-        </div>
-      </div>
 
-      <div class="additional-controls">
-        <div class="sleep-timer-container">
-          <button class="control-btn" id="sleepTimerBtn"><i class="fas fa-bed"></i><span id="sleepTimerText">Pemasa Tidur</span></button>
-          <div class="sleep-timer-dropdown" id="sleepTimerDropdown">
-            <div class="timer-options">
-              <div class="timer-option" data-minutes="15">15 Minit</div>
-              <div class="timer-option" data-minutes="30">30 Minit</div>
-              <div class="timer-option" data-minutes="45">45 Minit</div>
-              <div class="timer-option" data-minutes="60">1 Jam</div>
-              <div class="timer-option" data-minutes="90">1.5 Jam</div>
-              <div class="timer-option" data-minutes="120">2 Jam</div>
-              <div class="custom-timer-input">
-                <h4>Masa Custom</h4>
-                <div class="custom-time-controls">
-                  <button class="time-btn" id="decreaseMinutes"><i class="fas fa-minus"></i></button>
-                  <input type="number" class="custom-time-input" id="customMinutes" min="1" max="300" value="30">
-                  <span class="time-unit">minit</span>
-                  <button class="time-btn" id="increaseMinutes"><i class="fas fa-plus"></i></button>
+        <!-- NOTA DENGAN ESTETIKA BLOK KERAS -->
+        <div class="nota-brutal">
+            <div class="nota-stamp">📘 NOTA MINYAK</div>
+
+            <!-- tiga baris neubrutal dengan badge besar (mengikut urutan nota asal) -->
+            <div class="oil-cards">
+                <div class="oil-note-item">
+                    <span class="oil-badge">0W40</span>
+                    <span class="oil-desc">❄️ cuaca sejuk / turbo moden — 10,000 km</span>
                 </div>
-                <button class="set-custom-timer" id="setCustomTimer">Set Masa</button>
-              </div>
-              <div class="timer-option" id="cancelTimer">Batal Pemasa</div>
+                <div class="oil-note-item">
+                    <span class="oil-badge">5W40</span>
+                    <span class="oil-desc">🌴 paling sesuai Malaysia — 10,000 km</span>
+                </div>
+                <div class="oil-note-item">
+                    <span class="oil-badge">10W40</span>
+                    <span class="oil-desc">🚙 kereta lama >100k km — 7,000 km</span>
+                </div>
             </div>
-            <div class="timer-display" id="timerDisplay"></div>
-          </div>
+
+            <!-- penerangan dua bahagian dengan panel neubrutal -->
+            <div class="dual-panel-neo">
+                <div class="neo-panel">
+                    <div class="panel-title-neo">⬅️ 5W / 10W / 0W</div>
+                    <p><strong>W</strong> = Winter (musim sejuk).</p>
+                    <p>Nombor kecil = cair masa enjin sejuk, senang start pagi.</p>
+                    <span class="neo-highlight">semakin kecil → semakin cair</span>
+                </div>
+                <div class="neo-panel">
+                    <div class="panel-title-neo">➡️ bahagian kedua (40)</div>
+                    <p>Nombor belakang = kelikatan bila enjin panas.</p>
+                    <p>Makin besar nombor, makin pekat & perlindungan extra.</p>
+                    <span class="neo-highlight">40 = pekat untuk panas / beban</span>
+                </div>
+            </div>
         </div>
-        <button class="control-btn" id="favoritesBtn"><i class="fas fa-heart"></i><span id="favoritesText">Kegemaran</span></button>
-      </div>
-      <div class="error-message" id="errorMessage"></div>
     </div>
-
-    <div class="tabs">
-      <button class="tab active" id="allStationsTab">Semua Stesen</button>
-      <button class="tab" id="favoritesTab">Kegemaran</button>
-    </div>
-    <div class="search-section">
-      <div class="search-container">
-        <input type="text" class="search-input" id="searchInput" placeholder="Cari stesen radio...">
-        <div class="search-icon"><i class="fas fa-search"></i></div>
-      </div>
-    </div>
-    <div class="stations-grid" id="stationsGrid"></div>
-  </div>
-  <div class="loading" id="loading"><i class="fas fa-spinner fa-spin"></i> Memuatkan...</div>
-  <audio id="audioPlayer" style="display: none;"></audio>
-
-  <script>
-    (function() {
-      // ==================== SENARAI RADIO (DIKEMASKINI) ====================
-      const stations = [
-        { name: 'Johor FM', url: 'https://14943.live.streamtheworld.com:443/JOHOR_FMAAC_SC', type: 'aac' },
-        { name: 'Era', url: 'https://n13.rcs.revma.com/crec9cmbv4uvv/13_b3tkiac680b302/playlist.m3u8', type: 'm3u8' },
-        { name: 'Era FM Sarawak', url: 'https://stream-eu-a.rcs.revma.com/bkqfqkrbv4uvv/68_p7vhxushjqmj02/playlist.m3u8', type: 'm3u8' },
-        { name: 'Era FM Sabah', url: 'https://stream-eu-a.rcs.revma.com/4p3nqmmbv4uvv/18_1oxzafird6r4w02/playlist.m3u8', type: 'm3u8' },
-        { name: 'Hot FM', url: 'https://n09.rcs.revma.com/drakdf8mtd3vv/9_15wt5oojtyqo002/playlist.m3u8', type: 'm3u8' },
-        { name: 'Sinar', url: 'https://n01.rcs.revma.com/azatk0tbv4uvv/1_11a5yc3kn9ion02/playlist.m3u8', type: 'm3u8' },
-        { name: 'Gegar', url: 'https://n04.rcs.revma.com/cn0zcqsbv4uvv/4_1l8b0uuius0ad02/playlist.m3u8', type: 'm3u8' },
-        { name: 'Suria FM', url: 'https://22243.live.streamtheworld.com:443/SURIA_FM.mp3', type: 'mp3' },
-        { name: 'Asyik FM', url: 'https://22273.live.streamtheworld.com:443/ASYIK_FMAAC_SC', type: 'aac' },
-        { name: 'Zayan', url: 'https://n40a-eu.rcs.revma.com/7ww2a4tbv4uvv/64_2yvaj6nnb69x02/playlist.m3u8', type: 'm3u8' },
-        { name: 'Ikim FM', url: 'https://ais-sa8.cdnstream1.com/5035', type: 'mp3' },
-        { name: 'Hitz FM', url: 'https://n14.rcs.revma.com/488kt4sbv4uvv/14_u3tcp2wu9q1l02/playlist.m3u8', type: 'm3u8' },
-        { name: 'Fly FM', url: 'https://n16.rcs.revma.com/q17aka9mtd3vv/16_bsg38prd9vlj02/playlist.m3u8', type: 'm3u8' },
-        { name: 'Mix FM', url: 'https://n06.rcs.revma.com/v5pq3htbv4uvv/6_18aiu7hejxpf402/playlist.m3u8', type: 'm3u8' },
-        { name: 'Lite FM', url: 'https://stream.rcs.revma.com/2483gbtbv4uvv/hls.m3u8', type: 'm3u8' },
-        { name: 'My FM', url: 'https://n08.rcs.revma.com/hc3unrtbv4uvv/8_1xcfbljp5h4kh02/playlist.m3u8', type: 'm3u8' },
-        { name: 'Eight FM', url: 'https://n08.rcs.revma.com/qp0xrd9mtd3vv/8_18nbo6343bsv702/playlist.m3u8', type: 'm3u8' },
-        { name: '988 FM', url: 'https://22243.live.streamtheworld.com:443/988_FM.mp3', type: 'mp3' },
-        { name: 'Ai FM', url: 'https://22283.live.streamtheworld.com:443/AI_FMAAC_SC', type: 'aac' },
-        { name: 'Melody FM', url: 'https://n05.rcs.revma.com/2u1n6dtbv4uvv/5_bl5fx9vxqa7002/playlist.m3u8', type: 'm3u8' },
-        { name: 'Raaga FM', url: 'https://n06.rcs.revma.com/1ut6qwtbv4uvv/6_1grktyf0p5qpr02/playlist.m3u8', type: 'm3u8' },
-        { name: 'Minnal FM', url: 'https://22283.live.streamtheworld.com:443/MINNAL_FMAAC_SC', type: 'aac' },
-        { name: 'Best FM', url: 'https://n16.rcs.revma.com/h34x4kgg9hhvv/16_uf5os5tk9j3302/playlist.m3u8', type: 'm3u8' },
-        { name: 'Kool 101', url: 'https://n08.rcs.revma.com/3930238mtd3vv/8_2whawsg3fhmw02/playlist.m3u8', type: 'm3u8' },
-        { name: 'Traxx FM', url: 'https://22273.live.streamtheworld.com:443/TRAXX_FMAAC_SC', type: 'aac' },
-        { name: 'Manis FM', url: 'https://n04.rcs.revma.com/nzgauqq1v7zuv?rj-ttl=5&rj-tok=AAABk0iQHXoAHiTOyor8YOoWlA', type: 'mp3' },
-        { name: 'Molek FM', url: 'https://n09.rcs.revma.com/z56xa78mtd3vv/9_13apqo12zyyxc02/playlist.m3u8', type: 'm3u8' },
-        { name: 'Klasik FM', url: 'https://22253.live.streamtheworld.com:443/RADIO_KLASIKAAC.aac', type: 'aac' },
-        { name: 'Nasional FM', url: 'https://22253.live.streamtheworld.com:443/NASIONAL_FMAAC_SC', type: 'aac' },
-        { name: 'Kelantan FM', url: 'https://22253.live.streamtheworld.com/KELANTAN_FMAAC.aac', type: 'aac' },
-        { name: 'Terengganu FM', url: 'https://22243.live.streamtheworld.com:443/TERENGGANU_FMAAC_SC', type: 'aac' },
-        { name: 'Pahang FM', url: 'https://22253.live.streamtheworld.com:443/PAHANG_FMAAC.aac', type: 'aac' },
-        { name: 'Kedah FM', url: 'https://22283.live.streamtheworld.com:443/KEDAH_FMAAC_SC', type: 'aac' },
-        { name: 'Perak FM', url: 'https://22253.live.streamtheworld.com:443/PERAK_FMAAC.aac', type: 'aac' },
-        { name: 'KL FM', url: 'https://22273.live.streamtheworld.com:443/KL_FMAAC_SC', type: 'aac' },
-        { name: 'Selangor FM', url: 'https://22273.live.streamtheworld.com:443/SELANGOR_FMAAC_SC', type: 'aac' },
-        { name: 'Negeri FM', url: 'https://22283.live.streamtheworld.com:443/NEGERI_FMAAC_SC', type: 'aac' },
-        { name: 'Melaka FM', url: 'https://22243.live.streamtheworld.com:443/MELAKA_FMAAC_SC', type: 'aac' },
-        { name: 'Sabah FM', url: 'https://22253.live.streamtheworld.com:443/SABAH_FMAAC.aac', type: 'aac' },
-        { name: 'Sabah VFM', url: 'https://22253.live.streamtheworld.com:443/SABAH_VFMAAC.aac', type: 'aac' },
-        { name: 'Sarawak FM', url: 'https://22273.live.streamtheworld.com:443/SARAWAK_FMAAC.aac', type: 'aac' },
-        { name: 'BFM', url: 'https://n15.rcs.revma.com/s91qy9p0zs3vv.acc', type: 'aac' },
-        { name: 'Awani FM', url: 'https://d2idp3hzkhjpih.cloudfront.net/out/v1/4b85d9c2bf97413eb0c9fd875599b837/index_3.m3u8', type: 'm3u8' },
-        { name: 'Wai FM iban', url: 'https://22283.live.streamtheworld.com:443/WAI_FM_IBANAAC.aac', type: 'aac' },
-        { name: 'GoXuan', url: 'https://n07a-eu.rcs.revma.com/xt9nhzsbv4uvv/7_1kpxic2j08fx102/playlist.m3u8?rj-ttl=5&rj-tok=AAABk0ivpMMAofdsXSo_Xm0zMQ', type: 'm3u8' },
-        { name: 'Sinar FM Rock Kapak', url: 'https://n26a-eu.rcs.revma.com/rz43weh811uvv/38_lwj92qdqradk02/main/173487890.aac', type: 'aac' },
-        { name: 'Cats FM', url: 'https://n05.rcs.revma.com/51qe53rv0y3vv.m4a', type: 'm4a' },
-        { name: 'Bapakku FM', url: 'https://servidor30-2.brlogic.com:7048/live', type: 'mp3' },
-        { name: 'Mutiara FM', url: 'https://22243.live.streamtheworld.com/MUTIARA_FMAAC_SC', type: 'aac' },
-        { name: 'Bernama Radio', url: 'https://live.mana2.my/BernamaRadio/index.m3u8?auth_key=1751701131-4651f03a95c347a98d018eeb31d1a8c3-0-d6865f5c9af42ffbfbc04475ecb3266d', type: 'm3u8' },
-        { name: 'Sandakan FM', url: 'https://22273.live.streamtheworld.com/SANDAKAN_FMAAC_SC', type: 'aac' },
-        { name: 'Perlis FM', url: 'https://22243.live.streamtheworld.com/PERLIS_FMAAC_SC', type: 'aac' },
-        { name: 'Kupi Kupi FM', url: 'https://n05.rcs.revma.com/axht8yawe1bwv?rj-ttl=5&rj-tok=AAABl9iJ47QAYuY0lBhb6a0OXw', type: 'mp3' },
-        { name: 'Jei FM', url: 'https://usa3.fastcast4u.com/proxy/jeifm?mp=/stream/1/', type: 'mp3' },
-        { name: 'Radio Amboi FM (Kuala Lumpur)', url: 'http://amboifm.iradio.work:8000/stream', type: 'mp3' },
-        { name: 'Labuan FM', url: 'https://22243.live.streamtheworld.com/LABUAN_FMAAC_SC', type: 'aac' },
-        { name: 'Rakita FM', url: 'https://22243.live.streamtheworld.com:443/RAKITAAAC_SC', type: 'aac' },
-        { name: 'Osai FM', url: 'https://stream-eu-a.rcs.revma.com/60s783vbv4uvv/22_vi0k2u9iyuoj02/playlist.m3u8', type: 'm3u8' },
-        { name: 'Oli 96.8', url: 'https://22393.live.streamtheworld.com/OLI968FMAAC.aac', type: 'aac' },
-        { name: 'Tawau FM', url: 'https://22253.live.streamtheworld.com/TAWAU_FMAAC.aac', type: 'aac' },
-        { name: 'Kristal FM', url: 'https://play.thestreamtech.com:7038/index.html', type: 'mp3' },
-        { name: 'Buletin FM', url: 'https://stream.rcs.revma.com/3930238mtd3vv/hls.m3u8', type: 'm3u8' },
-        { name: 'Love 972', url: 'https://28453.live.streamtheworld.com/LOVE972FM_PREM.aac', type: 'aac' },
-        { name: 'India Beat FM', url: 'https://stream-eu-a.rcs.revma.com/hrcdg9ubv4uvv/32_l87jk9e4xju502/playlist.m3u8', type: 'm3u8' },
-        { name: 'Classic Rock FM', url: 'https://stream-eu-a.rcs.revma.com/fk3507vbv4uvv/21_123cdbkwmeooj02/playlist.m3u8', type: 'm3u8' },
-        { name: '987 FM', url: 'https://28443.live.streamtheworld.com/987FM_PREM.aac', type: 'aac' },
-        { name: 'YES 933', url: 'https://28313.live.streamtheworld.com/YES933_PREM.aac', type: 'aac' },
-        { name: 'Red FM (Kuching)', url: 'https://22273.live.streamtheworld.com/RED_FMAAC.aac', type: 'aac' },
-        { name: '883 FM', url: 'https://22283.live.streamtheworld.com/883JIA.mp3', type: 'mp3' },
-        { name: 'Gold FM', url: 'https://stream-eu-a.rcs.revma.com/fxq2n9tbv4uvv/32_t9ako5786llk02/playlist.m3u8', type: 'm3u8' },
-        { name: 'UFM 100.3', url: 'https://22283.live.streamtheworld.com/UFM_1003AAC.aac', type: 'aac' },
-        { name: 'Kenyalang FM', url: 'https://stream-eu-a.rcs.revma.com/qyg9zmvbv4uvv/52_15nleuhxrs9mr02/playlist.m3u8', type: 'm3u8' },
-        { name: 'Langkawi FM', url: 'https://22273.live.streamtheworld.com/LANGKAWI_FMAAC.aac', type: 'aac' },
-        { name: 'Bayu FM', url: 'https://stream-eu-a.rcs.revma.com/ywpe7mqb54uvv/6_glpo8niyqr7e02/playlist.m3u8', type: 'm3u8' },
-        { name: 'MyFriends FM', url: 'https://cast3.asurahosting.com/proxy/myfriend/stream', type: 'mp3' },
-        { name: 'RADIOROSAK', url: 'https://radiorosak.radioca.st/stream', type: 'mp3' },
-        { name: 'Jazz FM', url: 'https://stream-eu-a.rcs.revma.com/c718dfvbv4uvv/54_7d1x7i1isy7w02/playlist.m3u8', type: 'm3u8' },
-        { name: 'Jazz Lounge FM', url: 'https://eu8.fastcast4u.com/proxy/lch?mp=/1', type: 'mp3' },
-        { name: 'Opus FM', url: 'https://stream-eu-a.rcs.revma.com/aqvp4yvbv4uvv/51_xbchzd3wxcmv02/playlist.m3u8', type: 'm3u8' },
-        { name: 'Pilihan FM', url: 'https://d2kziuzkf9oizb.cloudfront.net/rd003/playlist.m3u8', type: 'm3u8' },
-        { name: 'MyKampus FM', url: 'https://usa10.fastcast4u.com/voicespl', type: 'mp3' }
-      ];
-
-      // --- DOM elements ---
-      const audio = document.getElementById('audioPlayer');
-      const playBtn = document.getElementById('playBtn');
-      const playIcon = document.getElementById('playIcon');
-      const btnText = document.getElementById('btnText');
-      const stationNameSpan = document.getElementById('stationName');
-      const currentStationDiv = document.getElementById('currentStation');
-      const visualizer = document.getElementById('visualizer');
-      const volumeSlider = document.getElementById('volumeSlider');
-      const searchInput = document.getElementById('searchInput');
-      const stationsGrid = document.getElementById('stationsGrid');
-      const loading = document.getElementById('loading');
-      const errorMsg = document.getElementById('errorMessage');
-      const allTab = document.getElementById('allStationsTab');
-      const favTab = document.getElementById('favoritesTab');
-      const favoritesBtn = document.getElementById('favoritesBtn');
-      const favoritesText = document.getElementById('favoritesText');
-      const sleepTimerBtn = document.getElementById('sleepTimerBtn');
-      const sleepTimerDropdown = document.getElementById('sleepTimerDropdown');
-      const sleepTimerText = document.getElementById('sleepTimerText');
-      const timerDisplay = document.getElementById('timerDisplay');
-      const cancelTimerOpt = document.getElementById('cancelTimer');
-      const customMinutes = document.getElementById('customMinutes');
-      const increaseBtn = document.getElementById('increaseMinutes');
-      const decreaseBtn = document.getElementById('decreaseMinutes');
-      const setCustomBtn = document.getElementById('setCustomTimer');
-
-      // state
-      let currentStation = null;
-      let hls = null;
-      let favorites = new Set();
-      let isShowingFavorites = false;
-      let sleepInterval = null;
-      let remainingSeconds = 0;
-
-      // load favorites
-      try {
-        const saved = localStorage.getItem('radioFav');
-        if (saved) favorites = new Set(JSON.parse(saved));
-      } catch (e) {}
-
-      function saveFav() {
-        localStorage.setItem('radioFav', JSON.stringify([...favorites]));
-      }
-
-      // Fungsi notifikasi yang konsisten
-      function showNotification(message) {
-        // Buang notifikasi sedia ada
-        document.querySelectorAll('.notification').forEach(el => el.remove());
-        
-        const notif = document.createElement('div');
-        notif.className = 'notification';
-        notif.innerText = message;
-        document.body.appendChild(notif);
-        
-        setTimeout(() => {
-          if (notif.parentNode) notif.remove();
-        }, 2500);
-      }
-
-      // render
-      function renderStations(list) {
-        stationsGrid.innerHTML = list.map(s => {
-          const isFav = favorites.has(s.name);
-          return `<div class="station-card" data-name="${s.name}">
-            <button class="favorite-btn ${isFav ? 'active' : ''}" data-name="${s.name}"><i class="fas fa-heart"></i></button>
-            ${s.name}
-          </div>`;
-        }).join('');
-        document.querySelectorAll('.station-card').forEach(card => {
-          card.addEventListener('click', (e) => {
-            if (e.target.closest('.favorite-btn')) return;
-            const name = card.dataset.name;
-            const station = stations.find(s => s.name === name);
-            if (station) playStation(station);
-          });
-        });
-        document.querySelectorAll('.favorite-btn').forEach(btn => {
-          btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const name = btn.dataset.name;
-            if (favorites.has(name)) favorites.delete(name);
-            else favorites.add(name);
-            saveFav();
-            btn.classList.toggle('active');
-            if (isShowingFavorites) renderStations(getFavList());
-            else renderStations(stations.filter(s => s.name.toLowerCase().includes(searchInput.value.toLowerCase())));
-            showNotification(favorites.has(name) ? 'Ditambah ke kegemaran' : 'Dialih keluar dari kegemaran');
-          });
-        });
-      }
-
-      function getFavList() {
-        return stations.filter(s => favorites.has(s.name));
-      }
-
-      function filterBySearch() {
-        const term = searchInput.value.toLowerCase();
-        const source = isShowingFavorites ? getFavList() : stations;
-        return source.filter(s => s.name.toLowerCase().includes(term));
-      }
-
-      function playStation(station) {
-        if (!station) return;
-        if (hls) { hls.destroy(); hls = null; }
-        audio.pause();
-        currentStation = station;
-        stationNameSpan.innerText = station.name;
-        currentStationDiv.classList.add('playing');
-        document.querySelectorAll('.station-card').forEach(c => c.classList.remove('active'));
-        const activeCard = document.querySelector(`.station-card[data-name="${station.name}"]`);
-        if (activeCard) activeCard.classList.add('active');
-
-        loading.style.display = 'block';
-        errorMsg.style.display = 'none';
-
-        const playStream = () => {
-          audio.play().then(() => {
-            loading.style.display = 'none';
-            updatePlayState(true);
-            showNotification(`Memainkan: ${station.name}`); // Notifikasi stesen dimainkan
-          }).catch(err => {
-            console.warn(err);
-            loading.style.display = 'none';
-            errorMsg.style.display = 'block';
-            errorMsg.innerText = 'Ralat main balik. Sila cuba stesen lain.';
-            updatePlayState(false);
-          });
-        };
-
-        if (station.type === 'm3u8' && Hls.isSupported()) {
-          hls = new Hls();
-          hls.loadSource(station.url);
-          hls.attachMedia(audio);
-          hls.on(Hls.Events.MANIFEST_PARSED, playStream);
-          hls.on(Hls.Events.ERROR, (ev, data) => {
-            console.error('HLS error', data);
-            errorMsg.style.display = 'block';
-            errorMsg.innerText = 'Gagal memuat strim HLS.';
-            loading.style.display = 'none';
-          });
-        } else {
-          audio.src = station.url;
-          playStream();
-        }
-      }
-
-      function updatePlayState(playing) {
-        if (playing) {
-          playIcon.innerHTML = '<i class="fas fa-pause"></i>';
-          btnText.innerText = 'Jeda';
-          visualizer.classList.add('active');
-        } else {
-          playIcon.innerHTML = '<i class="fas fa-play"></i>';
-          btnText.innerText = 'Main';
-          visualizer.classList.remove('active');
-        }
-      }
-
-      // toggle play
-      playBtn.addEventListener('click', () => {
-        if (!currentStation) { 
-          showNotification('Sila pilih stesen dahulu'); 
-          return; 
-        }
-        if (audio.paused) {
-          audio.play().then(() => {
-            updatePlayState(true);
-            showNotification('Radio dimainkan'); // NOTIF DIMAINKAN
-          }).catch(e => showNotification('Ralat main'));
-        } else {
-          audio.pause();
-          updatePlayState(false);
-          showNotification('Radio dijeda'); // NOTIF DIJEDA
-        }
-      });
-
-      volumeSlider.addEventListener('input', () => { audio.volume = volumeSlider.value; });
-
-      // search
-      searchInput.addEventListener('input', () => { renderStations(filterBySearch()); });
-
-      // tabs
-      allTab.addEventListener('click', () => {
-        allTab.classList.add('active');
-        favTab.classList.remove('active');
-        isShowingFavorites = false;
-        favoritesText.innerText = 'Kegemaran';
-        favoritesBtn.classList.remove('active');
-        renderStations(filterBySearch());
-      });
-      favTab.addEventListener('click', () => {
-        favTab.classList.add('active');
-        allTab.classList.remove('active');
-        isShowingFavorites = true;
-        favoritesText.innerText = 'Semua Stesen';
-        favoritesBtn.classList.add('active');
-        renderStations(filterBySearch());
-      });
-      favoritesBtn.addEventListener('click', () => {
-        if (isShowingFavorites) allTab.click();
-        else favTab.click();
-      });
-
-      // sleep timer dropdown
-      sleepTimerBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        sleepTimerDropdown.classList.toggle('active');
-      });
-      document.addEventListener('click', (e) => {
-        if (!sleepTimerBtn.contains(e.target) && !sleepTimerDropdown.contains(e.target)) {
-          sleepTimerDropdown.classList.remove('active');
-        }
-      });
-
-      function setTimer(minutes) {
-        if (sleepInterval) clearInterval(sleepInterval);
-        remainingSeconds = minutes * 60;
-        sleepTimerText.innerText = `${minutes} Minit`;
-        timerDisplay.classList.add('active');
-        updateTimerDisplay();
-        sleepInterval = setInterval(() => {
-          remainingSeconds--;
-          if (remainingSeconds <= 0) {
-            clearInterval(sleepInterval);
-            audio.pause();
-            updatePlayState(false);
-            timerDisplay.classList.remove('active');
-            sleepTimerText.innerText = 'Pemasa Tidur';
-            showNotification('⏰ Pemasa tamat, radio berhenti');
-          } else updateTimerDisplay();
-        }, 1000);
-        sleepTimerDropdown.classList.remove('active');
-        showNotification(`⏰ Pemasa tidur: ${minutes} minit`);
-      }
-
-      function updateTimerDisplay() {
-        if (remainingSeconds > 0) {
-          const m = Math.floor(remainingSeconds / 60);
-          const s = remainingSeconds % 60;
-          timerDisplay.innerText = `⏰ ${m}:${s.toString().padStart(2,'0')}`;
-        }
-      }
-
-      document.querySelectorAll('.timer-option[data-minutes]').forEach(opt => {
-        opt.addEventListener('click', () => setTimer(parseInt(opt.dataset.minutes)));
-      });
-      cancelTimerOpt.addEventListener('click', () => {
-        if (sleepInterval) clearInterval(sleepInterval);
-        sleepTimerText.innerText = 'Pemasa Tidur';
-        timerDisplay.classList.remove('active');
-        sleepInterval = null;
-        sleepTimerDropdown.classList.remove('active');
-        showNotification('⏰ Pemasa tidur dibatalkan');
-      });
-      increaseBtn.addEventListener('click', () => { customMinutes.value = Math.min(300, parseInt(customMinutes.value)+1); });
-      decreaseBtn.addEventListener('click', () => { customMinutes.value = Math.max(1, parseInt(customMinutes.value)-1); });
-      setCustomBtn.addEventListener('click', () => {
-        let mins = parseInt(customMinutes.value);
-        if (isNaN(mins) || mins<1) mins=1;
-        setTimer(mins);
-      });
-
-      // initial render
-      renderStations(stations);
-      audio.volume = 0.7;
-    })();
-  </script>
 </body>
 </html>
