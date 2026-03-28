@@ -2,13 +2,20 @@
 <html lang="ms">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Radio Malaysia - Strim Langsung</title>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     :root {
       --primary: #6c5ce7;
+      --primary-dark: #5a4ad1;
       --secondary: #a29bfe;
       --dark: #2d3436;
       --light: #f5f6fa;
@@ -29,12 +36,6 @@
       --card-bg: #2d2d2d;
       --card-border: #444;
       --header-text: white;
-    }
-    
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
     }
     
     body {
@@ -265,7 +266,6 @@
       transform: scale(1.1);
     }
     
-    /* Media Query untuk Tablet dan Mobile */
     @media (max-width: 768px) {
       .header h1 { font-size: 1.8rem; }
       .stations-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
@@ -280,7 +280,6 @@
       }
     }
     
-    /* Media Query untuk Mobile kecil (di bawah 480px) */
     @media (max-width: 480px) {
       .header h1 { font-size: 1.5rem; }
       .header p { font-size: 0.9rem; }
@@ -294,44 +293,18 @@
       .player-section, .search-section { padding: 15px; }
     }
     
-    /* Media Query untuk Tablet (769px - 1024px) */
-    @media (min-width: 769px) and (max-width: 1024px) {
-      .container { max-width: 90%; }
-      .stations-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
-      .header { padding: 25px; }
-    }
-    
-    /* Media Query untuk orientasi landscape di mobile */
-    @media (max-height: 500px) and (orientation: landscape) {
-      .player-section { padding: 15px; }
-      .stations-grid { 
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        max-height: 200px;
-        overflow-y: auto;
-      }
-      .container { max-height: 90vh; overflow-y: auto; }
-      .header { padding: 20px; }
-      .header h1 { font-size: 1.6rem; }
-    }
-    
-    /* Media Query untuk layar besar (di atas 1200px) */
     @media (min-width: 1200px) {
       .container { max-width: 1100px; }
       .stations-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
-      .header h1 { font-size: 2.5rem; }
     }
     
-    /* Media Query untuk pengurangan motion (aksesibilitas) */
     @media (prefers-reduced-motion: reduce) {
       * {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
       }
-      
-      .play-btn:hover, .station-card:hover {
-        transform: none;
-      }
+      .play-btn:hover, .station-card:hover { transform: none; }
     }
   </style>
 </head>
@@ -382,15 +355,18 @@
   <audio id="audioPlayer" style="display: none;"></audio>
 
   <script>
+    // ============================================================
+    // SENARAI STESEN RADIO MALAYSIA - DIKEMAS KINI (MAC 2026)
+    // ============================================================
     const stations = [
-      { name: 'Johor FM', url: 'https://22273.live.streamtheworld.com:443/JOHOR_FMAAC_SC', type: 'aac' },
+      { name: 'Johor FM', url: 'https://14943.live.streamtheworld.com:443/JOHOR_FMAAC_SC', type: 'aac' },
       { name: 'Era', url: 'https://n13.rcs.revma.com/crec9cmbv4uvv/13_b3tkiac680b302/playlist.m3u8', type: 'm3u8' },
       { name: 'Era FM Sarawak', url: 'https://stream-eu-a.rcs.revma.com/bkqfqkrbv4uvv/68_p7vhxushjqmj02/playlist.m3u8', type: 'm3u8' },
       { name: 'Era FM Sabah', url: 'https://stream-eu-a.rcs.revma.com/4p3nqmmbv4uvv/18_1oxzafird6r4w02/playlist.m3u8', type: 'm3u8' },
       { name: 'Hot FM', url: 'https://n09.rcs.revma.com/drakdf8mtd3vv/9_15wt5oojtyqo002/playlist.m3u8', type: 'm3u8' },
       { name: 'Sinar', url: 'https://n01.rcs.revma.com/azatk0tbv4uvv/1_11a5yc3kn9ion02/playlist.m3u8', type: 'm3u8' },
       { name: 'Gegar', url: 'https://n04.rcs.revma.com/cn0zcqsbv4uvv/4_1l8b0uuius0ad02/playlist.m3u8', type: 'm3u8' },
-      { name: 'Suria FM', url: 'https://28163.live.streamtheworld.com:443/SURIA_FM.mp3', type: 'mp3' },
+      { name: 'Suria FM', url: 'https://22243.live.streamtheworld.com:443/SURIA_FM.mp3', type: 'mp3' },
       { name: 'Asyik FM', url: 'https://22273.live.streamtheworld.com:443/ASYIK_FMAAC_SC', type: 'aac' },
       { name: 'Zayan', url: 'https://n40a-eu.rcs.revma.com/7ww2a4tbv4uvv/64_2yvaj6nnb69x02/playlist.m3u8', type: 'm3u8' },
       { name: 'Ikim FM', url: 'https://ais-sa8.cdnstream1.com/5035', type: 'mp3' },
@@ -407,10 +383,10 @@
       { name: 'Minnal FM', url: 'https://22283.live.streamtheworld.com:443/MINNAL_FMAAC_SC', type: 'aac' },
       { name: 'Best FM', url: 'https://n16.rcs.revma.com/h34x4kgg9hhvv/16_uf5os5tk9j3302/playlist.m3u8', type: 'm3u8' },
       { name: 'Kool 101', url: 'https://n08.rcs.revma.com/3930238mtd3vv/8_2whawsg3fhmw02/playlist.m3u8', type: 'm3u8' },
-      { name: 'Traxx FM', url: 'https://28103.live.streamtheworld.com:443/TRAXX_FMAAC_SC', type: 'aac' },
+      { name: 'Traxx FM', url: 'https://22273.live.streamtheworld.com:443/TRAXX_FMAAC_SC', type: 'aac' },
       { name: 'Manis FM', url: 'https://n04.rcs.revma.com/nzgauqq1v7zuv?rj-ttl=5&rj-tok=AAABk0iQHXoAHiTOyor8YOoWlA', type: 'mp3' },
       { name: 'Molek FM', url: 'https://n09.rcs.revma.com/z56xa78mtd3vv/9_13apqo12zyyxc02/playlist.m3u8', type: 'm3u8' },
-      { name: 'Klasik FM', url: 'https://28163.live.streamtheworld.com:443/RADIO_KLASIKAAC.aac', type: 'aac' },
+      { name: 'Klasik FM', url: 'https://22253.live.streamtheworld.com:443/RADIO_KLASIKAAC.aac', type: 'aac' },
       { name: 'Nasional FM', url: 'https://22253.live.streamtheworld.com:443/NASIONAL_FMAAC_SC', type: 'aac' },
       { name: 'Kelantan FM', url: 'https://22253.live.streamtheworld.com/KELANTAN_FMAAC.aac', type: 'aac' },
       { name: 'Terengganu FM', url: 'https://22243.live.streamtheworld.com:443/TERENGGANU_FMAAC_SC', type: 'aac' },
@@ -419,27 +395,27 @@
       { name: 'Perak FM', url: 'https://22253.live.streamtheworld.com:443/PERAK_FMAAC.aac', type: 'aac' },
       { name: 'KL FM', url: 'https://22273.live.streamtheworld.com:443/KL_FMAAC_SC', type: 'aac' },
       { name: 'Selangor FM', url: 'https://22273.live.streamtheworld.com:443/SELANGOR_FMAAC_SC', type: 'aac' },
-      { name: 'Negeri FM', url: 'https://28103.live.streamtheworld.com:443/NEGERI_FMAAC_SC', type: 'aac' },
-      { name: 'Melaka FM', url: 'https://28163.live.streamtheworld.com:443/MELAKA_FMAAC_SC', type: 'aac' },
+      { name: 'Negeri FM', url: 'https://22283.live.streamtheworld.com:443/NEGERI_FMAAC_SC', type: 'aac' },
+      { name: 'Melaka FM', url: 'https://22243.live.streamtheworld.com:443/MELAKA_FMAAC_SC', type: 'aac' },
       { name: 'Sabah FM', url: 'https://22253.live.streamtheworld.com:443/SABAH_FMAAC.aac', type: 'aac' },
-      { name: 'Sabav FM', url: 'https://live.mana2.my/SabahvFm/index.m3u8?auth_key=1751709243-dbcc404ffb8f47d09ac2e63e4f50b57a-0-974d5941d84f8b15e1141c53c1b11aff', type: 'm3u8' },
+      { name: 'Sabah VFM', url: 'https://22253.live.streamtheworld.com:443/SABAH_VFMAAC.aac', type: 'aac' },
       { name: 'Sarawak FM', url: 'https://22273.live.streamtheworld.com:443/SARAWAK_FMAAC.aac', type: 'aac' },
-      { name: 'BFM', url: 'https://22273.live.streamtheworld.com:443/BFMAAC.aac', type: 'aac' },
+      { name: 'BFM', url: 'https://n15.rcs.revma.com/s91qy9p0zs3vv.acc', type: 'aac' },
       { name: 'Awani FM', url: 'https://d2idp3hzkhjpih.cloudfront.net/out/v1/4b85d9c2bf97413eb0c9fd875599b837/index_3.m3u8', type: 'm3u8' },
-      { name: 'Wai FM Iban', url: 'https://28093.live.streamtheworld.com:443/WAI_FM_IBANAAC.aac', type: 'aac' },
+      { name: 'Wai FM Iban', url: 'https://22283.live.streamtheworld.com:443/WAI_FM_IBAN_SC', type: 'aac' },
       { name: 'GoXuan', url: 'https://n07a-eu.rcs.revma.com/xt9nhzsbv4uvv/7_1kpxic2j08fx102/playlist.m3u8?rj-ttl=5&rj-tok=AAABk0ivpMMAofdsXSo_Xm0zMQ', type: 'm3u8' },
       { name: 'Sinar FM Rock Kapak', url: 'https://n26a-eu.rcs.revma.com/rz43weh811uvv/38_lwj92qdqradk02/main/173487890.aac', type: 'aac' },
-      { name: 'Cats FM', url: 'https://s4.yesstreaming.net:7019/stream/1/', type: 'mp3' },
+      { name: 'Cats FM', url: 'https://n05.rcs.revma.com/51qe53rv0y3vv.m4a', type: 'aac' },
       { name: 'Bapakku FM', url: 'https://servidor30-2.brlogic.com:7048/live', type: 'mp3' },
       { name: 'Mutiara FM', url: 'https://22243.live.streamtheworld.com/MUTIARA_FMAAC_SC', type: 'aac' },
-      { name: 'Bernama Radio', url: 'https://live.mana2.my/BernamaRadio/index.m3u8?auth_key=1751701131-4651f03a95c347a98d018eeb31d1a8c3-0-d6865f5c9af42ffbfbc04475ecb3266d', type: 'm3u8' },
-      { name: 'Radio Sandakan', url: 'https://28163.live.streamtheworld.com/SANDAKAN_FMAAC_SC', type: 'aac' },
+      { name: 'Bernama Radio', url: 'https://live.mana2.my/BernamaRadio/tracks-a1/mono.m3u8?token=1774728090-09905a319eb749eda993cf30f978cb4d-0-05ea29dbf8d3e843f85f969614fe4a11&auth_key=1774728090-09905a319eb749eda993cf30f978cb4d-0-04f33bb239bd8403b8af60dbc7fc9b2e', type: 'm3u8' },
+      { name: 'Sandakan FM', url: 'https://22273.live.streamtheworld.com:443/SANDAKAN_FMAAC_SC', type: 'aac' },
       { name: 'Perlis FM', url: 'https://22243.live.streamtheworld.com/PERLIS_FMAAC_SC', type: 'aac' },
       { name: 'Kupi Kupi FM', url: 'https://n05.rcs.revma.com/axht8yawe1bwv?rj-ttl=5&rj-tok=AAABl9iJ47QAYuY0lBhb6a0OXw', type: 'mp3' },
       { name: 'Jei FM', url: 'https://usa3.fastcast4u.com/proxy/jeifm?mp=/stream/1/', type: 'mp3' },
-      { name: 'Radio Amboi FM', url: 'https://stream-173.zeno.fm/555kr7upam0uv', type: 'mp3' },
-      { name: 'Labuan FM', url: 'https://28153.live.streamtheworld.com/LABUAN_FMAAC_SC', type: 'aac' },
-      { name: 'Rakita FM', url: 'https://live.mana2.my/RakitaFm/index.m3u8?auth_key=1751702967-86d3d46da8ac471da4766fefcca8ff47-0-ef6f32e1a7cedb41178f2db21d0c705c', type: 'm3u8' },
+      { name: 'Radio Amboi FM', url: 'http://amboifm.iradio.work:8000/stream', type: 'mp3' },
+      { name: 'Labuan FM', url: 'https://22243.live.streamtheworld.com:443/LABUAN_FMAAC_SC', type: 'aac' },
+      { name: 'Rakita FM', url: 'https://22243.live.streamtheworld.com:443/RAKITAAAC_SC', type: 'aac' },
       { name: 'Osai FM', url: 'https://stream-eu-a.rcs.revma.com/60s783vbv4uvv/22_vi0k2u9iyuoj02/playlist.m3u8', type: 'm3u8' },
       { name: 'Oli 96.8', url: 'https://22393.live.streamtheworld.com/OLI968FMAAC.aac', type: 'aac' },
       { name: 'Tawau FM', url: 'https://22253.live.streamtheworld.com/TAWAU_FMAAC.aac', type: 'aac' },
@@ -450,12 +426,12 @@
       { name: 'Classic Rock FM', url: 'https://stream-eu-a.rcs.revma.com/fk3507vbv4uvv/21_123cdbkwmeooj02/playlist.m3u8', type: 'm3u8' },
       { name: '987 FM', url: 'https://28443.live.streamtheworld.com/987FM_PREM.aac', type: 'aac' },
       { name: 'YES 933', url: 'https://28313.live.streamtheworld.com/YES933_PREM.aac', type: 'aac' },
-      { name: 'Red FM', url: 'https://28163.live.streamtheworld.com/RED_FMAAC.aac', type: 'aac' },
+      { name: 'Red FM', url: 'https://22273.live.streamtheworld.com:443/RED_FMAAC_SC', type: 'aac' },
       { name: '883 FM', url: 'https://22283.live.streamtheworld.com/883JIA.mp3', type: 'mp3' },
       { name: 'Gold FM', url: 'https://stream-eu-a.rcs.revma.com/fxq2n9tbv4uvv/32_t9ako5786llk02/playlist.m3u8', type: 'm3u8' },
-      { name: 'UFM', url: 'https://22283.live.streamtheworld.com/UFM_1003AAC.aac', type: 'aac' },
+      { name: 'UFM 100.3', url: 'https://22283.live.streamtheworld.com/UFM_1003AAC.aac', type: 'aac' },
       { name: 'Kenyalang FM', url: 'https://stream-eu-a.rcs.revma.com/qyg9zmvbv4uvv/52_15nleuhxrs9mr02/playlist.m3u8', type: 'm3u8' },
-      { name: 'Langkawi FM', url: 'https://28103.live.streamtheworld.com/LANGKAWI_FMAAC.aac', type: 'aac' },
+      { name: 'Langkawi FM', url: 'https://22273.live.streamtheworld.com:443/LANGKAWI_FMAAC.aac', type: 'aac' },
       { name: 'Bayu FM', url: 'https://stream-eu-a.rcs.revma.com/ywpe7mqb54uvv/6_glpo8niyqr7e02/playlist.m3u8', type: 'm3u8' },
       { name: 'MyFriends FM', url: 'https://cast3.asurahosting.com/proxy/myfriend/stream', type: 'mp3' },
       { name: 'RADIOROSAK', url: 'https://radiorosak.radioca.st/stream', type: 'mp3' },
@@ -484,17 +460,14 @@
     let hls = null;
     let isDarkMode = false;
 
-    // Fungsi utama
     function init() {
       renderStations(stations);
       audioPlayer.volume = volumeSlider.value;
       
-      // Cek preferensi mode gelap dari localStorage
       if (localStorage.getItem('darkMode') === 'true') {
         toggleDarkMode();
       }
       
-      // Event listeners
       playBtn.addEventListener('click', togglePlay);
       volumeSlider.addEventListener('input', () => audioPlayer.volume = volumeSlider.value);
       searchInput.addEventListener('input', handleSearch);
@@ -503,31 +476,30 @@
       themeToggle.addEventListener('click', toggleDarkMode);
     }
 
-    // Toggle mode gelap/terang
     function toggleDarkMode() {
       isDarkMode = !isDarkMode;
       document.body.classList.toggle('dark-mode', isDarkMode);
       themeToggle.textContent = isDarkMode ? '☀️' : '🌙';
-      
-      // Simpan preferensi ke localStorage
       localStorage.setItem('darkMode', isDarkMode);
     }
 
-    // Render daftar stasiun
     function renderStations(stationList) {
       stationsGrid.innerHTML = stationList.map(station => `
-        <div class="station-card" data-name="${station.name}">${station.name}</div>
+        <div class="station-card" data-name="${station.name.replace(/'/g, "\\'")}">${station.name}</div>
       `).join('');
       
       document.querySelectorAll('.station-card').forEach(card => {
-        card.addEventListener('click', () => playStation(stations.find(s => s.name === card.dataset.name)));
+        card.addEventListener('click', () => {
+          const station = stations.find(s => s.name === card.dataset.name);
+          if (station) playStation(station);
+        });
       });
     }
 
-    // Memutar stasiun radio
     function playStation(station) {
       document.querySelectorAll('.station-card').forEach(card => card.classList.remove('active'));
-      document.querySelector(`.station-card[data-name="${station.name}"]`).classList.add('active');
+      const activeCard = document.querySelector(`.station-card[data-name="${station.name.replace(/'/g, "\\'")}"]`);
+      if (activeCard) activeCard.classList.add('active');
       
       currentStationData = station;
       currentStation.innerHTML = `${station.name} <div class="visualizer"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>`;
@@ -536,40 +508,46 @@
       loading.style.display = 'block';
       errorMessage.style.display = 'none';
       
-      // Hentikan pemutaran saat ini
       audioPlayer.pause();
-      if (hls) hls.destroy();
+      if (hls) {
+        hls.destroy();
+        hls = null;
+      }
       
-      // Putar stasiun baru
-      if (station.type === 'm3u8' && Hls.isSupported()) {
-        hls = new Hls();
-        hls.loadSource(station.url);
-        hls.attachMedia(audioPlayer);
-        
-        hls.on(Hls.Events.MANIFEST_PARSED, () => {
-          audioPlayer.play()
-            .then(() => {
-              loading.style.display = 'none';
-              updatePlayState(true);
-            })
-            .catch(handleError);
-        });
-        
-        hls.on(Hls.Events.ERROR, (_, data) => {
-          showError(`Gagal memuat ${station.name}: ${data.details || 'Ralat tidak diketahui'}`);
-        });
-      } else {
-        audioPlayer.src = station.url;
+      const playStream = () => {
         audioPlayer.play()
           .then(() => {
             loading.style.display = 'none';
             updatePlayState(true);
           })
-          .catch(handleError);
+          .catch((err) => {
+            console.error('Play error:', err);
+            handleError(err);
+          });
+      };
+      
+      if (station.type === 'm3u8' && Hls.isSupported()) {
+        hls = new Hls({ debug: false });
+        hls.loadSource(station.url);
+        hls.attachMedia(audioPlayer);
+        
+        hls.on(Hls.Events.MANIFEST_PARSED, () => playStream());
+        hls.on(Hls.Events.ERROR, (_, data) => {
+          if (!data.fatal) return;
+          showError(`Gagal memuat ${station.name}: ${data.details || 'Ralat tidak diketahui'}`);
+          loading.style.display = 'none';
+          updatePlayState(false);
+        });
+      } else if (station.type === 'm3u8' && !Hls.isSupported()) {
+        showError('Browser anda tidak menyokong streaming HLS');
+        loading.style.display = 'none';
+      } else {
+        audioPlayer.src = station.url;
+        audioPlayer.load();
+        playStream();
       }
     }
 
-    // Toggle play/pause
     function togglePlay() {
       if (audioPlayer.paused) {
         if (currentStationData) {
@@ -583,7 +561,6 @@
       }
     }
 
-    // Update UI pemutaran
     function updatePlayState(isPlaying) {
       if (isPlaying) {
         playIcon.textContent = '⏸️';
@@ -597,13 +574,11 @@
       loading.style.display = 'none';
     }
 
-    // Pencarian
     function handleSearch(e) {
       const term = e.target.value.toLowerCase();
       renderStations(stations.filter(s => s.name.toLowerCase().includes(term)));
     }
 
-    // Penanganan error
     function handleError(error) {
       console.error('Error:', error);
       showError('Ralat main balik. Sila cuba stesen lain atau muat semula halaman.');
@@ -614,9 +589,11 @@
       errorMessage.textContent = message;
       errorMessage.style.display = 'block';
       loading.style.display = 'none';
+      setTimeout(() => {
+        errorMessage.style.display = 'none';
+      }, 5000);
     }
 
-    // Jalankan aplikasi
     init();
   </script>
 </body>
