@@ -19,7 +19,6 @@
             position: relative;
         }
 
-        /* Decorative background */
         body::before {
             content: '';
             position: fixed;
@@ -39,7 +38,6 @@
             z-index: 1;
         }
 
-        /* Header */
         .header {
             text-align: center;
             margin-bottom: 32px;
@@ -72,7 +70,6 @@
             color: white;
         }
 
-        /* Main Card */
         .card {
             background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(10px);
@@ -82,7 +79,6 @@
             animation: fadeInUp 0.6s ease;
         }
 
-        /* API Bar */
         .api-bar {
             padding: 24px 28px;
             background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
@@ -115,7 +111,6 @@
             box-shadow: 0 0 0 3px rgba(102,126,234,0.2);
         }
 
-        /* Form Groups */
         .form-group {
             margin-bottom: 24px;
         }
@@ -163,7 +158,6 @@
             gap: 20px;
         }
 
-        /* Slider Styles */
         .slider-wrapper {
             margin-top: 8px;
         }
@@ -212,7 +206,6 @@
             margin-top: 8px;
         }
 
-        /* Preset Buttons */
         .preset-section {
             margin-bottom: 24px;
         }
@@ -258,7 +251,6 @@
             color: white;
         }
 
-        /* Toggle Switch */
         .toggle-group {
             display: flex;
             justify-content: space-between;
@@ -329,7 +321,6 @@
             transform: translateX(24px);
         }
 
-        /* Sections */
         .section {
             padding: 0 28px 24px 28px;
             border-bottom: 1px solid #f1f5f9;
@@ -352,7 +343,6 @@
             display: inline-block;
         }
 
-        /* Capture Button */
         .capture-btn {
             width: calc(100% - 56px);
             margin: 24px 28px 32px 28px;
@@ -373,7 +363,6 @@
             box-shadow: 0 12px 28px rgba(102,126,234,0.4);
         }
 
-        /* Result Area */
         .result-area {
             margin: 0 28px 28px 28px;
             padding: 24px;
@@ -478,13 +467,11 @@
         </div>
 
         <div class="card">
-            <!-- API Key -->
             <div class="api-bar">
                 <label>🔑 API Key</label>
                 <input type="text" id="apiKey" placeholder="Enter your Site-Shot API key">
             </div>
 
-            <!-- URL -->
             <div class="section">
                 <div class="form-group">
                     <label>🌐 Website URL</label>
@@ -496,11 +483,10 @@
             <div class="section">
                 <div class="section-title">📱 Viewport</div>
                 
-                <!-- Desktop Presets -->
                 <div class="preset-section">
                     <div class="preset-category">
                         <div class="preset-category-title">💻 DESKTOP</div>
-                        <div class="preset-buttons" id="desktopPresets">
+                        <div class="preset-buttons">
                             <button class="preset-btn" data-width="1024" data-height="768">1024×768</button>
                             <button class="preset-btn" data-width="1280" data-height="800">1280×800</button>
                             <button class="preset-btn" data-width="1280" data-height="1024">1280×1024</button>
@@ -510,11 +496,10 @@
                     </div>
                 </div>
 
-                <!-- Android Presets -->
                 <div class="preset-section">
                     <div class="preset-category">
                         <div class="preset-category-title">🤖 ANDROID</div>
-                        <div class="preset-buttons" id="androidPresets">
+                        <div class="preset-buttons">
                             <button class="preset-btn" data-width="360" data-height="780">Galaxy A56</button>
                             <button class="preset-btn" data-width="360" data-height="780">Galaxy S25</button>
                             <button class="preset-btn" data-width="412" data-height="915">Pixel 8</button>
@@ -525,11 +510,10 @@
                     </div>
                 </div>
 
-                <!-- iOS Presets -->
                 <div class="preset-section">
                     <div class="preset-category">
                         <div class="preset-category-title">🍎 iOS</div>
-                        <div class="preset-buttons" id="iosPresets">
+                        <div class="preset-buttons">
                             <button class="preset-btn" data-width="390" data-height="844">iPhone 14</button>
                             <button class="preset-btn" data-width="393" data-height="852">iPhone 16</button>
                             <button class="preset-btn" data-width="430" data-height="932">iPhone 16 Plus</button>
@@ -541,7 +525,6 @@
                     </div>
                 </div>
                 
-                <!-- Sliders for Custom Resolution -->
                 <div class="form-group">
                     <label>Width <span class="optional">(100-8000px)</span></label>
                     <div class="slider-wrapper">
@@ -725,10 +708,8 @@
                 </div>
             </div>
 
-            <!-- Capture Button -->
             <button class="capture-btn" id="captureBtn">📸 Capture Screenshot</button>
 
-            <!-- Result Area -->
             <div class="result-area" id="resultArea" style="display: none;">
                 <div class="result-header">
                     <strong>✨ Screenshot Preview</strong>
@@ -772,13 +753,11 @@
             widthValue.textContent = width + 'px';
             heightValue.textContent = height + 'px';
             
-            // Remove active class from all preset buttons
             document.querySelectorAll('.preset-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
         }
 
-        // Add click handlers to all preset buttons
         document.querySelectorAll('.preset-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const width = parseInt(btn.dataset.width);
@@ -788,7 +767,7 @@
             });
         });
 
-        // Build API URL with all parameters
+        // Build API URL using Vercel proxy (no CORS issues)
         function buildApiUrl() {
             const apiKey = document.getElementById('apiKey').value.trim();
             const url = document.getElementById('url').value.trim();
@@ -866,7 +845,8 @@
             const timeZone = document.getElementById('timeZone').value;
             if (timeZone) params.append('time_zone', timeZone);
             
-            return `https://api.site-shot.com/?${params.toString()}`;
+            // Use Vercel proxy - this avoids CORS
+            return `/api/screenshot/?${params.toString()}`;
         }
         
         let currentImageData = null;
@@ -939,11 +919,9 @@
             }
         }
         
-        // Event listeners
         document.getElementById('captureBtn').addEventListener('click', capture);
         document.getElementById('downloadBtn').addEventListener('click', download);
         
-        // Initialize display
         fullPageValue.textContent = 'Off (Viewport only)';
     </script>
 </body>
