@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    {
-      "source": "/api/screenshot/(.*)",
-      "destination": "https://api.site-shot.com/$1"
-    }
-  ]
-}
