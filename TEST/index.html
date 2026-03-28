@@ -767,7 +767,7 @@
             });
         });
 
-        // Build API URL using Vercel proxy (no CORS issues)
+        // Build API URL using CORS proxy - THIS SOLVES THE CORS ISSUE
         function buildApiUrl() {
             const apiKey = document.getElementById('apiKey').value.trim();
             const url = document.getElementById('url').value.trim();
@@ -845,8 +845,9 @@
             const timeZone = document.getElementById('timeZone').value;
             if (timeZone) params.append('time_zone', timeZone);
             
-            // Use Vercel proxy - this avoids CORS
-            return `/api/screenshot/?${params.toString()}`;
+            // Use CORS proxy to avoid CORS issues
+            const originalUrl = `https://api.site-shot.com/?${params.toString()}`;
+            return `https://corsproxy.io/?${encodeURIComponent(originalUrl)}`;
         }
         
         let currentImageData = null;
