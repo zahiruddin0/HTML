@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MILLAGE • NEUBRUTALISM</title>
+    <title>Site-Shot Pro - Website Screenshot API</title>
     <style>
-        /* neubrutalism reset */
         * {
             margin: 0;
             padding: 0;
@@ -13,499 +12,939 @@
         }
 
         body {
-            background: #f0f0f0;
-            background-image: repeating-linear-gradient(45deg, #e0e0e0 0px, #e0e0e0 2px, #f5f5f5 2px, #f5f5f5 8px);
-            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 1.5rem;
-            color: #1a1a1a;
+            padding: 40px 20px;
+            position: relative;
         }
 
-        .brutal-container {
-            max-width: 700px;
-            width: 100%;
-            background: #ffffff;
-            border: 4px solid #000000;
-            box-shadow: 12px 12px 0px #000000;
-            padding: 2rem 2rem 2.2rem;
-            transition: 0.1s ease;
+        /* Decorative background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 1%, transparent 1%);
+            background-size: 40px 40px;
+            pointer-events: none;
         }
 
-        .brutal-container:hover {
-            box-shadow: 16px 16px 0px #000000;
-            transform: translate(-2px, -2px);
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
-        .main-head {
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+            animation: fadeInDown 0.6s ease;
+        }
+
+        .header h1 {
             font-size: 2.5rem;
             font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: -1px;
-            background: #ffff00;
-            border: 3px solid black;
-            padding: 0.2rem 1.5rem 0.2rem 1.5rem;
-            display: inline-block;
-            margin-bottom: 2rem;
-            box-shadow: 6px 6px 0 #000000;
-            color: #000;
+            background: linear-gradient(135deg, #fff, #e0e7ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
         }
 
-        /* SENARAI MILLAGE — MENGIKUT URUTAN BARU */
-        .millage-tower {
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-            margin-bottom: 2.5rem;
-            border: 3px solid black;
-            padding: 1.8rem 1.5rem;
-            background: #faffc7;
-            box-shadow: 8px 8px 0 #000;
-        }
-
-        .oil-block {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #ffffff;
-            border: 3px solid black;
-            padding: 0.9rem 1.2rem 0.9rem 2rem;
-            font-weight: 700;
-            font-size: 1.2rem;
-            box-shadow: 6px 6px 0 #000;
-            transition: 0.1s;
-        }
-
-        .oil-block:hover {
-            background: #d0ffd0;
-            box-shadow: 8px 8px 0 #000;
-            transform: translate(-2px, -2px);
-        }
-
-        .oil-name {
-            text-transform: uppercase;
-            color: #000;
-            font-weight: 800;
-        }
-
-        .oil-dist {
-            background: #ffb2ff;
-            border: 3px solid black;
-            padding: 0.4rem 2rem;
-            font-weight: 800;
-            font-size: 1.2rem;
-            color: #000;
-            box-shadow: 4px 4px 0 #000;
-            clip-path: polygon(0 0, 100% 0, 92% 100%, 0% 100%);
-        }
-
-        /* ZON NOTA */
-        .nota-brutal {
-            border: 4px solid black;
-            background: #c7f0ff;
-            padding: 2rem 1.8rem;
-            box-shadow: 10px 10px 0 #000;
-            margin-top: 0.5rem;
-        }
-
-        .nota-stamp {
-            font-size: 1.8rem;
-            font-weight: 800;
-            background: #ff7b00;
-            color: #000;
-            border: 3px solid black;
-            padding: 0.2rem 2rem;
-            display: inline-block;
-            box-shadow: 6px 6px 0 black;
-            margin-bottom: 1.5rem;
-            text-transform: uppercase;
-            letter-spacing: -0.5px;
-        }
-
-        .oil-cards {
-            display: flex;
-            flex-direction: column;
-            gap: 0.9rem;
-            margin-bottom: 2rem;
-        }
-
-        .oil-note-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            background: white;
-            border: 3px solid black;
-            padding: 0.7rem 1.5rem 0.7rem 1rem;
-            box-shadow: 6px 6px 0 #000;
-            font-weight: 600;
-        }
-
-        .oil-badge {
-            background: #00ffff;
-            border: 2px solid black;
-            padding: 0.2rem 1.2rem;
-            font-weight: 800;
-            font-size: 1.3rem;
-            box-shadow: 3px 3px 0 black;
-        }
-
-        .oil-desc {
+        .header p {
+            color: rgba(255,255,255,0.9);
             font-size: 1rem;
-            color: #1a1a1a;
         }
 
-        .dual-panel-neo {
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            margin-top: 12px;
+            color: white;
+        }
+
+        /* Main Card */
+        .card {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 32px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        /* API Bar */
+        .api-bar {
+            padding: 24px 28px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-bottom: 1px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .api-bar label {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+            display: block;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .api-bar input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e2e8f0;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .api-bar input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.2);
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            color: #334155;
+        }
+
+        label .optional {
+            font-weight: normal;
+            color: #94a3b8;
+            font-size: 0.7rem;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            background: #ffffff;
+            transition: all 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            font-family: 'SF Mono', monospace;
+            font-size: 0.8rem;
+        }
+
+        .row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1.2rem;
-            margin: 1.8rem 0 0 0;
+            gap: 20px;
         }
 
-        .neo-panel {
-            background: #ffffff;
-            border: 4px solid black;
-            padding: 1.2rem 1.2rem 1.4rem 1.2rem;
-            box-shadow: 8px 8px 0 #000;
+        /* Slider Styles */
+        .slider-wrapper {
+            margin-top: 8px;
         }
 
-        .panel-title-neo {
-            font-size: 1.3rem;
-            font-weight: 800;
-            background: #ff99ff;
-            border: 2px solid black;
-            padding: 0.2rem 1rem;
+        .slider-wrapper input[type="range"] {
+            width: 100%;
+            height: 6px;
+            -webkit-appearance: none;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            padding: 0;
+        }
+
+        .slider-wrapper input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+
+        .slider-wrapper input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .slider-value {
             display: inline-block;
-            margin-bottom: 0.8rem;
-            box-shadow: 4px 4px 0 black;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: white;
+            margin-left: 12px;
         }
 
-        .neo-panel p {
-            font-size: 1rem;
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: #64748b;
+            margin-top: 8px;
+        }
+
+        /* Preset Buttons */
+        .preset-section {
+            margin-bottom: 24px;
+        }
+
+        .preset-category {
+            margin-bottom: 16px;
+        }
+
+        .preset-category-title {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #667eea;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .preset-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .preset-btn {
+            background: #f1f5f9;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 40px;
+            font-size: 0.7rem;
             font-weight: 500;
-            margin-bottom: 0.3rem;
-            line-height: 1.4;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        .neo-highlight {
-            background: #b1ff9d;
-            border: 2px solid black;
-            padding: 0.2rem 1rem;
-            font-weight: 700;
-            display: inline-block;
-            margin-top: 0.4rem;
-            box-shadow: 3px 3px 0 black;
+        .preset-btn:hover {
+            background: #e2e8f0;
+            transform: translateY(-1px);
+        }
+
+        .preset-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        /* Toggle Switch */
+        .toggle-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .toggle-group:last-child {
+            border-bottom: none;
+        }
+
+        .toggle-label {
+            font-weight: 600;
             font-size: 0.9rem;
+            color: #1e293b;
         }
 
-        /* MEDIA QUERY UNTUK SKRIN SEDERHANA (TABLET) */
+        .toggle-label small {
+            font-weight: normal;
+            color: #94a3b8;
+            font-size: 0.7rem;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 52px;
+            height: 28px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .switch .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #cbd5e1;
+            transition: 0.3s;
+            border-radius: 34px;
+        }
+
+        .switch .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        input:checked + .slider {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+        /* Sections */
+        .section {
+            padding: 0 28px 24px 28px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .section:last-of-type {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-weight: 700;
+            font-size: 1rem;
+            margin: 0 0 20px 0;
+            padding-bottom: 12px;
+            color: #1e293b;
+            border-bottom: 2px solid;
+            border-image: linear-gradient(135deg, #667eea, #764ba2);
+            border-image-slice: 1;
+            border-bottom-style: solid;
+            display: inline-block;
+        }
+
+        /* Capture Button */
+        .capture-btn {
+            width: calc(100% - 56px);
+            margin: 24px 28px 32px 28px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 20px rgba(102,126,234,0.3);
+        }
+
+        .capture-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(102,126,234,0.4);
+        }
+
+        /* Result Area */
+        .result-area {
+            margin: 0 28px 28px 28px;
+            padding: 24px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 24px;
+            border: 1px solid rgba(102,126,234,0.2);
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .result-header strong {
+            font-size: 1rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .download-btn {
+            background: white;
+            border: 2px solid #e2e8f0;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #667eea;
+        }
+
+        .download-btn:hover {
+            border-color: #667eea;
+            transform: scale(1.02);
+        }
+
+        .preview {
+            text-align: center;
+        }
+
+        .preview img {
+            max-width: 100%;
+            max-height: 500px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: #667eea;
+            font-weight: 500;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 16px;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            border-left: 4px solid #dc2626;
+        }
+
+        .info-note {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            margin-top: 8px;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         @media (max-width: 768px) {
-            body {
-                padding: 1rem;
-            }
-            
-            .brutal-container {
-                padding: 1.5rem;
-                box-shadow: 8px 8px 0px #000000;
-            }
-            
-            .main-head {
-                font-size: 2rem;
-                padding: 0.2rem 1rem;
-                margin-bottom: 1.5rem;
-            }
-            
-            .millage-tower {
-                padding: 1.2rem 1rem;
-                gap: 0.6rem;
-            }
-            
-            .oil-block {
-                padding: 0.7rem 1rem;
-                font-size: 1rem;
-            }
-            
-            .oil-dist {
-                padding: 0.3rem 1.2rem;
-                font-size: 1rem;
-                clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
-            }
-            
-            .nota-brutal {
-                padding: 1.5rem 1.2rem;
-                box-shadow: 8px 8px 0 #000;
-            }
-            
-            .nota-stamp {
-                font-size: 1.5rem;
-                padding: 0.2rem 1.5rem;
-                margin-bottom: 1rem;
-            }
-            
-            .oil-note-item {
-                padding: 0.6rem 1rem;
-                gap: 0.8rem;
-            }
-            
-            .oil-badge {
-                font-size: 1.1rem;
-                padding: 0.2rem 1rem;
-            }
-            
-            .dual-panel-neo {
-                gap: 1rem;
-            }
-        }
-
-        /* MEDIA QUERY UNTUK SKRIN KECIL (PHONE) - LEBIH KECIL */
-        @media (max-width: 550px) {
-            .dual-panel-neo { 
-                grid-template-columns: 1fr; 
-            }
-            
-            .oil-block { 
-                flex-direction: column; 
-                align-items: start; 
-                gap: 0.5rem; 
-            }
-            
-            .main-head { 
-                font-size: 1.8rem; 
-                padding: 0.2rem 0.8rem;
-            }
-            
-            body {
-                padding: 0.8rem;
-            }
-            
-            .brutal-container {
-                padding: 1rem;
-                box-shadow: 6px 6px 0px #000000;
-                border-width: 3px;
-            }
-            
-            .brutal-container:hover {
-                box-shadow: 10px 10px 0px #000000;
-            }
-            
-            .millage-tower {
-                padding: 1rem 0.8rem;
-                border-width: 2px;
-                box-shadow: 6px 6px 0 #000;
-                margin-bottom: 1.5rem;
-            }
-            
-            .oil-block {
-                padding: 0.6rem 0.8rem;
-                font-size: 0.95rem;
-                border-width: 2px;
-                box-shadow: 4px 4px 0 #000;
-            }
-            
-            .oil-block:hover {
-                box-shadow: 6px 6px 0 #000;
-            }
-            
-            .oil-name {
-                font-size: 1rem;
-            }
-            
-            .oil-dist {
-                padding: 0.2rem 1rem;
-                font-size: 0.95rem;
-                border-width: 2px;
-                box-shadow: 3px 3px 0 #000;
-                clip-path: polygon(0 0, 100% 0, 92% 100%, 0% 100%);
-                width: auto;
-                align-self: flex-start;
-            }
-            
-            .nota-brutal {
-                padding: 1.2rem 1rem;
-                border-width: 3px;
-                box-shadow: 6px 6px 0 #000;
-            }
-            
-            .nota-stamp {
-                font-size: 1.3rem;
-                padding: 0.2rem 1rem;
-                border-width: 2px;
-                box-shadow: 4px 4px 0 black;
-                margin-bottom: 0.8rem;
-            }
-            
-            .oil-cards {
-                gap: 0.7rem;
-                margin-bottom: 1.2rem;
-            }
-            
-            .oil-note-item {
-                padding: 0.5rem 0.8rem;
-                gap: 0.6rem;
-                border-width: 2px;
-                box-shadow: 4px 4px 0 #000;
-            }
-            
-            .oil-badge {
-                font-size: 1rem;
-                padding: 0.1rem 0.8rem;
-                border-width: 2px;
-                box-shadow: 2px 2px 0 black;
-            }
-            
-            .oil-desc {
-                font-size: 0.9rem;
-            }
-            
-            .neo-panel {
-                padding: 1rem 0.8rem;
-                border-width: 3px;
-                box-shadow: 6px 6px 0 #000;
-            }
-            
-            .panel-title-neo {
-                font-size: 1.1rem;
-                padding: 0.1rem 0.8rem;
-                border-width: 2px;
-                box-shadow: 3px 3px 0 black;
-                margin-bottom: 0.5rem;
-            }
-            
-            .neo-panel p {
-                font-size: 0.9rem;
-                margin-bottom: 0.2rem;
-            }
-            
-            .neo-highlight {
-                font-size: 0.8rem;
-                padding: 0.1rem 0.8rem;
-                border-width: 2px;
-                box-shadow: 2px 2px 0 black;
-            }
-        }
-
-        /* MEDIA QUERY UNTUK SKRIN SANGAT KECIL (< 400px) */
-        @media (max-width: 400px) {
-            body {
-                padding: 0.5rem;
-            }
-            
-            .brutal-container {
-                padding: 0.8rem;
-            }
-            
-            .main-head {
-                font-size: 1.5rem;
-                margin-bottom: 1rem;
-            }
-            
-            .millage-tower {
-                padding: 0.8rem 0.5rem;
-                gap: 0.4rem;
-            }
-            
-            .oil-block {
-                padding: 0.5rem 0.6rem;
-            }
-            
-            .oil-dist {
-                padding: 0.15rem 0.8rem;
-                font-size: 0.85rem;
-                clip-path: polygon(0 0, 100% 0, 88% 100%, 0% 100%);
-            }
-            
-            .nota-brutal {
-                padding: 1rem 0.8rem;
-            }
-            
-            .nota-stamp {
-                font-size: 1.1rem;
-                padding: 0.1rem 0.8rem;
-            }
-            
-            .oil-note-item {
-                flex-wrap: wrap;
-                gap: 0.3rem;
-            }
-            
-            .oil-badge {
-                font-size: 0.9rem;
-            }
-            
-            .oil-desc {
-                font-size: 0.8rem;
-                width: 100%;
-            }
-            
-            .dual-panel-neo {
-                gap: 0.8rem;
-            }
+            body { padding: 20px 16px; }
+            .row { grid-template-columns: 1fr; gap: 16px; }
+            .section { padding: 0 20px 20px 20px; }
+            .capture-btn { width: calc(100% - 40px); margin: 20px 20px 28px 20px; }
+            .result-area { margin: 0 20px 20px 20px; }
+            .api-bar { padding: 20px; }
+            .preset-btn { padding: 4px 10px; font-size: 0.65rem; }
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="brutal-container">
-        <!-- header kuning neubrutal -->
-        <div class="main-head">MILLAGE ⚡ MINYAK</div>
-
-        <!-- LIST MILLAGE MENGIKUT URUTAN BARU YANG DIBERI -->
-        <div class="millage-tower">
-            <!-- 1. 0W-40 (10,000) -->
-            <div class="oil-block"><span class="oil-name">0W-40</span><span class="oil-dist">10,000</span></div>
-            <!-- 2. 5W-40 (10,000) -->
-            <div class="oil-block"><span class="oil-name">5W-40</span><span class="oil-dist">10,000</span></div>
-            <!-- 3. 10W-40 (7,000) -->
-            <div class="oil-block"><span class="oil-name">10W-40</span><span class="oil-dist">7,000</span></div>
-            <!-- 4. 15W-40 (5,000) -->
-            <div class="oil-block"><span class="oil-name">15W-40</span><span class="oil-dist">5,000</span></div>
-            <!-- 5. MINYAK GEAR (30,000) -->
-            <div class="oil-block"><span class="oil-name">MINYAK GEAR</span><span class="oil-dist">30,000</span></div>
-            <!-- 6. AUTO FILTER (60,000) -->
-            <div class="oil-block"><span class="oil-name">AUTO FILTER</span><span class="oil-dist">60,000</span></div>
-            <!-- 7. SPARK PLUG (80,000) -->
-            <div class="oil-block"><span class="oil-name">SPARK PLUG</span><span class="oil-dist">80,000</span></div>
-            <!-- 8. DIESEL FILTER (30,000) -->
-            <div class="oil-block"><span class="oil-name">DIESEL FILTER</span><span class="oil-dist">30,000</span></div>
+    <div class="container">
+        <div class="header">
+            <h1>✨ Site-Shot Pro</h1>
+            <p>Capture website screenshots with full control</p>
+            <span class="badge">⚡ Full Page • Proxy • Geolocation • All Devices</span>
         </div>
 
-        <!-- NOTA DENGAN ESTETIKA BLOK KERAS -->
-        <div class="nota-brutal">
-            <div class="nota-stamp">📘 NOTA MINYAK</div>
+        <div class="card">
+            <!-- API Key -->
+            <div class="api-bar">
+                <label>🔑 API Key</label>
+                <input type="text" id="apiKey" placeholder="Enter your Site-Shot API key">
+            </div>
 
-            <!-- tiga baris neubrutal dengan badge besar (mengikut urutan nota asal) -->
-            <div class="oil-cards">
-                <div class="oil-note-item">
-                    <span class="oil-badge">0W40</span>
-                    <span class="oil-desc">❄️ cuaca sejuk / turbo moden — 10,000 km</span>
-                </div>
-                <div class="oil-note-item">
-                    <span class="oil-badge">5W40</span>
-                    <span class="oil-desc">🌴 paling sesuai Malaysia — 10,000 km</span>
-                </div>
-                <div class="oil-note-item">
-                    <span class="oil-badge">10W40</span>
-                    <span class="oil-desc">🚙 kereta lama >100k km — 7,000 km</span>
+            <!-- URL -->
+            <div class="section">
+                <div class="form-group">
+                    <label>🌐 Website URL</label>
+                    <input type="url" id="url" placeholder="https://example.com" value="https://example.com">
                 </div>
             </div>
 
-            <!-- penerangan dua bahagian dengan panel neubrutal -->
-            <div class="dual-panel-neo">
-                <div class="neo-panel">
-                    <div class="panel-title-neo">⬅️ 5W / 10W / 0W</div>
-                    <p><strong>W</strong> = Winter (musim sejuk).</p>
-                    <p>Nombor kecil = cair masa enjin sejuk, senang start pagi.</p>
-                    <span class="neo-highlight">semakin kecil → semakin cair</span>
+            <!-- Viewport with Resolution Presets -->
+            <div class="section">
+                <div class="section-title">📱 Viewport</div>
+                
+                <!-- Desktop Presets -->
+                <div class="preset-section">
+                    <div class="preset-category">
+                        <div class="preset-category-title">💻 DESKTOP</div>
+                        <div class="preset-buttons" id="desktopPresets">
+                            <button class="preset-btn" data-width="1024" data-height="768">1024×768</button>
+                            <button class="preset-btn" data-width="1280" data-height="800">1280×800</button>
+                            <button class="preset-btn" data-width="1280" data-height="1024">1280×1024</button>
+                            <button class="preset-btn" data-width="1366" data-height="768">1366×768</button>
+                            <button class="preset-btn" data-width="1920" data-height="1080">1920×1080</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="neo-panel">
-                    <div class="panel-title-neo">➡️ bahagian kedua (40)</div>
-                    <p>Nombor belakang = kelikatan bila enjin panas.</p>
-                    <p>Makin besar nombor, makin pekat & perlindungan extra.</p>
-                    <span class="neo-highlight">40 = pekat untuk panas / beban</span>
+
+                <!-- Android Presets -->
+                <div class="preset-section">
+                    <div class="preset-category">
+                        <div class="preset-category-title">🤖 ANDROID</div>
+                        <div class="preset-buttons" id="androidPresets">
+                            <button class="preset-btn" data-width="360" data-height="780">Galaxy A56</button>
+                            <button class="preset-btn" data-width="360" data-height="780">Galaxy S25</button>
+                            <button class="preset-btn" data-width="412" data-height="915">Pixel 8</button>
+                            <button class="preset-btn" data-width="412" data-height="891">S25 Ultra</button>
+                            <button class="preset-btn" data-width="412" data-height="923">Pixel 9</button>
+                            <button class="preset-btn" data-width="410" data-height="914">Pixel 9 Pro</button>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- iOS Presets -->
+                <div class="preset-section">
+                    <div class="preset-category">
+                        <div class="preset-category-title">🍎 iOS</div>
+                        <div class="preset-buttons" id="iosPresets">
+                            <button class="preset-btn" data-width="390" data-height="844">iPhone 14</button>
+                            <button class="preset-btn" data-width="393" data-height="852">iPhone 16</button>
+                            <button class="preset-btn" data-width="430" data-height="932">iPhone 16 Plus</button>
+                            <button class="preset-btn" data-width="402" data-height="874">iPhone 16 Pro</button>
+                            <button class="preset-btn" data-width="440" data-height="956">iPhone 16 Pro Max</button>
+                            <button class="preset-btn" data-width="820" data-height="1180">iPad Air 11"</button>
+                            <button class="preset-btn" data-width="1024" data-height="1366">iPad Pro 12.9"</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sliders for Custom Resolution -->
+                <div class="form-group">
+                    <label>Width <span class="optional">(100-8000px)</span></label>
+                    <div class="slider-wrapper">
+                        <input type="range" id="widthSlider" min="100" max="8000" value="1280" step="10">
+                        <div class="slider-labels">
+                            <span>100px</span>
+                            <span id="widthValue" class="slider-value">1280px</span>
+                            <span>8000px</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Height <span class="optional">(100-20000px)</span></label>
+                    <div class="slider-wrapper">
+                        <input type="range" id="heightSlider" min="100" max="20000" value="1024" step="10">
+                        <div class="slider-labels">
+                            <span>100px</span>
+                            <span id="heightValue" class="slider-value">1024px</span>
+                            <span>20000px</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Zoom <span class="optional">(5-1000%)</span></label>
+                    <div class="slider-wrapper">
+                        <input type="range" id="zoomSlider" min="5" max="1000" value="100" step="5">
+                        <div class="slider-labels">
+                            <span>5%</span>
+                            <span id="zoomValue" class="slider-value">100%</span>
+                            <span>1000%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Capture Options -->
+            <div class="section">
+                <div class="section-title">⚙️ Capture</div>
+                
+                <div class="form-group">
+                    <label>Full Page <span class="optional">(drag to set max height)</span></label>
+                    <div class="slider-wrapper">
+                        <input type="range" id="fullPageSlider" min="0" max="20000" value="0" step="100">
+                        <div class="slider-labels">
+                            <span>0 (Off)</span>
+                            <span id="fullPageValue" class="slider-value">Off</span>
+                            <span>20000px</span>
+                        </div>
+                    </div>
+                    <div class="info-note">💡 Set to 0 for viewport only. Any value >0 captures full page up to that height.</div>
+                </div>
+                
+                <div class="row">
+                    <div class="form-group">
+                        <label>Delay (ms)</label>
+                        <input type="number" id="delay" value="1500">
+                    </div>
+                    <div class="form-group">
+                        <label>Timeout (ms)</label>
+                        <input type="number" id="timeout" value="60000">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label>Format</label>
+                        <select id="format">
+                            <option value="png">PNG</option>
+                            <option value="jpeg">JPEG</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Response Type</label>
+                        <select id="responseType">
+                            <option value="image">IMAGE (direct)</option>
+                            <option value="json">JSON (base64)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Scaled Width</label>
+                    <input type="number" id="scaledWidth" placeholder="Leave empty for original">
+                </div>
+            </div>
+
+            <!-- Content Filtering -->
+            <div class="section">
+                <div class="section-title">🎯 Content</div>
+                <div class="toggle-group">
+                    <span class="toggle-label">🍪 No Cookie Popup <small>block cookie banners</small></span>
+                    <label class="switch">
+                        <input type="checkbox" id="noCookie">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-group">
+                    <span class="toggle-label">🚫 No Ads <small>block advertisements</small></span>
+                    <label class="switch">
+                        <input type="checkbox" id="noAds">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>Custom JavaScript</label>
+                    <textarea id="jsCode" rows="2" placeholder="document.getElementById('banner').style.display='none'"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Custom User Agent</label>
+                    <input type="text" id="userAgent" placeholder="Mozilla/5.0 (Windows NT 10.0; Win64; x64)...">
+                </div>
+                <div class="form-group">
+                    <label>Custom Headers</label>
+                    <textarea id="headers" rows="2" placeholder="Cookie: sessionid=abc123&#10;Referer: https://google.com"></textarea>
+                </div>
+            </div>
+
+            <!-- Proxy & Geolocation -->
+            <div class="section">
+                <div class="section-title">🌐 Network & Location</div>
+                <div class="toggle-group">
+                    <span class="toggle-label">🔄 Proxy Rotation <small>automatic IP rotation</small></span>
+                    <label class="switch">
+                        <input type="checkbox" id="proxyRotation" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>Country IP</label>
+                    <select id="country">
+                        <option value="">Auto / Default</option>
+                        <option value="us">🇺🇸 United States</option>
+                        <option value="gb">🇬🇧 United Kingdom</option>
+                        <option value="jp">🇯🇵 Japan</option>
+                        <option value="sg">🇸🇬 Singapore</option>
+                        <option value="my">🇲🇾 Malaysia</option>
+                        <option value="fr">🇫🇷 France</option>
+                        <option value="de">🇩🇪 Germany</option>
+                        <option value="au">🇦🇺 Australia</option>
+                        <option value="ca">🇨🇦 Canada</option>
+                        <option value="br">🇧🇷 Brazil</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Custom HTTP Proxy</label>
+                    <input type="text" id="httpProxy" placeholder="http://proxy.example.com:8080">
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label>Proxy Username</label>
+                        <input type="text" id="proxyUser" placeholder="Username">
+                    </div>
+                    <div class="form-group">
+                        <label>Proxy Password</label>
+                        <input type="password" id="proxyPass" placeholder="Password">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Geolocation</label>
+                    <input type="text" id="geolocation" placeholder="48.8566, 2.3522">
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label>Language</label>
+                        <select id="language">
+                            <option value="">Auto</option>
+                            <option value="en">English</option>
+                            <option value="ms">Malay</option>
+                            <option value="zh">Chinese</option>
+                            <option value="ja">Japanese</option>
+                            <option value="ko">Korean</option>
+                            <option value="fr">French</option>
+                            <option value="es">Spanish</option>
+                            <option value="ar">Arabic</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Time Zone</label>
+                        <input type="text" id="timeZone" placeholder="Asia/Kuala_Lumpur">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Capture Button -->
+            <button class="capture-btn" id="captureBtn">📸 Capture Screenshot</button>
+
+            <!-- Result Area -->
+            <div class="result-area" id="resultArea" style="display: none;">
+                <div class="result-header">
+                    <strong>✨ Screenshot Preview</strong>
+                    <button class="download-btn" id="downloadBtn">⬇️ Download Image</button>
+                </div>
+                <div id="resultContent"></div>
             </div>
         </div>
     </div>
+
+    <script>
+        // DOM Elements
+        const widthSlider = document.getElementById('widthSlider');
+        const heightSlider = document.getElementById('heightSlider');
+        const zoomSlider = document.getElementById('zoomSlider');
+        const fullPageSlider = document.getElementById('fullPageSlider');
+        
+        const widthValue = document.getElementById('widthValue');
+        const heightValue = document.getElementById('heightValue');
+        const zoomValue = document.getElementById('zoomValue');
+        const fullPageValue = document.getElementById('fullPageValue');
+
+        // Update slider displays
+        widthSlider.oninput = () => { widthValue.textContent = widthSlider.value + 'px'; };
+        heightSlider.oninput = () => { heightValue.textContent = heightSlider.value + 'px'; };
+        zoomSlider.oninput = () => { zoomValue.textContent = zoomSlider.value + '%'; };
+        
+        fullPageSlider.oninput = () => {
+            const val = parseInt(fullPageSlider.value);
+            if (val === 0) {
+                fullPageValue.textContent = 'Off (Viewport only)';
+            } else {
+                fullPageValue.textContent = val + 'px';
+            }
+        };
+
+        // Preset buttons functionality
+        function applyPreset(width, height) {
+            widthSlider.value = width;
+            heightSlider.value = height;
+            widthValue.textContent = width + 'px';
+            heightValue.textContent = height + 'px';
+            
+            // Remove active class from all preset buttons
+            document.querySelectorAll('.preset-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+        }
+
+        // Add click handlers to all preset buttons
+        document.querySelectorAll('.preset-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const width = parseInt(btn.dataset.width);
+                const height = parseInt(btn.dataset.height);
+                applyPreset(width, height);
+                btn.classList.add('active');
+            });
+        });
+
+        // Build API URL with all parameters
+        function buildApiUrl() {
+            const apiKey = document.getElementById('apiKey').value.trim();
+            const url = document.getElementById('url').value.trim();
+            
+            if (!apiKey) { alert('Please enter your API Key'); return null; }
+            if (!url) { alert('Please enter a URL'); return null; }
+            
+            const params = new URLSearchParams();
+            params.append('userkey', apiKey);
+            params.append('url', url);
+            
+            // Viewport
+            params.append('width', widthSlider.value);
+            params.append('height', heightSlider.value);
+            params.append('zoom', zoomSlider.value);
+            
+            // Full Page
+            const fullPageVal = parseInt(fullPageSlider.value);
+            if (fullPageVal > 0) {
+                params.append('full_size', '1');
+                params.append('max_height', fullPageVal);
+            } else {
+                params.append('full_size', '0');
+            }
+            
+            // Capture options
+            params.append('delay_time', document.getElementById('delay').value);
+            params.append('timeout', document.getElementById('timeout').value);
+            params.append('format', document.getElementById('format').value);
+            params.append('response_type', document.getElementById('responseType').value.toUpperCase());
+            
+            const scaledWidth = document.getElementById('scaledWidth').value;
+            if (scaledWidth) params.append('scaled_width', scaledWidth);
+            
+            // Content filtering
+            if (document.getElementById('noCookie').checked) params.append('no_cookie_popup', '1');
+            if (document.getElementById('noAds').checked) params.append('no_ads', '1');
+            
+            const jsCode = document.getElementById('jsCode').value;
+            if (jsCode) params.append('javascript_code', jsCode);
+            
+            const userAgent = document.getElementById('userAgent').value;
+            if (userAgent) params.append('user_agent', userAgent);
+            
+            const headers = document.getElementById('headers').value;
+            if (headers) {
+                headers.split('\n').forEach(line => {
+                    const match = line.match(/^([^:]+):\s*(.+)$/);
+                    if (match) params.append('request_header', `${match[1]}:${match[2]}`);
+                });
+            }
+            
+            // Proxy
+            params.append('proxy_rotation', document.getElementById('proxyRotation').checked ? '1' : '0');
+            
+            const country = document.getElementById('country').value;
+            if (country) params.append('country', country);
+            
+            const httpProxy = document.getElementById('httpProxy').value;
+            if (httpProxy) params.append('http_proxy', httpProxy);
+            
+            const proxyUser = document.getElementById('proxyUser').value;
+            if (proxyUser) params.append('proxy_username', proxyUser);
+            
+            const proxyPass = document.getElementById('proxyPass').value;
+            if (proxyPass) params.append('proxy_password', proxyPass);
+            
+            // Geolocation
+            const geolocation = document.getElementById('geolocation').value;
+            if (geolocation) params.append('geolocation', geolocation);
+            
+            const language = document.getElementById('language').value;
+            if (language) params.append('language', language);
+            
+            const timeZone = document.getElementById('timeZone').value;
+            if (timeZone) params.append('time_zone', timeZone);
+            
+            return `https://api.site-shot.com/?${params.toString()}`;
+        }
+        
+        let currentImageData = null;
+        let currentImageType = 'png';
+        
+        async function capture() {
+            const apiUrl = buildApiUrl();
+            if (!apiUrl) return;
+            
+            const resultArea = document.getElementById('resultArea');
+            const resultContent = document.getElementById('resultContent');
+            const responseType = document.getElementById('responseType').value;
+            
+            resultArea.style.display = 'block';
+            resultContent.innerHTML = '<div class="loading">⏳ Capturing screenshot...</div>';
+            
+            try {
+                const response = await fetch(apiUrl);
+                
+                if (responseType === 'json') {
+                    const data = await response.json();
+                    if (data.error) {
+                        resultContent.innerHTML = `<div class="error">Error: ${data.error}</div>`;
+                        return;
+                    }
+                    if (data.image) {
+                        currentImageData = data.image;
+                        currentImageType = 'png';
+                        resultContent.innerHTML = `<div class="preview"><img src="data:image/png;base64,${data.image}" alt="Screenshot"></div>`;
+                    } else {
+                        resultContent.innerHTML = '<div class="error">Unexpected JSON response</div>';
+                    }
+                } else {
+                    const blob = await response.blob();
+                    if (!response.ok) {
+                        const text = await blob.text();
+                        resultContent.innerHTML = `<div class="error">Error ${response.status}: ${text.substring(0, 200)}</div>`;
+                        return;
+                    }
+                    const imgUrl = URL.createObjectURL(blob);
+                    currentImageData = imgUrl;
+                    currentImageType = blob.type.includes('jpeg') ? 'jpg' : 'png';
+                    resultContent.innerHTML = `<div class="preview"><img src="${imgUrl}" alt="Screenshot"></div>`;
+                }
+            } catch (error) {
+                resultContent.innerHTML = `<div class="error">Network Error: ${error.message}</div>`;
+            }
+        }
+        
+        function download() {
+            if (!currentImageData) {
+                alert('No screenshot available');
+                return;
+            }
+            
+            const format = document.getElementById('format').value;
+            const ext = format === 'jpeg' ? 'jpg' : 'png';
+            const timestamp = new Date().toISOString().slice(0,19).replace(/:/g, '-');
+            
+            if (currentImageData.startsWith('blob:')) {
+                const link = document.createElement('a');
+                link.href = currentImageData;
+                link.download = `screenshot-${timestamp}.${ext}`;
+                link.click();
+            } else {
+                const link = document.createElement('a');
+                link.href = `data:image/${ext};base64,${currentImageData}`;
+                link.download = `screenshot-${timestamp}.${ext}`;
+                link.click();
+            }
+        }
+        
+        // Event listeners
+        document.getElementById('captureBtn').addEventListener('click', capture);
+        document.getElementById('downloadBtn').addEventListener('click', download);
+        
+        // Initialize display
+        fullPageValue.textContent = 'Off (Viewport only)';
+    </script>
 </body>
 </html>
