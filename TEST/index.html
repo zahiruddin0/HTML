@@ -1,1220 +1,674 @@
 <!DOCTYPE html>
-<html lang="id" data-theme-mode="theme1">
+<html lang="ms">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Dual Theme Password Generator - Responsive</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;900&family=Syne:wght@400;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-    <style>
-        /* ============================================= */
-        /* THEME 1: Minimalis Modern (Soft Dark/Light)  */
-        /* ============================================= */
-        :root[data-theme-mode="theme1"][data-theme="dark"] {
-            --bg: #0d0d0f;
-            --surface: #16161a;
-            --surface2: #1e1e24;
-            --border: #2a2a35;
-            --text: #f0f0f5;
-            --text-muted: #6b6b80;
-            --accent: #7c6bff;
-            --accent-glow: rgba(124, 107, 255, 0.3);
-            --green: #22c55e;
-            --green-bg: rgba(34, 197, 94, 0.1);
-            --red: #ef4444;
-            --red-bg: rgba(239, 68, 68, 0.1);
-            --yellow: #f59e0b;
-            --yellow-bg: rgba(245, 158, 11, 0.1);
-            --slider-track: #2a2a35;
-            --checkbox-bg: #2a2a35;
-            --font-body: 'Syne', sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
-            --card-radius: 20px;
-            --card-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            --btn-transform: scale(0.97);
-            --padding-card: 32px;
-            --padding-card-mobile: 20px;
-            --font-title: 1.3rem;
-            --font-title-mobile: 1.1rem;
-        }
-
-        :root[data-theme-mode="theme1"][data-theme="light"] {
-            --bg: #f5f5f7;
-            --surface: #ffffff;
-            --surface2: #f0f0f5;
-            --border: #e0e0ea;
-            --text: #1a1a2e;
-            --text-muted: #8888a0;
-            --accent: #5b47f5;
-            --accent-glow: rgba(91, 71, 245, 0.2);
-            --green: #16a34a;
-            --green-bg: rgba(22, 163, 74, 0.08);
-            --red: #dc2626;
-            --red-bg: rgba(220, 38, 38, 0.08);
-            --yellow: #d97706;
-            --yellow-bg: rgba(217, 119, 6, 0.08);
-            --slider-track: #e0e0ea;
-            --checkbox-bg: #e8e8f0;
-            --font-body: 'Syne', sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
-            --card-radius: 20px;
-            --card-shadow: 0 20px 60px rgba(0,0,0,0.1);
-            --btn-transform: scale(0.97);
-            --padding-card: 32px;
-            --padding-card-mobile: 20px;
-            --font-title: 1.3rem;
-            --font-title-mobile: 1.1rem;
-        }
-
-        /* ============================================= */
-        /* THEME 2: Cyberpunk Neo-Brutal (Ekstrem)      */
-        /* ============================================= */
-        :root[data-theme-mode="theme2"][data-theme="dark"] {
-            --bg-body: #0a0c0f;
-            --card-bg: #12141c;
-            --card-border: #00f0ff;
-            --card-shadow: 12px 12px 0 #ff00c1, 8px 8px 0 4px #00ff9f;
-            --text-primary: #f0f0ff;
-            --text-glitch: #ffffb3;
-            --accent-pink: #ff00c1;
-            --accent-cyan: #00f0ff;
-            --accent-green: #00ff9f;
-            --accent-yellow: #ffff00;
-            --output-bg: #0c0e16;
-            --output-border: #00ff9f;
-            --option-bg: #16182a;
-            --option-border: #00ff9f;
-            --slider-bg: #202230;
-            --slider-border: #00ff9f;
-            --strength-bar-bg: #2a2a3a;
-            --badge-bg: #0a0c0f;
-            --glitch-bg: #ff00c1;
-            --font-body: 'Space Grotesk', sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
-            --card-radius: 0px;
-            --card-shadow: 12px 12px 0 #ff00c1;
-            --btn-transform: translate(4px, 4px);
-            --padding-card: 2rem 1.8rem;
-            --padding-card-mobile: 1.5rem 1rem;
-            --font-title: 2rem;
-            --font-title-mobile: 1.5rem;
-        }
-
-        :root[data-theme-mode="theme2"][data-theme="light"] {
-            --bg-body: #e0e2f0;
-            --card-bg: #f5f7ff;
-            --card-border: #ff00c1;
-            --card-shadow: 12px 12px 0 #00f0ff, 8px 8px 0 4px #ff00c1;
-            --text-primary: #0a0c1f;
-            --text-glitch: #0a0c1f;
-            --accent-pink: #d100b5;
-            --accent-cyan: #0099ff;
-            --accent-green: #00b36b;
-            --accent-yellow: #e6b800;
-            --output-bg: #ffffff;
-            --output-border: #ff00c1;
-            --option-bg: #d8daff;
-            --option-border: #ff00c1;
-            --slider-bg: #c0c4e0;
-            --slider-border: #ff00c1;
-            --strength-bar-bg: #b0b4d0;
-            --badge-bg: #ffffff;
-            --glitch-bg: #00f0ff;
-            --font-body: 'Space Grotesk', sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
-            --card-radius: 0px;
-            --card-shadow: 12px 12px 0 #00f0ff;
-            --btn-transform: translate(4px, 4px);
-            --padding-card: 2rem 1.8rem;
-            --padding-card-mobile: 1.5rem 1rem;
-            --font-title: 2rem;
-            --font-title-mobile: 1.5rem;
-        }
-
-        /* Global styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: var(--font-body);
-            background: var(--bg-body, var(--bg));
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        /* Theme 2 background pattern */
-        :root[data-theme-mode="theme2"] body {
-            background-image: 
-                linear-gradient(45deg, var(--accent-cyan) 1px, transparent 1px),
-                linear-gradient(-45deg, var(--accent-pink) 1px, transparent 1px);
-            background-size: 40px 40px;
-        }
-
-        /* Card styling */
-        .card {
-            background: var(--surface, var(--card-bg));
-            border: 1px solid var(--border, var(--card-border));
-            border-radius: var(--card-radius);
-            padding: var(--padding-card);
-            width: 100%;
-            max-width: 520px;
-            margin: 20px;
-            box-shadow: var(--card-shadow, 0 20px 60px rgba(0,0,0,0.3));
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        /* Theme 2 pseudo-element */
-        :root[data-theme-mode="theme2"] .card::before {
-            content: "⚡ SYSTEM ⚡";
-            position: absolute;
-            top: -20px;
-            left: 20px;
-            background: var(--bg-body, var(--bg));
-            color: var(--text-glitch);
-            font-family: var(--font-mono);
-            font-weight: 900;
-            font-size: 1.2rem;
-            padding: 0.2rem 1rem;
-            border: 3px solid var(--accent-pink);
-            box-shadow: 4px 4px 0 var(--accent-cyan);
-            letter-spacing: 2px;
-        }
-
-        /* Theme 2 responsive pseudo-element */
-        @media (max-width: 480px) {
-            :root[data-theme-mode="theme2"] .card::before {
-                font-size: 0.8rem;
-                top: -16px;
-                left: 10px;
-                padding: 0.1rem 0.6rem;
-            }
-        }
-
-        /* Header */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 28px;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        :root[data-theme-mode="theme2"] .header {
-            border-bottom: 4px solid var(--accent-pink);
-            padding-bottom: 0.8rem;
-        }
-
-        .title {
-            font-size: var(--font-title);
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        :root[data-theme-mode="theme2"] .title {
-            font-weight: 900;
-            text-transform: uppercase;
-            color: var(--accent-cyan);
-            text-shadow: 4px 4px 0 var(--accent-pink);
-        }
-
-        .title-icon {
-            width: 32px;
-            height: 32px;
-            background: var(--accent);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-        }
-
-        :root[data-theme-mode="theme2"] .title-icon {
-            display: none;
-        }
-
-        /* Control group */
-        .control-group {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        /* Theme selector */
-        .theme-selector {
-            display: flex;
-            gap: 6px;
-        }
-
-        .theme-mode-btn {
-            background: var(--surface2, var(--option-bg));
-            border: 2px solid var(--accent, var(--accent-cyan));
-            border-radius: 8px;
-            padding: 6px 12px;
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            font-weight: 700;
-            cursor: pointer;
-            color: var(--text, var(--accent-cyan));
-            transition: all 0.2s;
-        }
-
-        :root[data-theme-mode="theme2"] .theme-mode-btn {
-            border-radius: 0px;
-        }
-
-        .theme-mode-btn.active {
-            background: var(--accent, var(--accent-pink));
-            color: white;
-        }
-
-        /* Sub theme toggle */
-        .sub-theme-toggle {
-            background: var(--surface2, var(--option-bg));
-            border: 1px solid var(--border, var(--card-border));
-            border-radius: 50px;
-            padding: 4px;
-            display: flex;
-            gap: 2px;
-        }
-
-        :root[data-theme-mode="theme2"] .sub-theme-toggle {
-            border-radius: 0px;
-        }
-
-        .sub-theme-btn {
-            width: 32px;
-            height: 28px;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            color: var(--text-muted, var(--text-glitch));
-        }
-
-        :root[data-theme-mode="theme2"] .sub-theme-btn {
-            border-radius: 0px;
-        }
-
-        .sub-theme-btn.active {
-            background: var(--accent, var(--accent-pink));
-            color: white;
-        }
-
-        /* Output section */
-        .output-section {
-            background: var(--surface2, var(--output-bg));
-            border: 1px solid var(--border, var(--output-border));
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 24px;
-            position: relative;
-        }
-
-        :root[data-theme-mode="theme2"] .output-section {
-            border-radius: 0px;
-            box-shadow: inset 0 0 10px color-mix(in srgb, var(--accent-pink) 50%, transparent), 8px 8px 0 var(--accent-cyan);
-        }
-
-        .output-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--text-muted, var(--text-glitch));
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
-        :root[data-theme-mode="theme2"] .output-label {
-            font-family: var(--font-mono);
-            font-weight: 700;
-            font-size: 0.8rem;
-            background: var(--glitch-bg);
-            display: inline-block;
-            padding: 0.2rem 1rem;
-            position: absolute;
-            top: -16px;
-            left: 20px;
-            border: 2px solid var(--accent-cyan);
-        }
-
-        .output-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        #password-output {
-            flex: 1;
-            background: transparent;
-            border: none;
-            outline: none;
-            font-family: var(--font-mono);
-            font-size: 1rem;
-            color: var(--text, var(--text-primary));
-            cursor: pointer;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            min-width: 0;
-        }
-
-        :root[data-theme-mode="theme2"] #password-output {
-            font-size: 1.3rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-shadow: 0 0 5px var(--accent-cyan);
-        }
-
-        #copy-button {
-            background: var(--accent, var(--accent-yellow));
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 7px 14px;
-            font-family: var(--font-body);
-            font-size: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
-
-        :root[data-theme-mode="theme2"] #copy-button {
-            border: 4px solid var(--bg-body, var(--bg));
-            box-shadow: 5px 5px 0 var(--accent-pink);
-            border-radius: 0px;
-        }
-
-        #copy-button:active {
-            transform: var(--btn-transform);
-        }
-
-        /* Strength */
-        .strength-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 12px;
-            flex-wrap: wrap;
-        }
-
-        .strength-bars {
-            display: flex;
-            gap: 4px;
-            flex: 1;
-            min-width: 120px;
-        }
-
-        :root[data-theme-mode="theme2"] .strength-bars {
-            gap: 6px;
-        }
-
-        .strength-bar {
-            height: 4px;
-            flex: 1;
-            border-radius: 99px;
-            background: var(--border, var(--strength-bar-bg));
-            transition: background 0.3s;
-        }
-
-        :root[data-theme-mode="theme2"] .strength-bar {
-            height: 14px;
-            border-radius: 0px;
-            border: 2px solid var(--accent-cyan);
-        }
-
-        .strength-label {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--text-muted, var(--text-glitch));
-            min-width: 70px;
-            text-align: right;
-        }
-
-        :root[data-theme-mode="theme2"] .strength-label {
-            font-family: var(--font-mono);
-            text-transform: uppercase;
-        }
-
-        /* Slider */
-        .section-label {
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-muted, var(--accent-green));
-            margin-bottom: 10px;
-        }
-
-        :root[data-theme-mode="theme2"] .section-label {
-            font-family: var(--font-mono);
-            border-left: 8px solid var(--accent-pink);
-            padding-left: 12px;
-        }
-
-        .slider-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 22px;
-            flex-wrap: wrap;
-        }
-
-        :root[data-theme-mode="theme2"] .slider-row {
-            background: var(--output-bg, var(--surface2));
-            border: 4px solid var(--accent-cyan);
-            padding: 8px 16px;
-            box-shadow: 5px 5px 0 var(--accent-pink);
-        }
-
-        input[type="range"] {
-            flex: 1;
-            -webkit-appearance: none;
-            height: 4px;
-            border-radius: 99px;
-            background: var(--slider-track, var(--slider-bg));
-            outline: none;
-            cursor: pointer;
-            min-width: 120px;
-        }
-
-        :root[data-theme-mode="theme2"] input[type="range"] {
-            height: 12px;
-            border-radius: 0px;
-            border: 2px solid var(--slider-border);
-        }
-
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: var(--accent, var(--accent-yellow));
-            cursor: pointer;
-        }
-
-        :root[data-theme-mode="theme2"] input[type="range"]::-webkit-slider-thumb {
-            width: 24px;
-            height: 24px;
-            border-radius: 0px;
-            border: 3px solid var(--bg-body, var(--bg));
-            box-shadow: 3px 3px 0 var(--accent-pink);
-        }
-
-        .length-badge {
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--accent, var(--accent-yellow));
-            background: var(--accent-glow, var(--badge-bg));
-            padding: 3px 10px;
-            border-radius: 6px;
-            min-width: 40px;
-            text-align: center;
-        }
-
-        :root[data-theme-mode="theme2"] .length-badge {
-            font-size: 1.6rem;
-            font-weight: 900;
-            border: 3px solid var(--accent-cyan);
-            box-shadow: 3px 3px 0 var(--accent-pink);
-            border-radius: 0px;
-        }
-
-        /* Options */
-        .options-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            margin-bottom: 22px;
-        }
-
-        :root[data-theme-mode="theme2"] .options-grid {
-            gap: 12px;
-        }
-
-        .option-item {
-            background: var(--surface2, var(--option-bg));
-            border: 1.5px solid var(--border, var(--option-border));
-            border-radius: 10px;
-            padding: 10px 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        :root[data-theme-mode="theme2"] .option-item {
-            border-radius: 0px;
-            border-width: 4px;
-            box-shadow: 5px 5px 0 var(--accent-pink);
-        }
-
-        .option-item.active {
-            border-color: var(--accent, var(--accent-yellow));
-            background: var(--accent-glow, var(--accent-pink));
-        }
-
-        .option-item input {
-            display: none;
-        }
-
-        .custom-check {
-            width: 16px;
-            height: 16px;
-            border-radius: 4px;
-            background: var(--checkbox-bg, var(--bg-body));
-            border: 1.5px solid var(--border, var(--accent-cyan));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            flex-shrink: 0;
-        }
-
-        :root[data-theme-mode="theme2"] .custom-check {
-            width: 26px;
-            height: 26px;
-            border-radius: 0px;
-            border-width: 3px;
-            font-size: 1.2rem;
-        }
-
-        .option-item.active .custom-check {
-            background: var(--accent, var(--accent-yellow));
-            border-color: var(--accent, var(--bg-body));
-            color: white;
-        }
-
-        .option-text {
-            font-size: 0.8rem;
-            font-weight: 600;
-            line-height: 1.2;
-        }
-
-        :root[data-theme-mode="theme2"] .option-text {
-            text-transform: uppercase;
-        }
-
-        /* Generate button */
-        #generate-button {
-            width: 100%;
-            padding: 14px;
-            background: var(--accent, var(--accent-green));
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-family: var(--font-body);
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-            letter-spacing: 0.3px;
-        }
-
-        :root[data-theme-mode="theme2"] #generate-button {
-            border-radius: 0px;
-            border: 6px solid var(--bg-body, var(--bg));
-            font-size: 1.8rem;
-            letter-spacing: 5px;
-            box-shadow: 12px 12px 0 var(--accent-pink), 4px 4px 0 4px var(--accent-cyan);
-        }
-
-        #generate-button:active {
-            transform: var(--btn-transform);
-        }
-
-        /* Alert */
-        #alert-message {
-            margin-top: 14px;
-            padding: 10px 14px;
-            border-radius: 10px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-align: center;
-            display: none;
-        }
-
-        :root[data-theme-mode="theme2"] #alert-message {
-            border-radius: 0px;
-            border: 4px solid var(--accent-cyan);
-            font-family: var(--font-mono);
-            text-transform: uppercase;
-        }
-
-        /* ============================================= */
-        /* MEDIA QUERIES - RESPONSIVE DESIGN             */
-        /* ============================================= */
-
-        /* Tablet (max-width: 768px) */
-        @media (max-width: 768px) {
-            .card {
-                max-width: 90%;
-                margin: 16px;
-                padding: var(--padding-card-mobile);
-            }
-
-            .title {
-                font-size: calc(var(--font-title) * 0.85);
-            }
-
-            .options-grid {
-                gap: 6px;
-            }
-
-            .option-text {
-                font-size: 0.7rem;
-            }
-
-            :root[data-theme-mode="theme2"] .option-text {
-                font-size: 0.75rem;
-            }
-
-            .custom-check {
-                width: 14px;
-                height: 14px;
-            }
-
-            :root[data-theme-mode="theme2"] .custom-check {
-                width: 22px;
-                height: 22px;
-            }
-
-            #generate-button {
-                padding: 12px;
-                font-size: 0.95rem;
-            }
-
-            :root[data-theme-mode="theme2"] #generate-button {
-                font-size: 1.4rem;
-                letter-spacing: 3px;
-                padding: 0.8rem;
-            }
-
-            .length-badge {
-                font-size: 0.75rem;
-                padding: 2px 8px;
-            }
-
-            :root[data-theme-mode="theme2"] .length-badge {
-                font-size: 1.3rem;
-            }
-        }
-
-        /* Mobile (max-width: 550px) */
-        @media (max-width: 550px) {
-            body {
-                padding: 0.5rem;
-            }
-
-            .card {
-                max-width: 100%;
-                margin: 10px;
-                padding: 18px;
-            }
-
-            .header {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 16px;
-                margin-bottom: 20px;
-            }
-
-            .control-group {
-                justify-content: center;
-            }
-
-            .title {
-                justify-content: center;
-                font-size: calc(var(--font-title) * 0.75);
-            }
-
-            .output-section {
-                padding: 12px;
-                margin-bottom: 18px;
-            }
-
-            .output-row {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            #password-output {
-                text-align: center;
-                padding: 8px 0;
-                white-space: normal;
-                word-break: break-all;
-            }
-
-            #copy-button {
-                width: 100%;
-                padding: 10px;
-            }
-
-            .strength-row {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 10px;
-            }
-
-            .strength-label {
-                text-align: center;
-            }
-
-            .slider-row {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .length-badge {
-                text-align: center;
-            }
-
-            .options-grid {
-                grid-template-columns: 1fr;
-                gap: 8px;
-            }
-
-            .option-item {
-                padding: 8px 12px;
-            }
-
-            .section-label {
-                font-size: 0.7rem;
-            }
-
-            #generate-button {
-                padding: 12px;
-                font-size: 0.9rem;
-            }
-
-            :root[data-theme-mode="theme2"] #generate-button {
-                font-size: 1.2rem;
-                letter-spacing: 2px;
-                padding: 0.7rem;
-                border-width: 4px;
-            }
-
-            :root[data-theme-mode="theme2"] .output-label {
-                font-size: 0.65rem;
-                top: -12px;
-                left: 10px;
-                padding: 0.1rem 0.6rem;
-            }
-
-            :root[data-theme-mode="theme2"] #password-output {
-                font-size: 1rem;
-            }
-
-            :root[data-theme-mode="theme2"] .strength-bar {
-                height: 10px;
-            }
-
-            :root[data-theme-mode="theme2"] .slider-row {
-                padding: 6px 12px;
-            }
-
-            :root[data-theme-mode="theme2"] .option-item {
-                padding: 6px 10px;
-            }
-        }
-
-        /* Small mobile (max-width: 380px) */
-        @media (max-width: 380px) {
-            .card {
-                padding: 14px;
-            }
-
-            .theme-mode-btn {
-                padding: 4px 8px;
-                font-size: 0.6rem;
-            }
-
-            .sub-theme-btn {
-                width: 28px;
-                height: 24px;
-                font-size: 12px;
-            }
-
-            .title {
-                font-size: calc(var(--font-title) * 0.65);
-            }
-
-            .option-text {
-                font-size: 0.65rem;
-            }
-
-            :root[data-theme-mode="theme2"] .option-text {
-                font-size: 0.7rem;
-            }
-
-            :root[data-theme-mode="theme2"] .title {
-                font-size: 1.3rem;
-            }
-
-            :root[data-theme-mode="theme2"] #generate-button {
-                font-size: 1rem;
-                letter-spacing: 1px;
-            }
-        }
-
-        /* Landscape mode on mobile */
-        @media (max-width: 850px) and (orientation: landscape) {
-            body {
-                padding: 0.5rem;
-            }
-
-            .card {
-                max-width: 95%;
-                margin: 10px auto;
-            }
-
-            .options-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .header {
-                flex-direction: row;
-                flex-wrap: wrap;
-                justify-content: space-between;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="description" content="Kalendar Malaysia 2026 interaktif dengan mod gelap/terang, navigasi bulan, dan zum gambar penuh." />
+  <title>Kalendar Malaysia 2026 • Dark/Light + Zum</title>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ROOT VARIABLES – THEMES */
+    :root {
+      --bg: #0f0f11;
+      --card: #16161a;
+      --text: #e0e0e5;
+      --text-light: #a0a0b0;
+      --accent: #7c6eff;
+      --accent-dark: #5e50d0;
+      --border: #2a2a35;
+      --nav-bg: #141418e8;
+      --shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+      --transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+
+    [data-theme="light"] {
+      --bg: #f4f4f9;
+      --card: #ffffff;
+      --text: #1c1c1f;
+      --text-light: #6e6e73;
+      --accent: #5e5ce6;
+      --accent-dark: #4a47c0;
+      --border: #d9d9e3;
+      --nav-bg: #fffffff2;
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+      min-height: 100vh;
+      transition: background 0.35s ease, color 0.3s ease;
+    }
+
+    /* HEADER */
+    header {
+      text-align: center;
+      padding: 36px 20px 28px;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 2.6rem;
+      font-weight: 700;
+      background: linear-gradient(130deg, var(--accent) 0%, #b084ff 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.3px;
+    }
+
+    /* THEME BUTTON – elegant */
+    .theme-toggle {
+      position: absolute;
+      top: 28px;
+      right: 28px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      width: 50px;
+      height: 50px;
+      border-radius: 60px;
+      font-size: 1.6rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow);
+      transition: 0.2s;
+      z-index: 100;
+      backdrop-filter: blur(4px);
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.05);
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    /* NAVIGATION BAR */
+    .nav-container {
+      background: var(--nav-bg);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 99;
+      padding: 12px 0;
+      transition: background 0.2s;
+    }
+
+    .month-nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px 14px;
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .month-btn {
+      background: var(--card);
+      color: var(--accent);
+      border: 1px solid var(--border);
+      padding: 8px 18px;
+      border-radius: 60px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: inherit;
+    }
+
+    .month-btn:hover {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 12px rgba(108, 92, 231, 0.3);
+    }
+
+    /* MAIN GRID */
+    .container {
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 48px 24px 90px;
+    }
+
+    .year-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 36px 30px;
+    }
+
+    .month-card {
+      background: var(--card);
+      border-radius: 28px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+    }
+
+    .month-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 25px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .month-title {
+      padding: 20px 16px;
+      text-align: center;
+      font-size: 1.45rem;
+      font-weight: 700;
+      background: linear-gradient(120deg, rgba(108, 92, 231, 0.08), rgba(108, 92, 231, 0.02));
+      border-bottom: 1px solid var(--border);
+      color: var(--accent);
+      letter-spacing: -0.2px;
+    }
+
+    .month-image {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: filter 0.2s;
+      background: #f9f9fc;
+    }
+
+    /* MODAL LIGHTBOX (Pro Zoom + Pan) */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.94);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(6px);
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .modal-img-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    #modalImage {
+      max-width: 92vw;
+      max-height: 88vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 24px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6);
+      transition: transform 0.2s ease-out;
+      cursor: grab;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    #modalImage:active {
+      cursor: grabbing;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 28px;
+      right: 32px;
+      font-size: 3rem;
+      font-weight: 300;
+      color: white;
+      background: rgba(20, 20, 28, 0.7);
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: 0.2s;
+      z-index: 10010;
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.2);
+      font-family: monospace;
+    }
+
+    .close-btn:hover {
+      background: #ff3b30;
+      transform: rotate(90deg);
+    }
+
+    /* hint untuk zoom */
+    .zoom-hint {
+      position: absolute;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.6);
+      color: white;
+      padding: 8px 20px;
+      border-radius: 60px;
+      font-size: 0.8rem;
+      backdrop-filter: blur(10px);
+      pointer-events: none;
+      z-index: 10010;
+      white-space: nowrap;
+      font-weight: 500;
+    }
+
+    @media (max-width: 680px) {
+      .month-nav { gap: 8px; }
+      .month-btn { padding: 6px 14px; font-size: 0.8rem; }
+      .year-grid { gap: 24px; }
+      h1 { font-size: 2rem; }
+      .theme-toggle { width: 44px; height: 44px; top: 20px; right: 20px; font-size: 1.3rem; }
+      .close-btn { width: 44px; height: 44px; font-size: 2rem; top: 16px; right: 18px; }
+      .zoom-hint { font-size: 0.7rem; bottom: 12px; white-space: nowrap; }
+    }
+  </style>
 </head>
-<body>
-<div class="card">
-    <div class="header">
-        <div class="title">
-            <div class="title-icon">🔐</div>
-            <span id="title-text">Generator Sandi</span>
-        </div>
-        <div class="control-group">
-            <div class="theme-selector">
-                <button class="theme-mode-btn active" id="mode-theme1" onclick="setThemeMode('theme1')">TEMA 1</button>
-                <button class="theme-mode-btn" id="mode-theme2" onclick="setThemeMode('theme2')">TEMA 2</button>
-            </div>
-            <div class="sub-theme-toggle">
-                <button class="sub-theme-btn active" id="sub-dark" onclick="setSubTheme('dark')">🌙</button>
-                <button class="sub-theme-btn" id="sub-light" onclick="setSubTheme('light')">☀️</button>
-            </div>
-        </div>
+<body data-theme="dark">
+
+  <button class="theme-toggle" id="themeBtn" aria-label="Tukar tema">☀️</button>
+
+  <header>
+    <h1>🗓️ Kalendar Malaysia 2026</h1>
+  </header>
+
+  <div class="nav-container">
+    <div class="month-nav" id="monthNav">
+      <button class="month-btn" data-month="jan">Jan</button>
+      <button class="month-btn" data-month="feb">Feb</button>
+      <button class="month-btn" data-month="mac">Mac</button>
+      <button class="month-btn" data-month="apr">Apr</button>
+      <button class="month-btn" data-month="mei">Mei</button>
+      <button class="month-btn" data-month="jun">Jun</button>
+      <button class="month-btn" data-month="jul">Jul</button>
+      <button class="month-btn" data-month="ogo">Ogo</button>
+      <button class="month-btn" data-month="sep">Sep</button>
+      <button class="month-btn" data-month="okt">Okt</button>
+      <button class="month-btn" data-month="nov">Nov</button>
+      <button class="month-btn" data-month="dis">Dis</button>
     </div>
+  </div>
 
-    <div class="output-section">
-        <div class="output-label" id="output-label">Kata Sandi</div>
-        <div class="output-row">
-            <input type="text" id="password-output" value="Klik Generate" readonly onclick="copyPassword()">
-            <button id="copy-button" onclick="copyPassword()">Salin</button>
-        </div>
-        <div class="strength-row">
-            <div class="strength-bars">
-                <div class="strength-bar" id="bar1"></div>
-                <div class="strength-bar" id="bar2"></div>
-                <div class="strength-bar" id="bar3"></div>
-                <div class="strength-bar" id="bar4"></div>
-            </div>
-            <div class="strength-label" id="strength-label">—</div>
-        </div>
+  <div class="container">
+    <div class="year-grid" id="calendarGrid">
+      <!-- Dynamic population from JS for cleaner structure, but we keep static as fallback + dynamic for consistency -->
     </div>
+  </div>
 
-    <div class="section-label">Panjang Sandi</div>
-    <div class="slider-row">
-        <input type="range" id="length" min="8" max="50" value="16">
-        <div class="length-badge"><span id="length-value">16</span></div>
+  <!-- Lightbox Modal -->
+  <div class="modal" id="imageModal">
+    <span class="close-btn" id="closeModal">✕</span>
+    <div class="modal-container" id="modalContainer">
+      <div class="modal-img-wrapper">
+        <img id="modalImage" src="" alt="Kalendar Malaysia 2026 - Bulan" draggable="false">
+      </div>
     </div>
+    <div class="zoom-hint">🔍 Pinch / Ctrl + roda tetikus untuk zum | Tarik untuk pan</div>
+  </div>
 
-    <div class="section-label">Karakter</div>
-    <div class="options-grid">
-        <label class="option-item active" id="lbl-upper" onclick="toggleOption(this, 'include-uppercase')">
-            <input type="checkbox" id="include-uppercase" checked>
-            <div class="custom-check">✓</div>
-            <div class="option-text">A–Z Kapital</div>
-        </label>
-        <label class="option-item active" id="lbl-lower" onclick="toggleOption(this, 'include-lowercase')">
-            <input type="checkbox" id="include-lowercase" checked>
-            <div class="custom-check">✓</div>
-            <div class="option-text">a–z Kecil</div>
-        </label>
-        <label class="option-item active" id="lbl-num" onclick="toggleOption(this, 'include-numbers')">
-            <input type="checkbox" id="include-numbers" checked>
-            <div class="custom-check">✓</div>
-            <div class="option-text">0–9 Angka</div>
-        </label>
-        <label class="option-item" id="lbl-sym" onclick="toggleOption(this, 'include-symbols')">
-            <input type="checkbox" id="include-symbols">
-            <div class="custom-check"></div>
-            <div class="option-text">!@# Simbol</div>
-        </label>
-    </div>
+  <script>
+    // Data bulan dengan ID mapping & nama
+    const monthsData = [
+      { id: "jan", name: "Januari 2026", img: "https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/01-2026-my-v2-1024x880.png" },
+      { id: "feb", name: "Februari 2026", img: "https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/02-2026-my-v2-1024x880.png" },
+      { id: "mac", name: "Mac 2026", img: "https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/03-2026-my-v2-1024x880.png" },
+      { id: "apr", name: "April 2026", img: "https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/04-2026-my-v2-1024x880.png" },
+      { id: "mei", name: "Mei 2026", img: "https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/05-2026-my-v2-1024x880.png" },
+      { id: "jun", name: "Jun 2026", img: "https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/06-2026-my-v2-1024x880.png" },
+      { id: "jul", name: "Julai 2026", img: "https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/07-2026-my-v2-1024x880.png" },
+      { id: "ogo", name: "Ogos 2026", img: "https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/08-2026-my-v2-1024x880.png" },
+      { id: "sep", name: "September 2026", img: "https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/09-2026-my-v2-1024x880.png" },
+      { id: "okt", name: "Oktober 2026", img: "https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/10-2026-my-v2-1024x880.png" },
+      { id: "nov", name: "November 2026", img: "https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/11-2026-my-v2-1024x880.png" },
+      { id: "dis", name: "Disember 2026", img: "https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/12-2026-my-v2-1024x880.png" }
+    ];
 
-    <button id="generate-button" onclick="generatePassword()">Buat Kata Sandi</button>
-    <div id="alert-message"></div>
-</div>
-
-<script>
-    // Character sets
-    const upperCaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const lowerCaseChars = "abcdefghijklmnopqrstuvwxyz";
-    const numberChars = "0123456789";
-    const symbolChars = "!@#$%^&*()_+-=[]{}|;':\",./<>?";
-
-    const lengthSlider = document.getElementById('length');
-    const lengthValueSpan = document.getElementById('length-value');
-    const passwordOutput = document.getElementById('password-output');
-    const alertMessage = document.getElementById('alert-message');
-
-    // State
-    let currentThemeMode = 'theme1';
-    let currentSubTheme = 'dark';
-
-    // Set Theme Mode
-    window.setThemeMode = function(mode) {
-        currentThemeMode = mode;
-        document.documentElement.setAttribute('data-theme-mode', mode);
-        document.documentElement.setAttribute('data-theme', currentSubTheme);
+    // Render Grid
+    const gridContainer = document.getElementById('calendarGrid');
+    function renderCalendar() {
+      gridContainer.innerHTML = '';
+      monthsData.forEach(month => {
+        const card = document.createElement('div');
+        card.className = 'month-card';
+        card.id = month.id;
+        card.setAttribute('data-img', month.img);
         
-        document.getElementById('mode-theme1').classList.toggle('active', mode === 'theme1');
-        document.getElementById('mode-theme2').classList.toggle('active', mode === 'theme2');
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'month-title';
+        titleDiv.textContent = month.name;
         
-        const titleSpan = document.getElementById('title-text');
-        const outputLabelSpan = document.getElementById('output-label');
-        if (mode === 'theme2') {
-            titleSpan.innerHTML = 'PWD:<span>GEN</span>';
-            outputLabelSpan.innerHTML = '>>PASSWORD//';
-        } else {
-            titleSpan.innerHTML = 'Generator Sandi';
-            outputLabelSpan.innerHTML = 'Kata Sandi';
-        }
+        const imgElem = document.createElement('img');
+        imgElem.src = month.img;
+        imgElem.alt = month.name;
+        imgElem.className = 'month-image';
+        imgElem.loading = 'lazy';
+        imgElem.setAttribute('data-full', month.img);
         
-        if (passwordOutput.value && passwordOutput.value !== "Klik Generate") {
-            updateStrengthDisplay();
-        }
-    };
-
-    // Set Sub Theme
-    window.setSubTheme = function(theme) {
-        currentSubTheme = theme;
-        document.documentElement.setAttribute('data-theme', theme);
-        
-        document.getElementById('sub-dark').classList.toggle('active', theme === 'dark');
-        document.getElementById('sub-light').classList.toggle('active', theme === 'light');
-        
-        if (passwordOutput.value && passwordOutput.value !== "Klik Generate") {
-            updateStrengthDisplay();
-        }
-    };
-
-    // Toggle option
-    window.toggleOption = function(label, checkboxId) {
-        const checkbox = document.getElementById(checkboxId);
-        checkbox.checked = !checkbox.checked;
-        const checkDiv = label.querySelector('.custom-check');
-        if (checkbox.checked) {
-            label.classList.add('active');
-            checkDiv.textContent = '✓';
-        } else {
-            label.classList.remove('active');
-            checkDiv.textContent = '';
-        }
-        if (passwordOutput.value !== "Klik Generate") generatePassword();
-    };
-
-    function getRandomChar(str) {
-        return str[Math.floor(Math.random() * str.length)];
+        card.appendChild(titleDiv);
+        card.appendChild(imgElem);
+        gridContainer.appendChild(card);
+      });
     }
+    renderCalendar();
 
-    function shuffleString(str) {
-        const arr = str.split('');
-        for (let i = arr.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [arr[i], arr[j]] = [arr[j], arr[i]];
-        }
-        return arr.join('');
+    // ----- THEME TOGGLE (Dark/Light) -----
+    const themeBtn = document.getElementById('themeBtn');
+    const rootBody = document.body;
+    function setTheme(theme) {
+      rootBody.setAttribute('data-theme', theme);
+      localStorage.setItem('calendar-theme', theme);
+      themeBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
     }
-
-    function updateStrengthDisplay() {
-        const password = passwordOutput.value;
-        if (!password || password === "Klik Generate") return;
-        
-        const includeUppercase = document.getElementById('include-uppercase').checked;
-        const includeLowercase = document.getElementById('include-lowercase').checked;
-        const includeNumbers = document.getElementById('include-numbers').checked;
-        const includeSymbols = document.getElementById('include-symbols').checked;
-        let charTypes = 0;
-        if (includeUppercase) charTypes++;
-        if (includeLowercase) charTypes++;
-        if (includeNumbers) charTypes++;
-        if (includeSymbols) charTypes++;
-        
-        const len = password.length;
-        let score = 0;
-        if (len >= 12) score++;
-        if (len >= 20) score++;
-        if (charTypes >= 3) score++;
-        if (charTypes === 4) score++;
-        
-        const rootStyle = getComputedStyle(document.documentElement);
-        let colors = ['#ef4444', '#f59e0b', '#3b82f6', '#22c55e'];
-        let labels = ['Lemah', 'Sedang', 'Kuat', 'Sangat Kuat'];
-        
-        if (currentThemeMode === 'theme2') {
-            colors = [
-                rootStyle.getPropertyValue('--accent-pink').trim() || '#ff00c1',
-                rootStyle.getPropertyValue('--accent-yellow').trim() || '#ffff00',
-                rootStyle.getPropertyValue('--accent-cyan').trim() || '#00f0ff',
-                rootStyle.getPropertyValue('--accent-green').trim() || '#00ff9f'
-            ];
-            labels = ['LEMAH', 'CUKUP', 'KUAT', 'SANGAT KUAT'];
-        }
-        
-        for (let i = 1; i <= 4; i++) {
-            const bar = document.getElementById('bar' + i);
-            if (i <= score) {
-                bar.style.background = colors[score-1];
-            } else {
-                bar.style.background = currentThemeMode === 'theme2' ? 
-                    rootStyle.getPropertyValue('--strength-bar-bg').trim() : 
-                    'var(--border)';
-            }
-        }
-        
-        const labelSpan = document.getElementById('strength-label');
-        if (score > 0) {
-            labelSpan.textContent = labels[score-1];
-            labelSpan.style.color = colors[score-1];
-        } else {
-            labelSpan.textContent = '—';
-            labelSpan.style.color = 'var(--text-muted)';
-        }
+    const savedTheme = localStorage.getItem('calendar-theme');
+    if (savedTheme && (savedTheme === 'dark' || savedTheme === 'light')) {
+      setTheme(savedTheme);
+    } else {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setTheme(prefersDark ? 'dark' : 'light');
     }
-
-    window.generatePassword = function() {
-        const length = parseInt(lengthSlider.value);
-        const includeUppercase = document.getElementById('include-uppercase').checked;
-        const includeLowercase = document.getElementById('include-lowercase').checked;
-        const includeNumbers = document.getElementById('include-numbers').checked;
-        const includeSymbols = document.getElementById('include-symbols').checked;
-
-        let availableChars = "";
-        let guaranteed = [];
-        let charTypes = 0;
-
-        if (includeUppercase) { availableChars += upperCaseChars; guaranteed.push(getRandomChar(upperCaseChars)); charTypes++; }
-        if (includeLowercase) { availableChars += lowerCaseChars; guaranteed.push(getRandomChar(lowerCaseChars)); charTypes++; }
-        if (includeNumbers) { availableChars += numberChars; guaranteed.push(getRandomChar(numberChars)); charTypes++; }
-        if (includeSymbols) { availableChars += symbolChars; guaranteed.push(getRandomChar(symbolChars)); charTypes++; }
-
-        if (!availableChars) {
-            showAlert("Pilih minimal satu jenis karakter!", "error");
-            return;
-        }
-
-        showAlert("", "none");
-        let pwd = guaranteed.join('');
-        for (let i = 0; i < length - guaranteed.length; i++) pwd += getRandomChar(availableChars);
-        pwd = shuffleString(pwd);
-
-        passwordOutput.value = pwd;
-        
-        let score = 0;
-        if (length >= 12) score++;
-        if (length >= 20) score++;
-        if (charTypes >= 3) score++;
-        if (charTypes === 4) score++;
-        
-        const rootStyle = getComputedStyle(document.documentElement);
-        let colors = ['#ef4444', '#f59e0b', '#3b82f6', '#22c55e'];
-        let labels = ['Lemah', 'Sedang', 'Kuat', 'Sangat Kuat'];
-        
-        if (currentThemeMode === 'theme2') {
-            colors = [
-                rootStyle.getPropertyValue('--accent-pink').trim() || '#ff00c1',
-                rootStyle.getPropertyValue('--accent-yellow').trim() || '#ffff00',
-                rootStyle.getPropertyValue('--accent-cyan').trim() || '#00f0ff',
-                rootStyle.getPropertyValue('--accent-green').trim() || '#00ff9f'
-            ];
-            labels = ['LEMAH', 'CUKUP', 'KUAT', 'SANGAT KUAT'];
-        }
-        
-        for (let i = 1; i <= 4; i++) {
-            const bar = document.getElementById('bar' + i);
-            if (i <= score) {
-                bar.style.background = colors[score-1];
-            } else {
-                bar.style.background = currentThemeMode === 'theme2' ? 
-                    rootStyle.getPropertyValue('--strength-bar-bg').trim() : 
-                    'var(--border)';
-            }
-        }
-        
-        const labelSpan = document.getElementById('strength-label');
-        if (score > 0) {
-            labelSpan.textContent = labels[score-1];
-            labelSpan.style.color = colors[score-1];
-        } else {
-            labelSpan.textContent = '—';
-            labelSpan.style.color = 'var(--text-muted)';
-        }
-    };
-
-    window.copyPassword = function() {
-        if (!passwordOutput.value || passwordOutput.value === "Klik Generate") {
-            showAlert("Belum ada kata sandi!", "warning");
-            return;
-        }
-        navigator.clipboard.writeText(passwordOutput.value)
-            .then(() => showAlert("Tersalin! ✅", "success"))
-            .catch(() => showAlert("Gagal menyalin.", "error"));
-    };
-
-    function showAlert(message, type) {
-        if (type === "none") { alertMessage.style.display = "none"; return; }
-        alertMessage.style.display = "block";
-        alertMessage.textContent = currentThemeMode === 'theme2' ? "⚡ " + message + " ⚡" : message;
-
-        const rootStyle = getComputedStyle(document.documentElement);
-        if (type === 'success') {
-            alertMessage.style.background = currentThemeMode === 'theme2' ? rootStyle.getPropertyValue('--accent-green').trim() : 'var(--green-bg)';
-            alertMessage.style.color = currentThemeMode === 'theme2' ? rootStyle.getPropertyValue('--bg-body').trim() : 'var(--green)';
-        } else if (type === 'warning') {
-            alertMessage.style.background = currentThemeMode === 'theme2' ? rootStyle.getPropertyValue('--accent-yellow').trim() : 'var(--yellow-bg)';
-            alertMessage.style.color = currentThemeMode === 'theme2' ? rootStyle.getPropertyValue('--bg-body').trim() : 'var(--yellow)';
-        } else {
-            alertMessage.style.background = currentThemeMode === 'theme2' ? rootStyle.getPropertyValue('--accent-pink').trim() : 'var(--red-bg)';
-            alertMessage.style.color = currentThemeMode === 'theme2' ? '#ffffff' : 'var(--red)';
-        }
-
-        setTimeout(() => alertMessage.style.display = "none", 2000);
-    }
-
-    // Event listeners
-    lengthSlider.addEventListener('input', () => {
-        lengthValueSpan.textContent = lengthSlider.value;
-        if (passwordOutput.value !== "Klik Generate") generatePassword();
+    themeBtn.addEventListener('click', () => {
+      const current = rootBody.getAttribute('data-theme');
+      const newTheme = current === 'dark' ? 'light' : 'dark';
+      setTheme(newTheme);
     });
 
-    // Initialize
-    setThemeMode('theme1');
-    setSubTheme('dark');
-    generatePassword();
-</script>
+    // ----- Smooth Scroll Navigation -----
+    document.querySelectorAll('.month-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const monthId = btn.getAttribute('data-month');
+        const targetCard = document.getElementById(monthId);
+        if (targetCard) {
+          targetCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          // gentle highlight effect
+          targetCard.style.transition = 'box-shadow 0.2s';
+          targetCard.style.boxShadow = '0 0 0 3px var(--accent), 0 15px 30px rgba(0,0,0,0.3)';
+          setTimeout(() => {
+            targetCard.style.boxShadow = '';
+          }, 800);
+        }
+      });
+    });
+
+    // ========== ENHANCED LIGHTBOX + ZOOM + PAN (Gesture & Mouse) ==========
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    const closeModalBtn = document.getElementById('closeModal');
+    const modalContainerDiv = document.getElementById('modalContainer');
+    
+    let scale = 1;
+    let translateX = 0, translateY = 0;
+    let isDragging = false;
+    let startX = 0, startY = 0;
+    let lastX = 0, lastY = 0;
+    
+    // Touch zoom variables (pinch)
+    let initialPinchDist = 0;
+    let initialScale = 1;
+    let initialTransX = 0, initialTransY = 0;
+    let pinchCenterX = 0, pinchCenterY = 0;
+
+    // Reset transform image
+    function resetImageTransform() {
+      scale = 1;
+      translateX = 0;
+      translateY = 0;
+      applyTransform();
+    }
+
+    function applyTransform() {
+      modalImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+    }
+
+    // constrain panning so image never leaves viewport too much (soft limit)
+    function constrainPan() {
+      if (!modalImg.naturalWidth) return;
+      const imgRect = modalImg.getBoundingClientRect();
+      const viewW = window.innerWidth;
+      const viewH = window.innerHeight;
+      const scaledW = modalImg.naturalWidth * scale;
+      const scaledH = modalImg.naturalHeight * scale;
+      let maxX = Math.max(0, (scaledW - viewW) / 2);
+      let maxY = Math.max(0, (scaledH - viewH) / 2);
+      if (scaledW <= viewW) maxX = 0;
+      if (scaledH <= viewH) maxY = 0;
+      translateX = Math.min(maxX, Math.max(-maxX, translateX));
+      translateY = Math.min(maxY, Math.max(-maxY, translateY));
+      applyTransform();
+    }
+
+    // Open modal with smooth entrance & reset state
+    function openModal(imgSrc, startRect) {
+      resetImageTransform();
+      modalImg.src = imgSrc;
+      modal.classList.add('active');
+      modalImg.style.opacity = '0';
+      modalImg.style.transition = 'transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.2), opacity 0.3s';
+      // Set initial tiny scale for fly-in effect
+      if (startRect) {
+        const viewCenterX = window.innerWidth / 2;
+        const viewCenterY = window.innerHeight / 2;
+        const imgCenterX = startRect.left + startRect.width / 2;
+        const imgCenterY = startRect.top + startRect.height / 2;
+        const offsetX = imgCenterX - viewCenterX;
+        const offsetY = imgCenterY - viewCenterY;
+        const startScale = Math.min(0.4, (startRect.width / window.innerWidth) * 0.8);
+        modalImg.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${startScale})`;
+      } else {
+        modalImg.style.transform = `scale(0.7)`;
+      }
+      modalImg.style.opacity = '0';
+      setTimeout(() => {
+        modalImg.style.transition = 'transform 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.2), opacity 0.35s';
+        modalImg.style.transform = `translate(0px, 0px) scale(1)`;
+        modalImg.style.opacity = '1';
+        // reset scale variables after animation
+        setTimeout(() => {
+          scale = 1;
+          translateX = 0;
+          translateY = 0;
+          applyTransform();
+          modalImg.style.transition = '';
+        }, 580);
+      }, 20);
+    }
+
+    // Attach click on every month card (using event delegation)
+    document.addEventListener('click', (e) => {
+      const card = e.target.closest('.month-card');
+      if (card && !modal.classList.contains('active')) {
+        const imgElement = card.querySelector('img');
+        if (imgElement) {
+          const rect = imgElement.getBoundingClientRect();
+          const fullUrl = imgElement.getAttribute('data-full') || imgElement.src;
+          openModal(fullUrl, rect);
+        }
+      }
+    });
+
+    // close modal functions
+    function closeModalWithAnim() {
+      if (!modal.classList.contains('active')) return;
+      modalImg.style.transition = 'transform 0.3s ease, opacity 0.25s';
+      modalImg.style.transform = 'scale(0.85)';
+      modalImg.style.opacity = '0';
+      setTimeout(() => {
+        modal.classList.remove('active');
+        resetImageTransform();
+        modalImg.style.transition = '';
+      }, 280);
+    }
+    closeModalBtn.addEventListener('click', closeModalWithAnim);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal || e.target === modalContainerDiv) closeModalWithAnim();
+    });
+
+    // ---- ZOOM with Wheel (Desktop) ----
+    modalContainerDiv.addEventListener('wheel', (e) => {
+      if (!modal.classList.contains('active')) return;
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? 0.92 : 1.08;
+      let newScale = scale * delta;
+      newScale = Math.min(Math.max(0.8, newScale), 6);
+      if (Math.abs(newScale - scale) < 0.01) return;
+      
+      // zoom towards cursor position
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+      const rect = modalImg.getBoundingClientRect();
+      const imgX = mouseX - rect.left;
+      const imgY = mouseY - rect.top;
+      const ratioX = imgX / rect.width;
+      const ratioY = imgY / rect.height;
+      const oldScale = scale;
+      scale = newScale;
+      // adjust translation to keep cursor point under same relative image coordinate
+      const dx = (ratioX - 0.5) * (rect.width * (scale / oldScale - 1));
+      const dy = (ratioY - 0.5) * (rect.height * (scale / oldScale - 1));
+      translateX += dx;
+      translateY += dy;
+      constrainPan();
+      applyTransform();
+    }, { passive: false });
+
+    // ---- PAN with Mouse Drag ----
+    modalImg.addEventListener('mousedown', (e) => {
+      if (!modal.classList.contains('active') || scale <= 1) return;
+      e.preventDefault();
+      isDragging = true;
+      startX = e.clientX - translateX;
+      startY = e.clientY - translateY;
+      modalImg.style.cursor = 'grabbing';
+      modalImg.style.transition = 'none';
+    });
+    window.addEventListener('mousemove', (e) => {
+      if (!isDragging || !modal.classList.contains('active')) return;
+      e.preventDefault();
+      translateX = e.clientX - startX;
+      translateY = e.clientY - startY;
+      constrainPan();
+      applyTransform();
+    });
+    window.addEventListener('mouseup', () => {
+      if (isDragging) {
+        isDragging = false;
+        modalImg.style.cursor = 'grab';
+        modalImg.style.transition = '';
+      }
+    });
+
+    // ---- TOUCH: PAN & PINCH ZOOM ----
+    modalImg.addEventListener('touchstart', (e) => {
+      if (!modal.classList.contains('active')) return;
+      if (e.touches.length === 2) {
+        e.preventDefault();
+        const touch1 = e.touches[0];
+        const touch2 = e.touches[1];
+        initialPinchDist = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
+        initialScale = scale;
+        initialTransX = translateX;
+        initialTransY = translateY;
+        pinchCenterX = (touch1.clientX + touch2.clientX) / 2;
+        pinchCenterY = (touch1.clientY + touch2.clientY) / 2;
+        modalImg.style.transition = 'none';
+      } else if (e.touches.length === 1 && scale > 1) {
+        const touch = e.touches[0];
+        isDragging = true;
+        startX = touch.clientX - translateX;
+        startY = touch.clientY - translateY;
+        modalImg.style.transition = 'none';
+        e.preventDefault();
+      }
+    });
+
+    modalImg.addEventListener('touchmove', (e) => {
+      if (!modal.classList.contains('active')) return;
+      if (e.touches.length === 2) {
+        e.preventDefault();
+        const t1 = e.touches[0];
+        const t2 = e.touches[1];
+        const currentDist = Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY);
+        if (initialPinchDist > 0) {
+          let newScale = initialScale * (currentDist / initialPinchDist);
+          newScale = Math.min(Math.max(0.8, newScale), 6);
+          scale = newScale;
+          const currentCenterX = (t1.clientX + t2.clientX) / 2;
+          const currentCenterY = (t1.clientY + t2.clientY) / 2;
+          const deltaCenterX = currentCenterX - pinchCenterX;
+          const deltaCenterY = currentCenterY - pinchCenterY;
+          translateX = initialTransX + deltaCenterX;
+          translateY = initialTransY + deltaCenterY;
+          constrainPan();
+          applyTransform();
+        }
+      } else if (e.touches.length === 1 && isDragging && scale > 1) {
+        const touch = e.touches[0];
+        translateX = touch.clientX - startX;
+        translateY = touch.clientY - startY;
+        constrainPan();
+        applyTransform();
+        e.preventDefault();
+      }
+    });
+
+    modalImg.addEventListener('touchend', (e) => {
+      if (e.touches.length === 0) {
+        isDragging = false;
+        modalImg.style.transition = '';
+      }
+      if (e.touches.length < 2) {
+        initialPinchDist = 0;
+      }
+    });
+    
+    // Prevent accidental zoom on double tap but preserve function
+    modalImg.addEventListener('dblclick', (e) => {
+      if (!modal.classList.contains('active')) return;
+      e.preventDefault();
+      if (scale > 1.2) {
+        resetImageTransform();
+      } else {
+        scale = 2.2;
+        translateX = 0;
+        translateY = 0;
+        constrainPan();
+        applyTransform();
+      }
+    });
+    
+    // set cursor style when modal opens
+    modal.addEventListener('transitionend', () => {});
+    
+    // ensure image loads properly
+    modalImg.style.cursor = 'grab';
+  </script>
 </body>
 </html>
