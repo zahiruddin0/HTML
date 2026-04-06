@@ -2,267 +2,307 @@
 <html lang="ms">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Kalendar Malaysia 2026 • Dark/Light</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="description" content="Kalendar Malaysia 2026 interaktif dengan mod gelap/terang, navigasi bulan, dan zum gambar penuh." />
+  <title>Kalendar Malaysia 2026 • Dark/Light + Zum</title>
   
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ROOT VARIABLES – THEMES */
     :root {
       --bg: #0f0f11;
       --card: #16161a;
       --text: #e0e0e5;
       --text-light: #a0a0b0;
-      --accent: #6c5ce7;
-      --accent-dark: #5649c0;
+      --accent: #7c6eff;
+      --accent-dark: #5e50d0;
       --border: #2a2a35;
       --nav-bg: #141418e8;
+      --shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+      --transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
     }
 
     [data-theme="light"] {
-      --bg: #f6f6f8;
+      --bg: #f4f4f9;
       --card: #ffffff;
-      --text: #1c1c1e;
+      --text: #1c1c1f;
       --text-light: #6e6e73;
       --accent: #5e5ce6;
       --accent-dark: #4a47c0;
-      --border: #d2d2d7;
-      --nav-bg: #ffffffe8;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+      --border: #d9d9e3;
+      --nav-bg: #fffffff2;
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
     }
 
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
       min-height: 100vh;
-      transition: background 0.4s, color 0.4s;
+      transition: background 0.35s ease, color 0.3s ease;
     }
 
-    /* Header & Controls */
+    /* HEADER */
     header {
-      position: relative;
       text-align: center;
-      padding: 40px 15px 30px;
+      padding: 36px 20px 28px;
+      position: relative;
     }
 
     h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5em;
-      color: var(--text);
+      font-size: 2.6rem;
+      font-weight: 700;
+      background: linear-gradient(130deg, var(--accent) 0%, #b084ff 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.3px;
     }
 
-    /* Theme Toggle - kini di header, tak bertindih */
+    /* THEME BUTTON – elegant */
     .theme-toggle {
       position: absolute;
-      top: 30px;
-      right: 30px;
+      top: 28px;
+      right: 28px;
       background: var(--card);
       border: 1px solid var(--border);
       color: var(--accent);
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      font-size: 1.5rem;
+      width: 50px;
+      height: 50px;
+      border-radius: 60px;
+      font-size: 1.6rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.25);
-      transition: all 0.3s;
-      z-index: 50;
+      box-shadow: var(--shadow);
+      transition: 0.2s;
+      z-index: 100;
+      backdrop-filter: blur(4px);
     }
 
     .theme-toggle:hover {
-      transform: scale(1.08);
+      transform: scale(1.05);
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
     }
 
-    /* Navigation */
+    /* NAVIGATION BAR */
     .nav-container {
       background: var(--nav-bg);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
-      z-index: 40;
-      padding: 14px 0;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 99;
+      padding: 12px 0;
+      transition: background 0.2s;
     }
 
     .month-nav {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 10px 18px;
-      max-width: 1200px;
+      gap: 10px 14px;
+      max-width: 1300px;
       margin: 0 auto;
-      padding: 0 15px;
+      padding: 0 20px;
     }
 
     .month-btn {
       background: var(--card);
       color: var(--accent);
       border: 1px solid var(--border);
-      padding: 9px 16px;
-      border-radius: 999px;
-      font-size: 0.95rem;
-      font-weight: 500;
+      padding: 8px 18px;
+      border-radius: 60px;
+      font-size: 0.9rem;
+      font-weight: 600;
       cursor: pointer;
-      transition: all 0.25s;
+      transition: var(--transition);
+      font-family: inherit;
     }
 
     .month-btn:hover {
       background: var(--accent);
       color: white;
       border-color: var(--accent);
-      transform: translateY(-1px);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 12px rgba(108, 92, 231, 0.3);
     }
 
-    /* Main Content */
+    /* MAIN GRID */
     .container {
-      max-width: 1280px;
+      max-width: 1380px;
       margin: 0 auto;
-      padding: 40px 15px 80px;
+      padding: 48px 24px 90px;
     }
 
     .year-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-      gap: 32px 28px;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 36px 30px;
     }
 
     .month-card {
       background: var(--card);
-      border-radius: 16px;
+      border-radius: 28px;
       overflow: hidden;
       border: 1px solid var(--border);
-      transition: all 0.3s ease;
-      box-shadow: 0 6px 24px rgba(0,0,0,0.28);
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: var(--shadow);
       cursor: pointer;
     }
 
     .month-card:hover {
       transform: translateY(-10px);
-      box-shadow: 0 16px 44px rgba(0,0,0,0.42);
+      box-shadow: 0 25px 40px rgba(0, 0, 0, 0.3);
     }
 
     .month-title {
-      padding: 16px;
+      padding: 20px 16px;
       text-align: center;
-      font-size: 1.35rem;
-      font-weight: 600;
-      background: linear-gradient(135deg, rgba(108,92,231,0.07), rgba(108,92,231,0.02));
+      font-size: 1.45rem;
+      font-weight: 700;
+      background: linear-gradient(120deg, rgba(108, 92, 231, 0.08), rgba(108, 92, 231, 0.02));
       border-bottom: 1px solid var(--border);
       color: var(--accent);
+      letter-spacing: -0.2px;
     }
 
     .month-image {
       width: 100%;
       height: auto;
       display: block;
+      transition: filter 0.2s;
+      background: #f9f9fc;
     }
 
-    /* Modal */
+    /* MODAL LIGHTBOX (Pro Zoom + Pan) */
     .modal {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.94);
+      background: rgba(0, 0, 0, 0.94);
       z-index: 9999;
       align-items: center;
       justify-content: center;
-      padding: 20px;
-      animation: fadeIn 0.3s ease;
-      overflow: hidden;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-
-    .modal-container {
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      -webkit-overflow-scrolling: touch;
+      backdrop-filter: blur(6px);
     }
 
     .modal.active {
       display: flex;
     }
 
-    .modal img {
-      max-width: none;
-      max-height: none;
+    .modal-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .modal-img-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    #modalImage {
+      max-width: 92vw;
+      max-height: 88vh;
       width: auto;
       height: auto;
-      max-width: 94vw;
-      max-height: 92vh;
-      border-radius: 12px;
-      box-shadow: 0 0 70px rgba(0,0,0,0.85);
-      touch-action: pan-x pan-y pinch-zoom;
+      object-fit: contain;
+      border-radius: 24px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6);
+      transition: transform 0.2s ease-out;
+      cursor: grab;
       user-select: none;
-      -webkit-user-select: none;
-      display: block;
+      -webkit-user-drag: none;
+    }
+
+    #modalImage:active {
+      cursor: grabbing;
     }
 
     .close-btn {
       position: absolute;
-      top: 35px;
-      right: 35px;
+      top: 28px;
+      right: 32px;
       font-size: 3rem;
+      font-weight: 300;
       color: white;
-      cursor: pointer;
-      opacity: 0.75;
-      z-index: 10001;
-      background: rgba(0,0,0,0.6);
-      width: 60px;
-      height: 60px;
+      background: rgba(20, 20, 28, 0.7);
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.3s;
+      cursor: pointer;
+      transition: 0.2s;
+      z-index: 10010;
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.2);
+      font-family: monospace;
     }
 
     .close-btn:hover {
-      opacity: 1;
-      background: rgba(0,0,0,0.8);
+      background: #ff3b30;
       transform: rotate(90deg);
     }
 
-    @media (max-width: 768px) {
-      header { padding-top: 80px; }
-      .theme-toggle { top: 20px; right: 20px; width: 44px; height: 44px; font-size: 1.3rem; }
-      .year-grid { gap: 36px 0; grid-template-columns: 1fr; }
-      h1 { font-size: 2.1rem; }
+    /* hint untuk zoom */
+    .zoom-hint {
+      position: absolute;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.6);
+      color: white;
+      padding: 8px 20px;
+      border-radius: 60px;
+      font-size: 0.8rem;
+      backdrop-filter: blur(10px);
+      pointer-events: none;
+      z-index: 10010;
+      white-space: nowrap;
+      font-weight: 500;
+    }
+
+    @media (max-width: 680px) {
+      .month-nav { gap: 8px; }
+      .month-btn { padding: 6px 14px; font-size: 0.8rem; }
+      .year-grid { gap: 24px; }
+      h1 { font-size: 2rem; }
+      .theme-toggle { width: 44px; height: 44px; top: 20px; right: 20px; font-size: 1.3rem; }
+      .close-btn { width: 44px; height: 44px; font-size: 2rem; top: 16px; right: 18px; }
+      .zoom-hint { font-size: 0.7rem; bottom: 12px; white-space: nowrap; }
     }
   </style>
 </head>
 <body data-theme="dark">
 
-  <!-- Theme Toggle -->
-  <button class="theme-toggle" id="themeBtn">☀️</button>
+  <button class="theme-toggle" id="themeBtn" aria-label="Tukar tema">☀️</button>
 
   <header>
-    <h1>Kalendar Malaysia 2026</h1>
+    <h1>🗓️ Kalendar Malaysia 2026</h1>
   </header>
 
-  <!-- Navigation -->
   <div class="nav-container">
-    <div class="month-nav">
+    <div class="month-nav" id="monthNav">
       <button class="month-btn" data-month="jan">Jan</button>
       <button class="month-btn" data-month="feb">Feb</button>
       <button class="month-btn" data-month="mac">Mac</button>
@@ -279,369 +319,356 @@
   </div>
 
   <div class="container">
-    <div class="year-grid">
-
-      <div class="month-card" id="jan">
-        <div class="month-title">Januari 2026</div>
-        <img src="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/01-2026-my-v2-1024x880.png" 
-             alt="Januari 2026" class="month-image" data-full="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/01-2026-my-v2-1024x880.png">
-      </div>
-
-      <div class="month-card" id="feb">
-        <div class="month-title">Februari 2026</div>
-        <img src="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/02-2026-my-v2-1024x880.png" 
-             alt="Februari 2026" class="month-image" data-full="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/02-2026-my-v2-1024x880.png">
-      </div>
-
-      <div class="month-card" id="mac">
-        <div class="month-title">Mac 2026</div>
-        <img src="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/03-2026-my-v2-1024x880.png" 
-             alt="Mac 2026" class="month-image" data-full="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/03-2026-my-v2-1024x880.png">
-      </div>
-
-      <div class="month-card" id="apr">
-        <div class="month-title">April 2026</div>
-        <img src="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/04-2026-my-v2-1024x880.png" 
-             alt="April 2026" class="month-image" data-full="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/04-2026-my-v2-1024x880.png">
-      </div>
-
-      <div class="month-card" id="mei">
-        <div class="month-title">Mei 2026</div>
-        <img src="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/05-2026-my-v2-1024x880.png" 
-             alt="Mei 2026" class="month-image" data-full="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/05-2026-my-v2-1024x880.png">
-      </div>
-
-      <div class="month-card" id="jun">
-        <div class="month-title">Jun 2026</div>
-        <img src="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/06-2026-my-v2-1024x880.png" 
-             alt="Jun 2026" class="month-image" data-full="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/06-2026-my-v2-1024x880.png">
-      </div>
-
-      <div class="month-card" id="jul">
-        <div class="month-title">Julai 2026</div>
-        <img src="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/07-2026-my-v2-1024x880.png" 
-             alt="Julai 2026" class="month-image" data-full="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/07-2026-my-v2-1024x880.png">
-      </div>
-
-      <div class="month-card" id="ogo">
-        <div class="month-title">Ogos 2026</div>
-        <img src="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/08-2026-my-v2-1024x880.png" 
-             alt="Ogos 2026" class="month-image" data-full="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/08-2026-my-v2-1024x880.png">
-      </div>
-
-      <div class="month-card" id="sep">
-        <div class="month-title">September 2026</div>
-        <img src="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/09-2026-my-v2-1024x880.png" 
-             alt="September 2026" class="month-image" data-full="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/09-2026-my-v2-1024x880.png">
-      </div>
-
-      <div class="month-card" id="okt">
-        <div class="month-title">Oktober 2026</div>
-        <img src="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/10-2026-my-v2-1024x880.png" 
-             alt="Oktober 2026" class="month-image" data-full="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/10-2026-my-v2-1024x880.png">
-      </div>
-
-      <div class="month-card" id="nov">
-        <div class="month-title">November 2026</div>
-        <img src="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/11-2026-my-v2-1024x880.png" 
-             alt="November 2026" class="month-image" data-full="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/11-2026-my-v2-1024x880.png">
-      </div>
-
-      <div class="month-card" id="dis">
-        <div class="month-title">Disember 2026</div>
-        <img src="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/12-2026-my-v2-1024x880.png" 
-             alt="Disember 2026" class="month-image" data-full="https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/12-2026-my-v2-1024x880.png">
-      </div>
-
+    <div class="year-grid" id="calendarGrid">
+      <!-- Dynamic population from JS for cleaner structure, but we keep static as fallback + dynamic for consistency -->
     </div>
   </div>
 
-  <!-- Modal Lightbox -->
+  <!-- Lightbox Modal -->
   <div class="modal" id="imageModal">
-    <span class="close-btn" id="closeModal">×</span>
+    <span class="close-btn" id="closeModal">✕</span>
     <div class="modal-container" id="modalContainer">
-      <img id="modalImage" src="" alt="Kalendar Bulan">
+      <div class="modal-img-wrapper">
+        <img id="modalImage" src="" alt="Kalendar Malaysia 2026 - Bulan" draggable="false">
+      </div>
     </div>
+    <div class="zoom-hint">🔍 Pinch / Ctrl + roda tetikus untuk zum | Tarik untuk pan</div>
   </div>
 
   <script>
-    // Theme Toggle
-    const themeBtn = document.getElementById('themeBtn');
-    const body = document.body;
+    // Data bulan dengan ID mapping & nama
+    const monthsData = [
+      { id: "jan", name: "Januari 2026", img: "https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/01-2026-my-v2-1024x880.png" },
+      { id: "feb", name: "Februari 2026", img: "https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/02-2026-my-v2-1024x880.png" },
+      { id: "mac", name: "Mac 2026", img: "https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/03-2026-my-v2-1024x880.png" },
+      { id: "apr", name: "April 2026", img: "https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/04-2026-my-v2-1024x880.png" },
+      { id: "mei", name: "Mei 2026", img: "https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/05-2026-my-v2-1024x880.png" },
+      { id: "jun", name: "Jun 2026", img: "https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/06-2026-my-v2-1024x880.png" },
+      { id: "jul", name: "Julai 2026", img: "https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/07-2026-my-v2-1024x880.png" },
+      { id: "ogo", name: "Ogos 2026", img: "https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/08-2026-my-v2-1024x880.png" },
+      { id: "sep", name: "September 2026", img: "https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/09-2026-my-v2-1024x880.png" },
+      { id: "okt", name: "Oktober 2026", img: "https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/10-2026-my-v2-1024x880.png" },
+      { id: "nov", name: "November 2026", img: "https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/11-2026-my-v2-1024x880.png" },
+      { id: "dis", name: "Disember 2026", img: "https://raw.githubusercontent.com/zahiruddin0/HTML/refs/heads/main/MALAYSIA%20CALENDER%202026/12-2026-my-v2-1024x880.png" }
+    ];
 
+    // Render Grid
+    const gridContainer = document.getElementById('calendarGrid');
+    function renderCalendar() {
+      gridContainer.innerHTML = '';
+      monthsData.forEach(month => {
+        const card = document.createElement('div');
+        card.className = 'month-card';
+        card.id = month.id;
+        card.setAttribute('data-img', month.img);
+        
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'month-title';
+        titleDiv.textContent = month.name;
+        
+        const imgElem = document.createElement('img');
+        imgElem.src = month.img;
+        imgElem.alt = month.name;
+        imgElem.className = 'month-image';
+        imgElem.loading = 'lazy';
+        imgElem.setAttribute('data-full', month.img);
+        
+        card.appendChild(titleDiv);
+        card.appendChild(imgElem);
+        gridContainer.appendChild(card);
+      });
+    }
+    renderCalendar();
+
+    // ----- THEME TOGGLE (Dark/Light) -----
+    const themeBtn = document.getElementById('themeBtn');
+    const rootBody = document.body;
+    function setTheme(theme) {
+      rootBody.setAttribute('data-theme', theme);
+      localStorage.setItem('calendar-theme', theme);
+      themeBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
+    const savedTheme = localStorage.getItem('calendar-theme');
+    if (savedTheme && (savedTheme === 'dark' || savedTheme === 'light')) {
+      setTheme(savedTheme);
+    } else {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setTheme(prefersDark ? 'dark' : 'light');
+    }
     themeBtn.addEventListener('click', () => {
-      if (body.dataset.theme === 'dark') {
-        body.dataset.theme = 'light';
-        themeBtn.textContent = '🌙';
+      const current = rootBody.getAttribute('data-theme');
+      const newTheme = current === 'dark' ? 'light' : 'dark';
+      setTheme(newTheme);
+    });
+
+    // ----- Smooth Scroll Navigation -----
+    document.querySelectorAll('.month-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const monthId = btn.getAttribute('data-month');
+        const targetCard = document.getElementById(monthId);
+        if (targetCard) {
+          targetCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          // gentle highlight effect
+          targetCard.style.transition = 'box-shadow 0.2s';
+          targetCard.style.boxShadow = '0 0 0 3px var(--accent), 0 15px 30px rgba(0,0,0,0.3)';
+          setTimeout(() => {
+            targetCard.style.boxShadow = '';
+          }, 800);
+        }
+      });
+    });
+
+    // ========== ENHANCED LIGHTBOX + ZOOM + PAN (Gesture & Mouse) ==========
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    const closeModalBtn = document.getElementById('closeModal');
+    const modalContainerDiv = document.getElementById('modalContainer');
+    
+    let scale = 1;
+    let translateX = 0, translateY = 0;
+    let isDragging = false;
+    let startX = 0, startY = 0;
+    let lastX = 0, lastY = 0;
+    
+    // Touch zoom variables (pinch)
+    let initialPinchDist = 0;
+    let initialScale = 1;
+    let initialTransX = 0, initialTransY = 0;
+    let pinchCenterX = 0, pinchCenterY = 0;
+
+    // Reset transform image
+    function resetImageTransform() {
+      scale = 1;
+      translateX = 0;
+      translateY = 0;
+      applyTransform();
+    }
+
+    function applyTransform() {
+      modalImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+    }
+
+    // constrain panning so image never leaves viewport too much (soft limit)
+    function constrainPan() {
+      if (!modalImg.naturalWidth) return;
+      const imgRect = modalImg.getBoundingClientRect();
+      const viewW = window.innerWidth;
+      const viewH = window.innerHeight;
+      const scaledW = modalImg.naturalWidth * scale;
+      const scaledH = modalImg.naturalHeight * scale;
+      let maxX = Math.max(0, (scaledW - viewW) / 2);
+      let maxY = Math.max(0, (scaledH - viewH) / 2);
+      if (scaledW <= viewW) maxX = 0;
+      if (scaledH <= viewH) maxY = 0;
+      translateX = Math.min(maxX, Math.max(-maxX, translateX));
+      translateY = Math.min(maxY, Math.max(-maxY, translateY));
+      applyTransform();
+    }
+
+    // Open modal with smooth entrance & reset state
+    function openModal(imgSrc, startRect) {
+      resetImageTransform();
+      modalImg.src = imgSrc;
+      modal.classList.add('active');
+      modalImg.style.opacity = '0';
+      modalImg.style.transition = 'transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.2), opacity 0.3s';
+      // Set initial tiny scale for fly-in effect
+      if (startRect) {
+        const viewCenterX = window.innerWidth / 2;
+        const viewCenterY = window.innerHeight / 2;
+        const imgCenterX = startRect.left + startRect.width / 2;
+        const imgCenterY = startRect.top + startRect.height / 2;
+        const offsetX = imgCenterX - viewCenterX;
+        const offsetY = imgCenterY - viewCenterY;
+        const startScale = Math.min(0.4, (startRect.width / window.innerWidth) * 0.8);
+        modalImg.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${startScale})`;
       } else {
-        body.dataset.theme = 'dark';
-        themeBtn.textContent = '☀️';
+        modalImg.style.transform = `scale(0.7)`;
+      }
+      modalImg.style.opacity = '0';
+      setTimeout(() => {
+        modalImg.style.transition = 'transform 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.2), opacity 0.35s';
+        modalImg.style.transform = `translate(0px, 0px) scale(1)`;
+        modalImg.style.opacity = '1';
+        // reset scale variables after animation
+        setTimeout(() => {
+          scale = 1;
+          translateX = 0;
+          translateY = 0;
+          applyTransform();
+          modalImg.style.transition = '';
+        }, 580);
+      }, 20);
+    }
+
+    // Attach click on every month card (using event delegation)
+    document.addEventListener('click', (e) => {
+      const card = e.target.closest('.month-card');
+      if (card && !modal.classList.contains('active')) {
+        const imgElement = card.querySelector('img');
+        if (imgElement) {
+          const rect = imgElement.getBoundingClientRect();
+          const fullUrl = imgElement.getAttribute('data-full') || imgElement.src;
+          openModal(fullUrl, rect);
+        }
       }
     });
 
-    // Navigation Scroll
-    document.querySelectorAll('.month-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const monthId = btn.dataset.month;
-        document.getElementById(monthId)?.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'center' 
-        });
-      });
+    // close modal functions
+    function closeModalWithAnim() {
+      if (!modal.classList.contains('active')) return;
+      modalImg.style.transition = 'transform 0.3s ease, opacity 0.25s';
+      modalImg.style.transform = 'scale(0.85)';
+      modalImg.style.opacity = '0';
+      setTimeout(() => {
+        modal.classList.remove('active');
+        resetImageTransform();
+        modalImg.style.transition = '';
+      }, 280);
+    }
+    closeModalBtn.addEventListener('click', closeModalWithAnim);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal || e.target === modalContainerDiv) closeModalWithAnim();
     });
 
-    // Lightbox
-    const modal = document.getElementById('imageModal');
-    const modalContainer = document.getElementById('modalContainer');
-    const modalImg = document.getElementById('modalImage');
-    const closeBtn = document.getElementById('closeModal');
+    // ---- ZOOM with Wheel (Desktop) ----
+    modalContainerDiv.addEventListener('wheel', (e) => {
+      if (!modal.classList.contains('active')) return;
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? 0.92 : 1.08;
+      let newScale = scale * delta;
+      newScale = Math.min(Math.max(0.8, newScale), 6);
+      if (Math.abs(newScale - scale) < 0.01) return;
+      
+      // zoom towards cursor position
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+      const rect = modalImg.getBoundingClientRect();
+      const imgX = mouseX - rect.left;
+      const imgY = mouseY - rect.top;
+      const ratioX = imgX / rect.width;
+      const ratioY = imgY / rect.height;
+      const oldScale = scale;
+      scale = newScale;
+      // adjust translation to keep cursor point under same relative image coordinate
+      const dx = (ratioX - 0.5) * (rect.width * (scale / oldScale - 1));
+      const dy = (ratioY - 0.5) * (rect.height * (scale / oldScale - 1));
+      translateX += dx;
+      translateY += dy;
+      constrainPan();
+      applyTransform();
+    }, { passive: false });
 
-    let scale = 1;
-    let panning = false;
-    let pointX = 0;
-    let pointY = 0;
-    let start = { x: 0, y: 0 };
-
-    document.querySelectorAll('.month-card').forEach(card => {
-      card.addEventListener('click', (e) => {
-        const img = card.querySelector('img');
-        const rect = img.getBoundingClientRect();
-        
-        // Reset zoom dan posisi
-        scale = 1;
-        pointX = 0;
-        pointY = 0;
-        modalImg.style.transform = '';
-        modalContainer.scrollLeft = 0;
-        modalContainer.scrollTop = 0;
-        
-        // Dapatkan posisi klik
-        const startX = rect.left + rect.width / 2;
-        const startY = rect.top + rect.height / 2;
-        
-        // Posisi tengah skrin
-        const centerX = window.innerWidth / 2;
-        const centerY = window.innerHeight / 2;
-        
-        // Kira jarak pergerakan
-        const moveX = startX - centerX;
-        const moveY = startY - centerY;
-        
-        // Set imej dan posisi awal
-        modalImg.src = img.dataset.full;
-        modalImg.style.transform = `translate(${moveX}px, ${moveY}px) scale(${rect.width / (window.innerWidth * 0.9)})`;
-        modalImg.style.opacity = '0';
-        
-        modal.classList.add('active');
-        
-        // Trigger animasi ke tengah
-        setTimeout(() => {
-          modalImg.style.transition = 'all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1)';
-          modalImg.style.transform = 'translate(0, 0) scale(1)';
-          modalImg.style.opacity = '1';
-        }, 10);
-      });
+    // ---- PAN with Mouse Drag ----
+    modalImg.addEventListener('mousedown', (e) => {
+      if (!modal.classList.contains('active') || scale <= 1) return;
+      e.preventDefault();
+      isDragging = true;
+      startX = e.clientX - translateX;
+      startY = e.clientY - translateY;
+      modalImg.style.cursor = 'grabbing';
+      modalImg.style.transition = 'none';
+    });
+    window.addEventListener('mousemove', (e) => {
+      if (!isDragging || !modal.classList.contains('active')) return;
+      e.preventDefault();
+      translateX = e.clientX - startX;
+      translateY = e.clientY - startY;
+      constrainPan();
+      applyTransform();
+    });
+    window.addEventListener('mouseup', () => {
+      if (isDragging) {
+        isDragging = false;
+        modalImg.style.cursor = 'grab';
+        modalImg.style.transition = '';
+      }
     });
 
-    // Pinch to zoom dengan touch
-    let initialDistance = 0;
-    let currentScale = 1;
-    let touchCenterX = 0;
-    let touchCenterY = 0;
-    let initialPointX = 0;
-    let initialPointY = 0;
-
+    // ---- TOUCH: PAN & PINCH ZOOM ----
     modalImg.addEventListener('touchstart', (e) => {
+      if (!modal.classList.contains('active')) return;
       if (e.touches.length === 2) {
         e.preventDefault();
-        
-        // Simpan scale dan posisi semasa
-        currentScale = scale;
-        initialPointX = pointX;
-        initialPointY = pointY;
-        
-        // Kira jarak awal antara 2 jari
-        initialDistance = Math.hypot(
-          e.touches[0].pageX - e.touches[1].pageX,
-          e.touches[0].pageY - e.touches[1].pageY
-        );
-        
-        // Simpan posisi tengah antara 2 jari
-        touchCenterX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
-        touchCenterY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
-        
-      } else if (e.touches.length === 1) {
-        panning = true;
-        start = {
-          x: e.touches[0].clientX - pointX,
-          y: e.touches[0].clientY - pointY
-        };
+        const touch1 = e.touches[0];
+        const touch2 = e.touches[1];
+        initialPinchDist = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
+        initialScale = scale;
+        initialTransX = translateX;
+        initialTransY = translateY;
+        pinchCenterX = (touch1.clientX + touch2.clientX) / 2;
+        pinchCenterY = (touch1.clientY + touch2.clientY) / 2;
+        modalImg.style.transition = 'none';
+      } else if (e.touches.length === 1 && scale > 1) {
+        const touch = e.touches[0];
+        isDragging = true;
+        startX = touch.clientX - translateX;
+        startY = touch.clientY - translateY;
+        modalImg.style.transition = 'none';
+        e.preventDefault();
       }
     });
 
     modalImg.addEventListener('touchmove', (e) => {
+      if (!modal.classList.contains('active')) return;
       if (e.touches.length === 2) {
         e.preventDefault();
-        
-        // Kira jarak baru
-        const distance = Math.hypot(
-          e.touches[0].pageX - e.touches[1].pageX,
-          e.touches[0].pageY - e.touches[1].pageY
-        );
-        
-        // Kira scale baru
-        const newScale = (distance / initialDistance) * currentScale;
-        const scaleChange = newScale / currentScale;
-        scale = Math.min(Math.max(1, newScale), 5);
-        
-        // Posisi tengah semasa antara 2 jari
-        const currentTouchCenterX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
-        const currentTouchCenterY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
-        
-        // Kira offset dari touch point ke image center
-        const rect = modalImg.getBoundingClientRect();
-        const imgCenterX = rect.left + rect.width / 2;
-        const imgCenterY = rect.top + rect.height / 2;
-        
-        // Adjust position berdasarkan zoom point
-        pointX = initialPointX + (touchCenterX - imgCenterX) * (1 - scaleChange);
-        pointY = initialPointY + (touchCenterY - imgCenterY) * (1 - scaleChange);
-        
-        // Adjust untuk pan jika ada
-        pointX += (currentTouchCenterX - touchCenterX);
-        pointY += (currentTouchCenterY - touchCenterY);
-        
-        modalImg.style.transform = `translate(${pointX / scale}px, ${pointY / scale}px) scale(${scale})`;
-        modalImg.style.transition = 'none';
-        
-      } else if (e.touches.length === 1 && panning && scale > 1) {
+        const t1 = e.touches[0];
+        const t2 = e.touches[1];
+        const currentDist = Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY);
+        if (initialPinchDist > 0) {
+          let newScale = initialScale * (currentDist / initialPinchDist);
+          newScale = Math.min(Math.max(0.8, newScale), 6);
+          scale = newScale;
+          const currentCenterX = (t1.clientX + t2.clientX) / 2;
+          const currentCenterY = (t1.clientY + t2.clientY) / 2;
+          const deltaCenterX = currentCenterX - pinchCenterX;
+          const deltaCenterY = currentCenterY - pinchCenterY;
+          translateX = initialTransX + deltaCenterX;
+          translateY = initialTransY + deltaCenterY;
+          constrainPan();
+          applyTransform();
+        }
+      } else if (e.touches.length === 1 && isDragging && scale > 1) {
+        const touch = e.touches[0];
+        translateX = touch.clientX - startX;
+        translateY = touch.clientY - startY;
+        constrainPan();
+        applyTransform();
         e.preventDefault();
-        pointX = e.touches[0].clientX - start.x;
-        pointY = e.touches[0].clientY - start.y;
-        modalImg.style.transform = `translate(${pointX / scale}px, ${pointY / scale}px) scale(${scale})`;
-        modalImg.style.transition = 'none';
       }
     });
 
     modalImg.addEventListener('touchend', (e) => {
-      panning = false;
-      if (e.touches.length === 0 && scale < 1) {
-        scale = 1;
-        pointX = 0;
-        pointY = 0;
-        modalImg.style.transition = 'transform 0.3s ease';
-        modalImg.style.transform = 'scale(1)';
-      }
-    });
-
-    // Mouse drag untuk desktop
-    let isDragging = false;
-    let startDragX = 0;
-    let startDragY = 0;
-
-    modalImg.addEventListener('mousedown', (e) => {
-      if (scale > 1) {
-        isDragging = true;
-        startDragX = e.clientX - pointX;
-        startDragY = e.clientY - pointY;
-        modalImg.style.cursor = 'grabbing';
-        e.preventDefault();
-      }
-    });
-
-    document.addEventListener('mousemove', (e) => {
-      if (isDragging) {
-        pointX = e.clientX - startDragX;
-        pointY = e.clientY - startDragY;
-        modalImg.style.transform = `translate(${pointX / scale}px, ${pointY / scale}px) scale(${scale})`;
-        modalImg.style.transition = 'none';
-      }
-    });
-
-    document.addEventListener('mouseup', () => {
-      if (isDragging) {
+      if (e.touches.length === 0) {
         isDragging = false;
-        modalImg.style.cursor = scale > 1 ? 'grab' : 'default';
+        modalImg.style.transition = '';
       }
-    });
-
-    // Wheel zoom untuk desktop - zoom pada posisi cursor
-    modalContainer.addEventListener('wheel', (e) => {
-      if (e.ctrlKey || e.metaKey) {
-        e.preventDefault();
-        
-        // Dapatkan posisi mouse
-        const mouseX = e.clientX;
-        const mouseY = e.clientY;
-        
-        // Dapatkan posisi imej sebelum zoom
-        const rect = modalImg.getBoundingClientRect();
-        
-        // Kira posisi mouse relatif kepada imej (dalam koordinat imej)
-        const relX = (mouseX - rect.left) / rect.width;
-        const relY = (mouseY - rect.top) / rect.height;
-        
-        // Simpan scale lama
-        const oldScale = scale;
-        
-        // Update scale
-        const delta = e.deltaY > 0 ? 0.9 : 1.1;
-        scale *= delta;
-        scale = Math.min(Math.max(1, scale), 5);
-        
-        if (scale === 1) {
-          // Reset bila zoom out sepenuhnya
-          pointX = 0;
-          pointY = 0;
-        } else {
-          // Kira size imej pada scale baru
-          const newWidth = modalImg.naturalWidth * scale;
-          const newHeight = modalImg.naturalHeight * scale;
-          
-          // Kira dimana mouse sepatutnya berada pada scale baru
-          const newMouseX = relX * newWidth;
-          const newMouseY = relY * newHeight;
-          
-          // Adjust translation supaya mouse kekal pada point yang sama
-          const viewportCenterX = window.innerWidth / 2;
-          const viewportCenterY = window.innerHeight / 2;
-          
-          pointX = viewportCenterX - newMouseX;
-          pointY = viewportCenterY - newMouseY;
-        }
-        
-        modalImg.style.transform = `translate(${pointX / scale}px, ${pointY / scale}px) scale(${scale})`;
-        modalImg.style.cursor = scale > 1 ? 'grab' : 'default';
+      if (e.touches.length < 2) {
+        initialPinchDist = 0;
       }
-    }, { passive: false });
-
-    closeBtn.addEventListener('click', () => {
-      scale = 1;
-      pointX = 0;
-      pointY = 0;
-      modalImg.style.transition = 'all 0.4s ease';
-      modalImg.style.transform = 'scale(0.8)';
-      modalImg.style.opacity = '0';
-      
-      setTimeout(() => {
-        modal.classList.remove('active');
-      }, 400);
     });
     
-    modal.addEventListener('click', e => {
-      if (e.target === modal || e.target === modalContainer) {
-        scale = 1;
-        pointX = 0;
-        pointY = 0;
-        modalImg.style.transition = 'all 0.4s ease';
-        modalImg.style.transform = 'scale(0.8)';
-        modalImg.style.opacity = '0';
-        
-        setTimeout(() => {
-          modal.classList.remove('active');
-        }, 400);
+    // Prevent accidental zoom on double tap but preserve function
+    modalImg.addEventListener('dblclick', (e) => {
+      if (!modal.classList.contains('active')) return;
+      e.preventDefault();
+      if (scale > 1.2) {
+        resetImageTransform();
+      } else {
+        scale = 2.2;
+        translateX = 0;
+        translateY = 0;
+        constrainPan();
+        applyTransform();
       }
     });
+    
+    // set cursor style when modal opens
+    modal.addEventListener('transitionend', () => {});
+    
+    // ensure image loads properly
+    modalImg.style.cursor = 'grab';
   </script>
 </body>
 </html>
