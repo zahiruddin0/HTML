@@ -3,143 +3,69 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rukun Islam & Rukun Iman</title>
+<title>Zahiruddin — Projek Saya</title>
+
+<!-- ===== FAVICON ===== -->
+<link rel="icon" type="image/jpeg" href="https://raw.githubusercontent.com/zahiruddin0/HTML-2/refs/heads/main/PROFILE%20ZAHIRUDDIN/ZAHIRUDDIN.jpg">
+<link rel="shortcut icon" type="image/jpeg" href="https://raw.githubusercontent.com/zahiruddin0/HTML-2/refs/heads/main/PROFILE%20ZAHIRUDDIN/ZAHIRUDDIN.jpg">
+<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/zahiruddin0/HTML-2/refs/heads/main/PROFILE%20ZAHIRUDDIN/ZAHIRUDDIN.jpg">
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,400&family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;1,300&family=Share+Tech+Mono&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Noto+Serif+JP:wght@300;400;700&family=Zen+Kaku+Gothic+New:wght@300;400;700&family=Press+Start+2P&family=VT323&family=Outfit:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:#0f172a; --text:#e2e8f0; --card:#1e293b; --accent:#38bdf8;
-}
-body.light {
-  --bg:#f1f5f9; --text:#0f172a; --card:#ffffff; --accent:#0284c7;
-}
-body {
-  margin:0; font-family:'Segoe UI',sans-serif;
-  background:var(--bg); color:var(--text); transition:.3s;
-}
-header {text-align:center; padding:20px; font-size:26px; font-weight:bold; color:var(--accent);} 
-.container {display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; padding:20px;}
-.card {background:var(--card); border-radius:16px; padding:20px; box-shadow:0 8px 20px rgba(0,0,0,.3);}
-button {cursor:pointer; border:none; border-radius:10px; padding:10px 15px; font-weight:bold;}
-.toggle {position:fixed; top:15px; right:15px; background:var(--accent); color:#fff;}
-.main-btn {display:block; margin:20px auto; background:var(--accent); color:#fff;}
-.quiz {display:none; padding:20px; text-align:center;}
-.option {display:block; margin:10px auto; width:80%; background:var(--card); color:var(--text);} 
-.option:hover {opacity:.8}
-.result {margin-top:15px; font-weight:bold;}
-.score {margin-top:10px;}
-.shake {animation:shake .3s}
-@keyframes shake {
-  0%{transform:translateX(0)}25%{transform:translateX(-5px)}50%{transform:translateX(5px)}75%{transform:translateX(-5px)}100%{transform:translateX(0)}
-}
-/* Media Query */
-@media(max-width:600px){
-  header{font-size:20px}
-  .option{width:100%}
-}
-</style>
-</head>
-<body>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-<button class="toggle" onclick="toggleTheme()">Tema</button>
-
-<!-- MAIN SCREEN -->
-<div id="main">
-<header>Rukun Islam & Rukun Iman</header>
-<div class="container">
-  <div class="card">
-    <h2>Rukun Islam</h2>
-    <ul>
-      <li>Syahadah</li>
-      <li>Solat</li>
-      <li>Puasa</li>
-      <li>Zakat</li>
-      <li>Haji</li>
-    </ul>
-  </div>
-  <div class="card">
-    <h2>Rukun Iman</h2>
-    <ul>
-      <li>Allah</li>
-      <li>Malaikat</li>
-      <li>Kitab</li>
-      <li>Rasul</li>
-      <li>Hari Kiamat</li>
-      <li>Qada & Qadar</li>
-    </ul>
-  </div>
-</div>
-<button class="main-btn" onclick="startQuiz()">Tanya Saya</button>
-</div>
-
-<!-- QUIZ SCREEN -->
-<div id="quiz" class="quiz">
-<h2 id="question"></h2>
-<div id="options"></div>
-<div class="result" id="result"></div>
-<div class="score" id="score"></div>
-<button onclick="goBack()">Kembali</button>
-</div>
-
-<script>
-const questions = [
-  {q:"Berapa Rukun Islam?", options:["4","5","6"], answer:1},
-  {q:"Rukun Islam pertama?", options:["Solat","Puasa","Syahadah"], answer:2},
-  {q:"Berapa Rukun Iman?", options:["5","6","7"], answer:1},
-  {q:"Percaya kepada Malaikat termasuk dalam?", options:["Rukun Islam","Rukun Iman","Adab"], answer:1}
-];
-
-let currentQ, score=0;
-
-function toggleTheme(){document.body.classList.toggle('light');}
-
-function startQuiz(){
-  document.getElementById('main').style.display='none';
-  document.getElementById('quiz').style.display='block';
-  score=0;
-  nextQuestion();
-}
-
-function nextQuestion(){
-  document.getElementById('result').innerText='';
-  currentQ = questions[Math.floor(Math.random()*questions.length)];
-  document.getElementById('question').innerText=currentQ.q;
-  let optHTML='';
-  currentQ.options.forEach((opt,i)=>{
-    optHTML += `<button class="option" onclick="checkAnswer(${i}, this)">${opt}</button>`;
-  });
-  document.getElementById('options').innerHTML=optHTML;
-}
-
-function beep(freq){
-  let ctx = new (window.AudioContext||window.webkitAudioContext)();
-  let osc = ctx.createOscillator();
-  osc.type='sine'; osc.frequency.value=freq;
-  osc.connect(ctx.destination);
-  osc.start();
-  setTimeout(()=>osc.stop(),150);
-}
-
-function checkAnswer(i, el){
-  if(i===currentQ.answer){
-    document.getElementById('result').innerText='✅ Betul';
-    score++;
-    beep(800);
-  } else {
-    document.getElementById('result').innerText='❌ Salah';
-    el.classList.add('shake');
-    beep(200);
+  body.theme-aurora {
+    --bg: #0a0e1a;
+    --surface: rgba(255,255,255,0.04);
+    --surface-hover: rgba(255,255,255,0.09);
+    --accent: #a78bfa;
+    --accent2: #34d399;
+    --text: #e2e8f0;
+    --text-muted: #475569;
+    --border: rgba(167,139,250,0.2);
+    --glow: 0 0 40px rgba(167,139,250,0.2);
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
   }
-  document.getElementById('score').innerText='Score: '+score;
-  setTimeout(nextQuestion,1000);
-}
-
-function goBack(){
-  document.getElementById('quiz').style.display='none';
-  document.getElementById('main').style.display='block';
-}
-</script>
-
-</body>
-</html>
+  body.theme-neon {
+    --bg: #050510;
+    --surface: rgba(255,255,255,0.03);
+    --surface-hover: rgba(255,255,255,0.07);
+    --accent: #00ffcc;
+    --accent2: #ff00aa;
+    --text: #e0f0ff;
+    --text-muted: #556677;
+    --border: rgba(0,255,204,0.2);
+    --glow: 0 0 20px rgba(0,255,204,0.4), 0 0 60px rgba(0,255,204,0.1);
+    --font-display: 'Space Mono', monospace;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  body.theme-luxury {
+    --bg: #0d0b08;
+    --surface: rgba(212,175,55,0.05);
+    --surface-hover: rgba(212,175,55,0.1);
+    --accent: #d4af37;
+    --accent2: #c9956e;
+    --text: #f5ead8;
+    --text-muted: #6b5a3e;
+    --border: rgba(212,175,55,0.25);
+    --glow: 0 4px 30px rgba(212,175,55,0.15);
+    --font-display: 'Playfair Display', serif;
+    --font-body: 'Crimson Pro', serif;
+  }
+  body.theme-brutalist {
+    --bg: #f0ece4;
+    --surface: #ffffff;
+    --surface-hover: #ffe600;
+    --accent: #ff2200;
+    --accent2: #0000ff;
+    --text: #111111;
+    --text-muted: #888888;
+    --border: #111111;
+    --glow: 4px 4px 0px #111111;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
 
   /* ===== TEMA TERMINAL DEV ===== */
   body.theme-terminal {
