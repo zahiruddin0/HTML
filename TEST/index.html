@@ -532,12 +532,28 @@
     });
 
     /* ---------- SMOOTH SCROLL NAVIGATION ---------- */
+    function getNavHeight() {
+      const nav = document.querySelector('.nav-container');
+      return nav ? nav.offsetHeight : 0;
+    }
+
     document.querySelectorAll('.month-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const monthId = btn.getAttribute('data-month');
         const targetCard = document.getElementById(monthId);
         if (targetCard) {
-          targetCard.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+          const cardRect = targetCard.getBoundingClientRect();
+          const navHeight = getNavHeight();
+          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          const viewportHeight = window.innerHeight;
+          const cardCenter = cardRect.top + scrollTop + cardRect.height / 2;
+          const targetScroll = cardCenter - navHeight - (viewportHeight - navHeight) / 2;
+
+          window.scrollTo({
+            top: Math.max(0, targetScroll),
+            behavior: prefersReducedMotion ? 'auto' : 'smooth'
+          });
+
           targetCard.classList.add('highlight');
           setTimeout(() => targetCard.classList.remove('highlight'), 800);
         }
