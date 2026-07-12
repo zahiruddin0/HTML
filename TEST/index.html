@@ -156,7 +156,7 @@
 
     .year-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 36px 30px;
     }
 
@@ -223,9 +223,14 @@
       width: 100%;
       height: auto;
       display: block;
-      transition: filter 0.2s;
+      transition: filter 0.2s, opacity 0.4s ease;
       position: relative;
       z-index: 2;
+      opacity: 0;
+    }
+
+    .month-image.loaded {
+      opacity: 1;
     }
 
     .month-image-placeholder {
@@ -377,11 +382,20 @@
     .modal-nav-btn.prev { left: 16px; }
     .modal-nav-btn.next { right: 16px; }
 
-    .modal-month-label {
+    .modal-top-bar {
       position: absolute;
-      top: 32px;
-      left: 50%;
-      transform: translateX(-50%);
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 80px;
+      z-index: 10010;
+      pointer-events: none;
+    }
+
+    .modal-month-label {
       color: white;
       font-size: 0.9rem;
       font-weight: 600;
@@ -389,9 +403,33 @@
       padding: 6px 18px;
       border-radius: 60px;
       backdrop-filter: blur(10px);
-      z-index: 10010;
       white-space: nowrap;
-      pointer-events: none;
+      pointer-events: auto;
+    }
+
+    .share-btn {
+      position: absolute;
+      top: 28px;
+      right: 100px;
+      font-size: 1.4rem;
+      color: white;
+      background: rgba(20, 20, 28, 0.7);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: 0.2s;
+      z-index: 10010;
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.2);
+      font-family: monospace;
+    }
+
+    .share-btn:hover {
+      background: var(--accent);
     }
 
     .zoom-hint {
@@ -438,6 +476,29 @@
       animation: spin 0.7s linear infinite;
     }
 
+    /* LONG PRESS TOAST */
+    .longpress-toast {
+      position: absolute;
+      bottom: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.85);
+      color: white;
+      padding: 10px 24px;
+      border-radius: 60px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      backdrop-filter: blur(12px);
+      z-index: 10011;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .longpress-toast.show {
+      opacity: 1;
+    }
+
     /* SCROLL TO TOP BUTTON */
     .scroll-top-btn {
       position: fixed;
@@ -473,6 +534,24 @@
       box-shadow: 0 8px 25px rgba(108, 92, 231, 0.6);
     }
 
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      border-top: 1px solid var(--border);
+      color: var(--text-light);
+      font-size: 0.85rem;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
     /* screen reader only */
     .sr-only {
       position: absolute;
@@ -486,18 +565,26 @@
       border: 0;
     }
 
+    @media (max-width: 1100px) {
+      .year-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
     @media (max-width: 680px) {
       .month-nav { gap: 8px; }
       .month-btn { padding: 6px 14px; font-size: 0.8rem; }
-      .year-grid { gap: 24px; }
+      .year-grid { grid-template-columns: 1fr; gap: 24px; }
       h1 { font-size: 2rem; }
       .theme-toggle { width: 44px; height: 44px; top: 20px; right: 20px; font-size: 1.3rem; }
       .close-btn { width: 44px; height: 44px; font-size: 2rem; top: 16px; right: 18px; }
-      .zoom-hint { font-size: 0.7rem; bottom: 12px; white-space: nowrap; }
+      .share-btn { width: 40px; height: 40px; top: 18px; right: 70px; font-size: 1.2rem; }
       .modal-nav-btn { width: 40px; height: 40px; font-size: 1.5rem; }
       .modal-nav-btn.prev { left: 8px; }
       .modal-nav-btn.next { right: 8px; }
-      .modal-month-label { font-size: 0.8rem; top: 20px; padding: 4px 14px; }
+      .modal-month-label { font-size: 0.8rem; padding: 4px 14px; }
+      .modal-top-bar { padding: 16px 60px; }
+      .zoom-hint { font-size: 0.7rem; bottom: 12px; white-space: nowrap; }
       .scroll-top-btn { width: 44px; height: 44px; bottom: 20px; right: 20px; font-size: 1.3rem; }
     }
   </style>
@@ -532,15 +619,22 @@
     </div>
   </div>
 
+  <footer>
+    Kalendar Malaysia 2026 &mdash; By Zahir
+  </footer>
+
   <!-- Scroll to Top -->
   <button class="scroll-top-btn" id="scrollTopBtn" aria-label="Scroll ke atas">↑</button>
 
   <!-- Lightbox Modal -->
   <div class="modal" id="imageModal" role="dialog" aria-label="Gambar kalendar penuh" aria-modal="true">
     <span class="close-btn" id="closeModal" aria-label="Tutup gambar" tabindex="0">✕</span>
+    <button class="share-btn" id="shareBtn" aria-label="Kongsi gambar">↗</button>
     <span class="modal-nav-btn prev" id="modalPrev" aria-label="Bulan sebelumnya">‹</span>
     <span class="modal-nav-btn next" id="modalNext" aria-label="Bulan seterusnya">›</span>
-    <div class="modal-month-label" id="modalMonthLabel"></div>
+    <div class="modal-top-bar">
+      <div class="modal-month-label" id="modalMonthLabel"></div>
+    </div>
     <div class="modal-container" id="modalContainer">
       <div class="modal-img-wrapper">
         <div class="modal-loader" id="modalLoader">
@@ -550,6 +644,7 @@
         <img id="modalImage" src="" alt="Kalendar Malaysia 2026 - Bulan" draggable="false">
       </div>
     </div>
+    <div class="longpress-toast" id="longpressToast">💾 Memuatkan untuk muat turun...</div>
     <div class="zoom-hint" id="zoomHint">🔍 Pinch / Ctrl + roda tetikus untuk zum | Tarik untuk pan</div>
   </div>
 
@@ -623,6 +718,7 @@
 
         imgElem.addEventListener('load', () => {
           placeholder.classList.add('hidden');
+          imgElem.classList.add('loaded');
         });
 
         imgElem.addEventListener('error', () => {
@@ -761,6 +857,8 @@
     const modalPrev = document.getElementById('modalPrev');
     const modalNext = document.getElementById('modalNext');
     const modalMonthLabel = document.getElementById('modalMonthLabel');
+    const shareBtn = document.getElementById('shareBtn');
+    const longpressToast = document.getElementById('longpressToast');
 
     let scale = 1;
     let translateX = 0, translateY = 0;
@@ -777,6 +875,13 @@
     let swipeStartX = 0, swipeStartY = 0;
     let swipeStartTime = 0;
     let isSwiping = false;
+
+    /* Swipe down to close tracking */
+    let swipeDownStartY = 0;
+    let isSwipeDown = false;
+
+    /* Long press tracking */
+    let longpressTimer = null;
 
     function resetImageTransform() {
       scale = 1;
@@ -924,6 +1029,80 @@
       modalLoader.classList.add('hidden');
     });
 
+    /* ---------- SHARE BUTTON ---------- */
+    shareBtn.addEventListener('click', async () => {
+      if (currentModalMonthIndex < 0) return;
+      const month = monthsData[currentModalMonthIndex];
+
+      if (navigator.share) {
+        try {
+          const response = await fetch(month.img);
+          const blob = await response.blob();
+          const file = new File([blob], `${month.id}-2026.png`, { type: 'image/png' });
+
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({
+              title: `Kalendar Malaysia - ${month.name}`,
+              text: `Kalendar Malaysia ${month.name}`,
+              files: [file]
+            });
+          } else {
+            await navigator.share({
+              title: `Kalendar Malaysia - ${month.name}`,
+              text: `Kalendar Malaysia ${month.name}`,
+              url: month.img
+            });
+          }
+        } catch (err) {
+          if (err.name !== 'AbortError') {
+            fallbackShare(month);
+          }
+        }
+      } else {
+        fallbackShare(month);
+      }
+    });
+
+    function fallbackShare(month) {
+      const url = `https://wa.me/?text=${encodeURIComponent(`Kalendar Malaysia ${month.name}\n${month.img}`)}`;
+      window.open(url, '_blank');
+    }
+
+    /* ---------- LONG PRESS TO DOWNLOAD ---------- */
+    function startLongpress(e) {
+      if (scale > 1) return;
+      longpressTimer = setTimeout(() => {
+        longpressToast.classList.add('show');
+        const a = document.createElement('a');
+        a.href = modalImg.src;
+        a.download = `kalendar-malaysia-${monthsData[currentModalMonthIndex].id}-2026.png`;
+        a.target = '_blank';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        announce('Gambar dimuat turun');
+        setTimeout(() => longpressToast.classList.remove('show'), 2000);
+      }, 600);
+    }
+
+    function cancelLongpress() {
+      clearTimeout(longpressTimer);
+      longpressTimer = null;
+    }
+
+    modalImg.addEventListener('mousedown', (e) => {
+      if (e.button === 0) startLongpress(e);
+    });
+
+    modalImg.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1 && scale <= 1) startLongpress(e);
+    }, { passive: true });
+
+    modalImg.addEventListener('mouseup', cancelLongpress);
+    modalImg.addEventListener('mouseleave', cancelLongpress);
+    modalImg.addEventListener('touchend', cancelLongpress);
+    modalImg.addEventListener('touchmove', cancelLongpress);
+
     /* ---------- ZOOM with Wheel ---------- */
     modalContainerDiv.addEventListener('wheel', (e) => {
       if (!modal.classList.contains('active')) return;
@@ -974,7 +1153,7 @@
       }
     });
 
-    /* ---------- TOUCH: PAN, PINCH ZOOM & SWIPE ---------- */
+    /* ---------- TOUCH: PAN, PINCH, SWIPE & SWIPE DOWN ---------- */
     modalImg.addEventListener('touchstart', (e) => {
       if (!modal.classList.contains('active')) return;
       if (e.touches.length === 2) {
@@ -988,18 +1167,23 @@
         pinchCenterY = (t1.clientY + t2.clientY) / 2;
         modalImg.style.transition = 'none';
         isSwiping = false;
+        isSwipeDown = false;
       } else if (e.touches.length === 1) {
+        const touch = e.touches[0];
+        swipeStartX = touch.clientX;
+        swipeStartY = touch.clientY;
+        swipeDownStartY = touch.clientY;
+        swipeStartTime = Date.now();
+        isSwiping = true;
+        isSwipeDown = true;
+
         if (scale > 1) {
           e.preventDefault();
           isDragging = true;
-          startX = e.touches[0].clientX - translateX;
-          startY = e.touches[0].clientY - translateY;
+          startX = touch.clientX - translateX;
+          startY = touch.clientY - translateY;
           modalImg.style.transition = 'none';
         }
-        swipeStartX = e.touches[0].clientX;
-        swipeStartY = e.touches[0].clientY;
-        swipeStartTime = Date.now();
-        isSwiping = true;
       }
     }, { passive: false });
 
@@ -1008,6 +1192,7 @@
       if (e.touches.length === 2) {
         e.preventDefault();
         isSwiping = false;
+        isSwipeDown = false;
         const t1 = e.touches[0], t2 = e.touches[1];
         const currentDist = Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY);
         if (initialPinchDist > 0) {
@@ -1021,13 +1206,23 @@
           constrainPan();
           applyTransform();
         }
-      } else if (e.touches.length === 1 && isDragging && scale > 1) {
-        e.preventDefault();
-        isSwiping = false;
-        translateX = e.touches[0].clientX - startX;
-        translateY = e.touches[0].clientY - startY;
-        constrainPan();
-        applyTransform();
+      } else if (e.touches.length === 1) {
+        const touch = e.touches[0];
+        const dx = Math.abs(touch.clientX - swipeStartX);
+        const dy = touch.clientY - swipeStartY;
+
+        if (dx > 10 || dy < -10) {
+          isSwipeDown = false;
+        }
+
+        if (isDragging && scale > 1) {
+          e.preventDefault();
+          isSwiping = false;
+          translateX = touch.clientX - startX;
+          translateY = touch.clientY - startY;
+          constrainPan();
+          applyTransform();
+        }
       }
     }, { passive: false });
 
@@ -1036,6 +1231,7 @@
         isDragging = false;
         modalImg.style.transition = '';
 
+        /* Swipe left/right navigation */
         if (isSwiping && scale <= 1) {
           const dx = e.changedTouches[0].clientX - swipeStartX;
           const dy = e.changedTouches[0].clientY - swipeStartY;
@@ -1049,9 +1245,23 @@
             } else if (dx > 0 && currentModalMonthIndex > 0) {
               navigateModal(currentModalMonthIndex - 1);
             }
+            isSwiping = false;
+            isSwipeDown = false;
+            return;
           }
         }
+
+        /* Swipe down to close */
+        if (isSwipeDown && scale <= 1) {
+          const dy = e.changedTouches[0].clientY - swipeDownStartY;
+          const dt = Date.now() - swipeStartTime;
+          if (dy > 100 && dt < 400) {
+            closeModal();
+          }
+        }
+
         isSwiping = false;
+        isSwipeDown = false;
       }
       if (e.touches.length < 2) {
         initialPinchDist = 0;
@@ -1103,7 +1313,7 @@
     /* ---------- ZOOM HINT ---------- */
     function updateZoomHint() {
       if ('ontouchstart' in window) {
-        zoomHint.textContent = '🔍 Cencung untuk zum | Cengkam untuk pan | Swipe kiri/kanan untuk navigasi';
+        zoomHint.textContent = '🔍 Cencung untuk zum | Cengkam untuk pan | Swipe kiri/kanan navigasi | Swipe bawah tutup';
       } else {
         zoomHint.textContent = '🔍 Ctrl + roda tetikus untuk zum | Klik gambar untuk pan | ← → navigasi';
       }
