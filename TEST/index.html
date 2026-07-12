@@ -133,23 +133,6 @@
       position: relative;
     }
 
-    .month-btn::after {
-      content: '';
-      position: absolute;
-      bottom: -3px;
-      left: 50%;
-      transform: translateX(-50%) scaleX(0);
-      width: 20px;
-      height: 3px;
-      background: var(--accent);
-      border-radius: 3px;
-      transition: transform 0.3s ease;
-    }
-
-    .month-btn.active::after {
-      transform: translateX(-50%) scaleX(1);
-    }
-
     .month-btn.active {
       background: var(--accent);
       color: white;
