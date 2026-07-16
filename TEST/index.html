@@ -35,10 +35,11 @@ h1{text-align:center;font-size:2.2em;margin-bottom:5px;font-weight:700;backgroun
 .dd-opt{padding:9px 12px;font-size:.85em;color:#1a1a1a;cursor:pointer;transition:all .15s ease;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dd-opt:hover{background:rgba(0,229,255,0.15);color:#000}
 .dd-opt.active{background:rgba(124,77,255,0.15);font-weight:600}
-.view-toggle{display:flex;gap:4px;justify-content:center;margin-bottom:20px;background:var(--glass);backdrop-filter:blur(10px);border:1px solid var(--glass-border);border-radius:14px;padding:4px;width:fit-content;margin-left:auto;margin-right:auto}
-.view-btn{background:transparent;border:none;color:var(--text-dim);padding:10px 20px;border-radius:11px;cursor:pointer;font-size:.88em;font-weight:500;transition:all .3s;font-family:'Inter',sans-serif}
-.view-btn.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 4px 15px var(--accent-glow)}
-.view-btn:hover:not(.active){color:var(--text);background:var(--glass-hover)}
+.view-toggle{display:flex;gap:4px;justify-content:center;margin-bottom:20px;background:var(--glass);backdrop-filter:blur(10px);border:1px solid var(--glass-border);border-radius:14px;padding:4px;width:fit-content;margin-left:auto;margin-right:auto;position:relative}
+.view-btn{background:transparent;border:none;color:var(--text-dim);padding:10px 20px;border-radius:11px;cursor:pointer;font-size:.88em;font-weight:500;transition:color .3s;font-family:'Inter',sans-serif;position:relative;z-index:2}
+.view-btn.active{color:#fff}
+.view-btn:hover:not(.active){color:var(--text)}
+.view-slider{position:absolute;top:4px;left:4px;height:calc(100% - 8px);background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:11px;transition:left .4s cubic-bezier(.4,0,.2,1),width .4s cubic-bezier(.4,0,.2,1);z-index:1;box-shadow:0 4px 15px var(--accent-glow)}
 .prayer-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:20px}
 .card{background:var(--glass);backdrop-filter:blur(20px);border-radius:16px;padding:20px;border:1px solid var(--glass-border);transition:all .3s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
 .card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));opacity:0;transition:all .3s}
@@ -70,8 +71,8 @@ h1{text-align:center;font-size:2.2em;margin-bottom:5px;font-weight:700;backgroun
 #scheduleTable.show{display:block}
 .nav-hint{text-align:center;color:var(--text-dim);font-size:.78em;margin-top:12px;font-weight:300}
 /* Calendar */
-#calendarView{display:none}
-#calendarView.show{display:block}
+#cardView,#tableView,#calendarView{opacity:0;transform:translateY(20px);transition:opacity .35s cubic-bezier(.4,0,.2,1), transform .35s cubic-bezier(.4,0,.2,1);pointer-events:none;position:absolute;width:100%}
+#cardView.show,#tableView.show,#calendarView.show{opacity:1;transform:translateY(0);pointer-events:auto;position:relative}
 .cal-header{display:flex;justify-content:center;align-items:center;gap:16px;margin-bottom:16px}
 .cal-header button{background:var(--glass);border:1px solid var(--glass-border);color:var(--text);width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:1em;transition:all .3s;font-family:'Inter',sans-serif}
 .cal-header button:hover{background:var(--accent);color:#000;transform:scale(1.1);box-shadow:0 4px 15px var(--accent-glow)}
@@ -87,7 +88,13 @@ h1{text-align:center;font-size:2.2em;margin-bottom:5px;font-weight:700;backgroun
 .cal-day .day-num{font-weight:700;font-size:1.15em;margin-bottom:3px}
 .cal-day .day-prayer{line-height:1.5;color:var(--text-dim);font-size:.92em}
 .cal-day.today .day-num{color:var(--accent)}
-@media(max-width:600px){h1{font-size:1.5em}.controls{flex-direction:column;align-items:stretch}.ctrl-group{flex-direction:column;align-items:stretch}.ctrl-label{text-align:center}.dd-wrap,.dd-wrap.date-sel,.dd-wrap.day-sel{width:100%;max-width:100%}.prayer-cards{grid-template-columns:1fr 1fr}.card .time{font-size:1.4em}.cal-day{min-height:65px;font-size:.62em}.card{padding:14px}.countdown-time{font-size:2.2em}}
+@media(max-width:900px){.controls{gap:8px}.prayer-cards{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}.card .time{font-size:1.6em}}
+@media(max-width:768px){h1{font-size:1.8em}.controls{flex-direction:column;align-items:stretch;gap:10px}.ctrl-group{flex-direction:row;align-items:center;gap:10px}.dd-wrap,.dd-wrap.date-sel,.dd-wrap.day-sel{width:100%;max-width:100%}.prayer-cards{grid-template-columns:1fr 1fr 1fr}.card .time{font-size:1.5em}.cal-day{min-height:75px;font-size:.68em}.countdown-time{font-size:2.5em}}
+@media(max-width:600px){h1{font-size:1.5em}.controls{flex-direction:column;align-items:stretch}.ctrl-group{flex-direction:column;align-items:stretch}.ctrl-label{text-align:center}.dd-wrap,.dd-wrap.date-sel,.dd-wrap.day-sel{width:100%;max-width:100%}.prayer-cards{grid-template-columns:1fr 1fr}.card .time{font-size:1.4em}.cal-day{min-height:65px;font-size:.62em}.card{padding:14px}.countdown-time{font-size:2.2em}.table-wrap{font-size:.8em}}
+@media(max-width:480px){h1{font-size:1.3em}.prayer-cards{grid-template-columns:1fr 1fr;gap:8px}.card{padding:12px;border-radius:12px}.card .time{font-size:1.3em}.card .label{font-size:.75em}.countdown-box{padding:16px}.countdown-time{font-size:2em;letter-spacing:3px}.cal-day{min-height:55px;font-size:.58em;padding:5px}.cal-day-header{font-size:.65em;padding:6px 2px}.cal-header .cal-month{font-size:1.1em;min-width:160px}.cal-header button{width:34px;height:34px;font-size:.85em}.table-wrap td,.table-wrap th{padding:7px 5px;font-size:.78em}.info-bar span{font-size:.8em;margin:0 6px}}
+@media(max-width:360px){h1{font-size:1.2em}.subtitle{font-size:.8em}.prayer-cards{grid-template-columns:1fr 1fr;gap:6px}.card{padding:10px}.card .time{font-size:1.2em}.countdown-time{font-size:1.8em;letter-spacing:2px}.ctrl-group{padding:6px 10px;border-radius:10px}.dd-trigger{padding:6px 10px;font-size:.82em}}
+@media(min-width:1200px){.container{max-width:1000px}.prayer-cards{grid-template-columns:repeat(7,1fr)}.card .time{font-size:1.7em}.cal-day{min-height:100px;font-size:.78em}}
+@media(min-width:1600px){.container{max-width:1100px}h1{font-size:2.6em}.prayer-cards{gap:18px}.card{padding:24px}.countdown-time{font-size:3.5em}}
 </style>
 </head>
 <body>
@@ -109,7 +116,8 @@ h1{text-align:center;font-size:2.2em;margin-bottom:5px;font-weight:700;backgroun
 <div class="dd-wrap day-sel" id="ddDay"><div class="dd-trigger" onclick="ddToggle(this)"><span>1</span><span class="dd-arrow">&#9662;</span></div><div class="dd-menu" id="menuDay"></div></div>
 </div>
 </div>
-<div class="view-toggle">
+<div class="view-toggle" id="viewToggle">
+<div class="view-slider" id="viewSlider"></div>
 <button class="view-btn active" id="viewCard" onclick="showView('card')">Kad</button>
 <button class="view-btn" id="viewTable" onclick="showView('table')">Jadual</button>
 <button class="view-btn" id="viewCal" onclick="showView('cal')">Kalendar</button>
@@ -237,7 +245,7 @@ function autoUpdate(){if(!ddState.zone)return;updateDisplay();updateCountdown();
 
 // View toggle
 let currentView="card";
-function showView(v){currentView=v;document.getElementById("cardView").style.display=v==="card"?"block":"none";document.getElementById("tableView").style.display=v==="table"?"block":"none";document.getElementById("calendarView").className=v==="cal"?"show":"";document.getElementById("viewCard").className="view-btn"+(v==="card"?" active":"");document.getElementById("viewTable").className="view-btn"+(v==="table"?" active":"");document.getElementById("viewCal").className="view-btn"+(v==="cal"?" active":"");if(v==="cal")renderCalendar();updateDisplay()}
+function showView(v){currentView=v;["cardView","tableView","calendarView"].forEach(id=>document.getElementById(id).classList.remove("show"));document.getElementById(v==="card"?"cardView":v==="table"?"tableView":"calendarView").classList.add("show");document.getElementById("viewCard").className="view-btn"+(v==="card"?" active":"");document.getElementById("viewTable").className="view-btn"+(v==="table"?" active":"");document.getElementById("viewCal").className="view-btn"+(v==="cal"?" active":"");const btn=document.getElementById(v==="card"?"viewCard":v==="table"?"viewTable":"viewCal");const slider=document.getElementById("viewSlider");slider.style.left=btn.offsetLeft+"px";slider.style.width=btn.offsetWidth+"px";if(v==="cal")renderCalendar();updateDisplay()}
 // Countdown
 function updateCountdown(){
 const z=ddState.zone;if(!z){document.getElementById("countdownBox").style.display="none";return}
@@ -280,7 +288,11 @@ const days=DATA[z];if(!days)return;
 const firstDay=new Date(calYear,calMonth,1).getDay();
 const daysInMonth=DAYS_IN_MONTH[calMonth];
 const today=new Date();
-document.getElementById("calMonthLabel").textContent=MONTHS[calMonth]+" "+calYear;
+document.getElementById("calMonthLabel").textContent=MONTHS[calMonth];
+const prevBtn=document.querySelector(".cal-header button:first-child");
+const nextBtn=document.querySelector(".cal-header button:last-child");
+prevBtn.disabled=calMonth===0;prevBtn.style.opacity=calMonth===0?"0.3":"1";prevBtn.style.pointerEvents=calMonth===0?"none":"auto";
+nextBtn.disabled=calMonth===11;nextBtn.style.opacity=calMonth===11?"0.3":"1";nextBtn.style.pointerEvents=calMonth===11?"none":"auto";
 const grid=document.getElementById("calGrid");
 let html="";
 const dayHeaders=["Ahad","Isnin","Selasa","Rabu","Khamis","Jumat","Sabtu"];
@@ -299,13 +311,13 @@ html+='<div class="'+cls+'" onclick="calClick('+d+')">'+content+'</div>';
 }
 grid.innerHTML=html;
 }
-function calNav(dir){calMonth+=dir;if(calMonth>11){calMonth=0;calYear++}if(calMonth<0){calMonth=11;calYear--}renderCalendar()}
+function calNav(dir){calMonth+=dir;if(calMonth>11)calMonth=11;if(calMonth<0)calMonth=0;renderCalendar()}
 function calClick(d){ddState.month=calMonth;ddState.day=d;document.querySelector("#ddMonth .dd-trigger span:first-child").textContent=MONTHS[ddState.month];initDayDD();document.querySelector("#ddDay .dd-trigger span:first-child").textContent=String(d);document.getElementById("cgDate").classList.add("selected");autoUpdate();showView("card")}
 // Keyboard
 document.addEventListener("keydown",e=>{if(!ddState.zone)return;let d=new Date(2026,ddState.month,ddState.day);if(e.key==="ArrowDown"||e.key==="ArrowLeft"){d.setDate(d.getDate()-1)}else if(e.key==="ArrowUp"||e.key==="ArrowRight"){d.setDate(d.getDate()+1)}else return;if(d.getFullYear()===2026){ddState.month=d.getMonth();ddState.day=d.getDate();document.querySelector("#ddMonth .dd-trigger span:first-child").textContent=MONTHS[ddState.month];initDayDD();document.querySelector("#ddDay .dd-trigger span:first-child").textContent=String(ddState.day);autoUpdate()}});
 // init view
-document.getElementById("tableView").style.display="none";
-document.getElementById("calendarView").className="";
+document.getElementById("cardView").classList.add("show");
+setTimeout(()=>{const btn=document.getElementById("viewCard");const s=document.getElementById("viewSlider");s.style.left=btn.offsetLeft+"px";s.style.width=btn.offsetWidth+"px"},50);
 </script>
 </body>
 </html>
