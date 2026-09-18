@@ -117,7 +117,18 @@ body{
   cursor:pointer;
   transition:filter .2s,transform .1s;
 }
-.plus-btn:active{transform:scale(.94)}
+.minus-btn{
+  width:52px;
+  font-size:24px;
+  font-weight:700;
+  border:2px solid var(--border);
+  border-radius:12px;
+  background:var(--card);
+  color:var(--text);
+  cursor:pointer;
+  transition:filter .2s,transform .1s;
+}
+.plus-btn:active,.minus-btn:active{transform:scale(.94)}
 .plus-btn:hover{filter:brightness(1.08)}
 .breakdown{margin-top:6px}
 .row{
@@ -209,14 +220,16 @@ body{
       <label for="bw"><span>Hitam Putih</span><span class="price-tag tag-bw">30 sen / helai</span></label>
       <div class="input-row">
         <input id="bw" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" placeholder="0" aria-label="Bilangan helaian hitam putih">
-        <button class="plus-btn" type="button" data-target="bw" aria-label="Tambah satu helaian hitam putih">+</button>
+        <button class="minus-btn" type="button" data-target="bw" data-step="-1" aria-label="Tolak satu helaian hitam putih">&minus;</button>
+        <button class="plus-btn" type="button" data-target="bw" data-step="1" aria-label="Tambah satu helaian hitam putih">+</button>
       </div>
     </div>
     <div class="field">
       <label for="color"><span>Berwarna</span><span class="price-tag tag-color">50 sen / helai</span></label>
       <div class="input-row">
         <input id="color" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" placeholder="0" aria-label="Bilangan helaian berwarna">
-        <button class="plus-btn" type="button" data-target="color" aria-label="Tambah satu helaian berwarna">+</button>
+        <button class="minus-btn" type="button" data-target="color" data-step="-1" aria-label="Tolak satu helaian berwarna">&minus;</button>
+        <button class="plus-btn" type="button" data-target="color" data-step="1" aria-label="Tambah satu helaian berwarna">+</button>
       </div>
     </div>
 
@@ -299,10 +312,11 @@ function numericOnly(field){
 numericOnly(bwEl);
 numericOnly(colorEl);
 
-document.querySelectorAll('.plus-btn').forEach(function(btn){
+document.querySelectorAll('.plus-btn, .minus-btn').forEach(function(btn){
   btn.addEventListener('click', function(){
     var field = document.getElementById(btn.getAttribute('data-target'));
-    var v = clamp(field) + 1;
+    var step = parseInt(btn.getAttribute('data-step'),10) || 0;
+    var v = Math.max(0, clamp(field) + step);
     field.value = v;
     update();
   });
