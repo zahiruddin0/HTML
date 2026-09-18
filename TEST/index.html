@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kalkulator Harga Print</title>
 <link rel="icon" type="image/jpeg" href="https://raw.githubusercontent.com/zahiruddin0/HTML-2/refs/heads/main/PROFILE%20ZAHIRUDDIN/ZAHIRUDDIN.jpg">
+<script>
+try{
+  var pt = localStorage.getItem('pp-theme');
+  if(!pt){
+    pt = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  document.documentElement.setAttribute('data-theme', pt);
+}catch(e){}
+</script>
 <style>
 :root{
   --bg:#eef1f6;
@@ -194,6 +203,52 @@ body{
   z-index:99;
 }
 .toast.show{transform:translate(-50%,0);opacity:1}
+#loader{
+  position:fixed;
+  inset:0;
+  background:var(--bg);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:18px;
+  z-index:1000;
+  transition:opacity .5s ease, visibility .5s ease;
+}
+#loader.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.loader-ring{
+  width:72px;
+  height:72px;
+  border-radius:50%;
+  background:conic-gradient(from 0deg, var(--accent), #7c3aed, transparent 60%);
+  -webkit-mask:radial-gradient(farthest-side, transparent calc(100% - 7px), #000 calc(100% - 6px));
+  mask:radial-gradient(farthest-side, transparent calc(100% - 7px), #000 calc(100% - 6px));
+  animation:spin 1s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loader-brand{
+  font-size:20px;
+  font-weight:800;
+  letter-spacing:1px;
+  background:linear-gradient(90deg, var(--muted), var(--accent), var(--muted));
+  background-size:200% 100%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  animation:shimmer 2s linear infinite;
+}
+@keyframes shimmer{to{background-position:-200% 0}}
+.loader-dots{display:flex;gap:8px}
+.loader-dots span{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--accent);
+  animation:bounce 1.2s ease-in-out infinite;
+}
+.loader-dots span:nth-child(2){animation-delay:.15s}
+.loader-dots span:nth-child(3){animation-delay:.3s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-10px);opacity:1}}
 @media (max-width:420px){
   body{padding:10px}
   .card{padding:14px}
@@ -203,6 +258,11 @@ body{
 </style>
 </head>
 <body>
+<div id="loader">
+  <div class="loader-ring"></div>
+  <div class="loader-brand">Harga Print</div>
+  <div class="loader-dots"><span></span><span></span><span></span></div>
+</div>
 <div class="wrap">
   <div class="topbar">
     <div class="brand">
@@ -379,24 +439,24 @@ resetBtn.addEventListener('click', function(){
 
 var root = document.documentElement;
 var themeBtn = document.getElementById('themeBtn');
-var savedTheme = null;
-try{ savedTheme = localStorage.getItem('pp-theme'); }catch(e){}
 function applyTheme(t){
   root.setAttribute('data-theme', t);
   themeBtn.textContent = t === 'dark' ? 'Tukar ke Terang' : 'Tukar ke Gelap';
 }
-if(savedTheme){
-  applyTheme(savedTheme);
-}else{
-  var auto = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  applyTheme(auto);
-}
+applyTheme(root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
 themeBtn.addEventListener('click', function(){
   var current = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
   var next = current === 'dark' ? 'light' : 'dark';
   applyTheme(next);
   try{ localStorage.setItem('pp-theme', next); }catch(e){}
 });
+
+function hideLoader(){
+  var l = document.getElementById('loader');
+  if(l){ l.classList.add('hidden'); }
+}
+window.addEventListener('load', function(){ setTimeout(hideLoader, 400); });
+setTimeout(hideLoader, 2500);
 
 update();
 </script>
